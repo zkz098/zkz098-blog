@@ -5,4 +5,5 @@ export default antfu({
   unocss: true,
   vue: true,
   astro: true,
+  svelte: true,
 })
