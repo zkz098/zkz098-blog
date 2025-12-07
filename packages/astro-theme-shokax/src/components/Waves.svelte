@@ -1,5 +1,5 @@
 <svg
-  class='waves w-full h-15vh mb-[-0.6875rem] min-h-[3.125rem] max-h-[9.375rem] relative md:h-10vh'
+  class='waves mb-[-0.6875rem] h-15vh max-h-[9.375rem] min-h-[3.125rem] w-full relative md:h-10vh'
   xmlns='http://www.w3.org/2000/svg'
   xmlns:xlink='http://www.w3.org/1999/xlink'
   viewBox='0 24 150 28'

@@ -1,7 +1,7 @@
 <script lang='ts'>
   import { onMount } from 'svelte'
 
-  let {
+  const {
     title = '',
     subtitle = '',
     logo = '',

@@ -19,10 +19,13 @@ const regularPosts = publishedPosts
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
 
 // Build category list with post counts
-const categoryMap = new Map<string, {
-  name: string
-  posts: Array<{ title: string; slug: string }>
-}>()
+const categoryMap = new Map<
+  string,
+  {
+    name: string
+    posts: Array<{ title: string; slug: string }>
+  }
+>()
 
 publishedPosts.forEach((post) => {
   const categories = post.data.categories || []
@@ -30,12 +33,12 @@ publishedPosts.forEach((post) => {
     if (!categoryMap.has(cat)) {
       categoryMap.set(cat, {
         name: cat,
-        posts: []
+        posts: [],
       })
     }
     categoryMap.get(cat)!.posts.push({
       title: post.data.title,
-      slug: post.id
+      slug: post.id,
     })
   })
 })
@@ -46,20 +49,15 @@ const categories = Array.from(categoryMap.entries())
     name,
     url: `/categories/${name}`,
     postCount: data.posts.length,
-    posts: data.posts.slice(0, 6).map(p => ({
+    posts: data.posts.slice(0, 6).map((p) => ({
       title: p.title,
-      url: `/posts/${p.slug}`
-    }))
+      url: `/posts/${p.slug}`,
+    })),
   }))
   .sort((a, b) => b.postCount - a.postCount)
   .slice(0, 6) // Show top 6 categories
 ---
 
 <Layout>
-  <IndexContent 
-    posts={regularPosts} 
-    stickyPosts={stickyPosts}
-    categories={categories}
-    isFirstPage={true}
-  />
+  <IndexContent posts={regularPosts} stickyPosts={stickyPosts} categories={categories} isFirstPage={true} />
 </Layout>

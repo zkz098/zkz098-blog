@@ -48,7 +48,7 @@ function transformPosts(postList: CollectionEntry<'posts'>[]) {
     const wordCount = calculateWordCount(post.body || '')
     const readTime = calculateReadTime(wordCount)
     const lastCategory = post.data.categories?.[post.data.categories.length - 1]
-    
+
     return {
       title: post.data.title,
       url: `/posts/${post.id}`,
@@ -58,7 +58,7 @@ function transformPosts(postList: CollectionEntry<'posts'>[]) {
       category: lastCategory,
       categoryUrl: lastCategory ? `/categories/${lastCategory}` : undefined,
       wordCount,
-      readTime
+      readTime,
     }
   })
 }
@@ -68,36 +68,42 @@ const transformedPosts = transformPosts(posts)
 ---
 
 <div class="index wrap">
-  {isFirstPage && transformedStickyPosts.length > 0 && (
-    <>
-      <Divider title="置顶文章" />
-      <div class="segments sticky">
-        <PostSegments posts={transformedStickyPosts} client:load />
-      </div>
-    </>
-  )}
+  {
+    isFirstPage && transformedStickyPosts.length > 0 && (
+      <>
+        <Divider title="置顶文章" />
+        <div class="segments sticky">
+          <PostSegments posts={transformedStickyPosts} client:load />
+        </div>
+      </>
+    )
+  }
 
-  {isFirstPage && categories.length > 0 && (
-    <>
-      <Divider title="分类" />
-      <div class="cards">
-        <CategoryCards categories={categories} client:load />
-      </div>
-    </>
-  )}
+  {
+    isFirstPage && categories.length > 0 && (
+      <>
+        <Divider title="分类" />
+        <div class="cards">
+          <CategoryCards categories={categories} client:load />
+        </div>
+      </>
+    )
+  }
 
-  {transformedPosts.length > 0 ? (
-    <>
-      {isFirstPage && <Divider title="最新文章" />}
-      <div class="segments posts">
-        <PostSegments posts={transformedPosts} client:load />
+  {
+    transformedPosts.length > 0 ? (
+      <>
+        {isFirstPage && <Divider title="最新文章" />}
+        <div class="segments posts">
+          <PostSegments posts={transformedPosts} client:load />
+        </div>
+      </>
+    ) : (
+      <div class="no-posts">
+        <p>暂无文章</p>
       </div>
-    </>
-  ) : (
-    <div class="no-posts">
-      <p>暂无文章</p>
-    </div>
-  )}
+    )
+  }
 </div>
 
 <style>

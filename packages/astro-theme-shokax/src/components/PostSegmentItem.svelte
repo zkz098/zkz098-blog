@@ -1,6 +1,6 @@
-<script lang="ts">
+<script lang='ts'>
   import PostMeta from './PostMeta.svelte'
-  
+
   interface Props {
     title: string
     url: string
@@ -15,67 +15,67 @@
     readTime?: number
   }
 
-  const { 
-    title, 
-    url, 
-    date, 
-    excerpt, 
-    cover, 
-    category, 
-    categoryUrl, 
-    isEven = false, 
-    lazy = true, 
-    wordCount, 
-    readTime 
+  const {
+    title,
+    url,
+    date,
+    excerpt,
+    cover,
+    category,
+    categoryUrl,
+    isEven = false,
+    lazy = true,
+    wordCount,
+    readTime,
   }: Props = $props()
 </script>
 
-<article class="segment-item" class:even={isEven}>
-  <div class="cover">
+<article class='segment-item' class:even={isEven}>
+  <div class='cover'>
     {#if cover}
       <a href={url} title={title}>
-        <img 
-          src={cover} 
+        <img
+          src={cover}
           alt={title}
           loading={lazy ? 'lazy' : 'eager'}
-          decoding="async"
+          decoding='async'
         />
       </a>
     {:else}
       <a href={url} title={title}>
-        <div class="cover-placeholder"></div>
+        <div class='cover-placeholder'></div>
       </a>
     {/if}
   </div>
 
-  <div class="info">
+  <div class='info'>
     <PostMeta {date} {wordCount} {readTime} />
-    
+
     <h3>
       <a href={url} title={title}>{title}</a>
     </h3>
 
-    <div class="excerpt">
+    <div class='excerpt'>
       {excerpt}
     </div>
 
     {#if category}
-      <div class="meta-footer">
-        <span class="category-tag">
+      <div class='meta-footer'>
+        <span class='category-tag'>
           {#if categoryUrl}
             <a href={categoryUrl} title={category}>
-              <i class="i-ri-flag-line"></i>
+              <i class='i-ri-flag-line'></i>
               {category}
             </a>
           {:else}
-            <i class="i-ri-flag-line"></i>
+            <i class='i-ri-flag-line'></i>
             {category}
           {/if}
         </span>
       </div>
     {/if}
 
-    <a href={url} class="btn" title={title}>more...</a>
+    <a href={url} class='btn' title={title}>more...</a>
   </div>
 </article>
 
