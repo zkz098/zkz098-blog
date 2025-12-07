@@ -16,7 +16,8 @@
     childCount?: number
     posts: PostInfo[]
     isActive?: boolean
-    onToggle?: () => void
+    onMouseEnter?: () => void
+    onMouseLeave?: () => void
   }
 
   const {
@@ -28,12 +29,25 @@
     childCount = 0,
     posts,
     isActive = false,
-    onToggle,
+    onMouseEnter,
+    onMouseLeave,
   }: Props = $props()
 
-  function handleClick() {
-    if (onToggle) {
-      onToggle()
+  function handleMouseEnter() {
+    if (onMouseEnter) {
+      onMouseEnter()
+    }
+  }
+
+  function handleMouseLeave() {
+    if (onMouseLeave) {
+      onMouseLeave()
+    }
+  }
+
+  function handleTouchStart() {
+    if (onMouseEnter) {
+      onMouseEnter()
     }
   }
 
@@ -47,7 +61,14 @@
   })
 </script>
 
-<section class='item' class:active={isActive} onclick={handleClick} onkeydown={e => e.key === 'Enter' && handleClick()} role='button' tabindex='0'>
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<section
+  class='item'
+  class:active={isActive}
+  onmouseenter={handleMouseEnter}
+  onmouseleave={handleMouseLeave}
+  ontouchstart={handleTouchStart}
+>
   <div
     class='cover'
     style={cover ? `background-image: url(${cover})` : ''}
@@ -106,17 +127,21 @@
     margin: 1rem;
     opacity: 0;
     perspective: 62.5rem;
-    cursor: pointer;
+  }
+
+  :global(.item.show) {
+    animation: slideUpBigIn 0.5s;
+    opacity: 1;
   }
 
   @keyframes slideUpBigIn {
-    from {
-      transform: translateY(2rem);
+    0% {
       opacity: 0;
+      transform: translateY(80px);
     }
-    to {
-      transform: translateY(0);
+    100% {
       opacity: 1;
+      transform: translateY(0);
     }
   }
 
@@ -133,6 +158,7 @@
     backface-visibility: hidden;
     transform-style: preserve-3d;
     transition: ease-in-out 600ms;
+    top: 0;
   }
 
   .cover {
@@ -205,20 +231,60 @@
   }
 
   .ribbon {
+    display: inline-block;
+    align-self: flex-start;
     position: relative;
     left: -2.5rem;
     margin-bottom: 0.8rem;
     max-width: calc(100% + 2rem);
-    background: var(--primary-color);
+    padding: 0 1rem 0 2rem;
+    border-radius: 0 0.3rem 0.3rem 0;
+    background-image: linear-gradient(to right, var(--color-orange) 0, var(--color-pink) 100%);
     color: var(--grey-0);
-    padding: 0.3rem 2rem;
-    text-align: center;
-    font-weight: 600;
+  }
+
+  .ribbon::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 0;
+    background-color: transparent;
+    border-style: solid;
+    border-width: 0 1rem 1rem 0;
+    border-color: transparent;
+    border-right-color: var(--color-orange);
+    filter: brightness(0.9);
   }
 
   .ribbon a {
+    display: block;
+    margin: 0;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     color: inherit;
     text-decoration: none;
+  }
+
+  .ribbon a:hover {
+    color: currentColor;
+    animation: shake 1s;
+  }
+
+  @keyframes shake {
+    from,
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: translate3d(-10px, 0, 0);
+    }
+    20%, 40%, 60%, 80% {
+      transform: translate3d(10px, 0, 0);
+    }
   }
 
   .inner {

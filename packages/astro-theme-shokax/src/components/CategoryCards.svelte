@@ -30,8 +30,20 @@
   let items: HTMLElement[] = []
   let activeIndex = $state<number | null>(null)
 
-  function handleToggle(index: number) {
-    activeIndex = activeIndex === index ? null : index
+  function handleMouseEnter(index: number) {
+    // Remove active from current active item
+    if (activeIndex !== null && activeIndex !== index) {
+      activeIndex = null
+    }
+    // Set new active
+    activeIndex = index
+  }
+
+  function handleMouseLeave(index: number) {
+    // Only remove if this is the active item
+    if (activeIndex === index) {
+      activeIndex = null
+    }
   }
 
   onMount(() => {
@@ -82,7 +94,7 @@
   })
 </script>
 
-<div bind:this={container}>
+<div bind:this={container} class='cards w-full'>
   {#each categories as category, index (category.url)}
     <CategoryCard
       name={category.name}
@@ -93,29 +105,33 @@
       childCount={category.childCount}
       posts={category.posts}
       isActive={activeIndex === index}
-      onToggle={() => handleToggle(index)}
+      onMouseEnter={() => handleMouseEnter(index)}
+      onMouseLeave={() => handleMouseLeave(index)}
     />
   {/each}
 </div>
 
 <style>
-  div {
-    display: contents;
+  .cards {
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
 
-  :global(.item.show) {
-    opacity: 1;
-    animation: slideUpBigIn 0.6s ease-out forwards;
+  :global(.cards .item.show) {
+    display: block !important;
   }
 
   @keyframes slideUpBigIn {
-    from {
-      transform: translateY(2rem);
+    0% {
       opacity: 0;
+      transform: translateY(80px);
     }
-    to {
-      transform: translateY(0);
+    100% {
       opacity: 1;
+      transform: translateY(0);
     }
   }
 </style>

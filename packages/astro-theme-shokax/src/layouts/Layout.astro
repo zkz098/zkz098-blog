@@ -50,7 +50,7 @@ const posts = allPosts.filter((post) => !post.data.draft)
       />
       <NavBar client:load name={siteName} navLinks={navLinks} clickToggleCallback={() => void 0} />
       <Brand client:load title={brandConfig.title} subtitle={brandConfig.subtitle} logo={brandConfig.logo} />
-      <Waves />
+      <Waves client:load />
       <main>
         <div class="inner">
           <div id="main" class="pjax">
@@ -67,7 +67,7 @@ const posts = allPosts.filter((post) => !post.data.draft)
         <div class="inner">
           <div class="widgets">
             <Widgets
-              client:load
+              client:visible
               posts={posts}
               enableRandomPosts={widgetsConfig.randomPosts !== false}
               enableRecentComments={widgetsConfig.recentComments !== false}
