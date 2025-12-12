@@ -17,15 +17,22 @@ import '@/styles/header-cover.css'
 import '@/components/footer/footer.css'
 
 // Accept sidebar props from child pages
+interface PostMeta {
+  date: Date
+  wordCount: number
+  readTime: number
+}
+
 interface Props {
   toc?: TocItem[]
   relatedPosts?: RelatedPost[]
   currentSlug?: string
   navigation?: QuickNavigation
   pageTitle?: string
+  postMeta?: PostMeta
 }
 
-const { toc = [], relatedPosts = [], currentSlug = '', navigation = {}, pageTitle = '' } = Astro.props
+const { toc = [], relatedPosts = [], currentSlug = '', navigation = {}, pageTitle = '', postMeta } = Astro.props
 
 const navLinks = themeConfig.nav
 const siteName = themeConfig.siteName
@@ -67,6 +74,7 @@ const posts = allPosts.filter((post) => !post.data.draft)
         subtitle={brandConfig.subtitle}
         logo={brandConfig.logo}
         pageTitle={pageTitle}
+        postMeta={postMeta}
       />
       <Waves client:load />
       <main>

@@ -61,6 +61,8 @@ const commonSidebarIcons = [
   'i-ri-pencil-line',
   'i-ri-time-line',
   'i-ri-flag-line',
+  // Brand postMeta icons
+  'i-ri-quill-pen-line',
   // Post page icons
   'i-ri-home-fill',
   'i-ri-arrow-right-s-line',
