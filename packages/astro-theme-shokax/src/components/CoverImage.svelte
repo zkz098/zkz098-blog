@@ -1,6 +1,4 @@
 <script lang='ts'>
-  import { onMount } from 'svelte'
-
   interface Props {
     src: string
     alt: string
@@ -11,39 +9,32 @@
   const { src, alt, index, isListItem = false }: Props = $props()
 
   let stopAnimation = $state(false)
-  let mounted = $state(false)
-
-  onMount(() => {
-    mounted = true
-  })
 
   // 计算动画延迟（仅在多图轮播模式下）
   const animationDelay = $derived(isListItem ? `${index * 6}s` : '0s')
 </script>
 
-{#if mounted}
-  {#if isListItem}
-    <!-- 多图轮播模式 -->
-    <li
-      class='cover-item opacity-0 h-70vh w-full left-0 top-0 absolute z-0 bg-cover bg-center bg-no-repeat'
-      class:stop-animation={stopAnimation}
-      style="background-image: url('{src}'); animation-delay: {animationDelay};"
-      onmouseenter={() => (stopAnimation = true)}
-      onmouseleave={() => (stopAnimation = false)}
-      ontouchstart={() => (stopAnimation = true)}
-      ontouchend={() => (stopAnimation = false)}
-    ></li>
-  {:else}
-    <!-- 单图模式 -->
-    <img
-      {src}
-      {alt}
-      loading='eager'
-      decoding='async'
-      fetchpriority='high'
-      class='h-full w-full left-0 top-0 absolute object-cover'
-    />
-  {/if}
+{#if isListItem}
+  <!-- 多图轮播模式 -->
+  <li
+    class='cover-item opacity-0 h-70vh w-full left-0 top-0 absolute z-0 bg-cover bg-center bg-no-repeat'
+    class:stop-animation={stopAnimation}
+    style="background-image: url('{src}'); animation-delay: {animationDelay};"
+    onmouseenter={() => (stopAnimation = true)}
+    onmouseleave={() => (stopAnimation = false)}
+    ontouchstart={() => (stopAnimation = true)}
+    ontouchend={() => (stopAnimation = false)}
+  ></li>
+{:else}
+  <!-- 单图模式 -->
+  <img
+    {src}
+    {alt}
+    loading='eager'
+    decoding='async'
+    fetchpriority='high'
+    class='h-full w-full left-0 top-0 absolute object-cover'
+  />
 {/if}
 
 <style>

@@ -127,11 +127,14 @@
     margin: 1rem;
     opacity: 0;
     perspective: 62.5rem;
+    /* 防止动画导致CLS - 预留空间 */
+    will-change: opacity, transform;
   }
 
   :global(.item.show) {
     animation: slideUpBigIn 0.5s;
     opacity: 1;
+    will-change: auto;
   }
 
   @keyframes slideUpBigIn {

@@ -101,10 +101,14 @@
     opacity: 0;
     transform: translateY(2rem);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    /* 防止动画引起的CLS - 预留空间 */
+    min-height: 14rem;
+    will-change: opacity, transform;
   }
 
   :global(article.segment-item.show) {
     opacity: 1;
     transform: translateY(0);
+    will-change: auto;
   }
 </style>

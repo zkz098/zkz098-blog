@@ -62,6 +62,8 @@
 
   .pjax {
     animation: slideDownIn 0.6s ease-out;
+    /* 防止动画导致CLS，预留初始空间 */
+    min-height: 1px;
   }
 
   @keyframes slideDownIn {

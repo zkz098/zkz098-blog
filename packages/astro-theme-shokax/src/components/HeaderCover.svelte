@@ -1,5 +1,4 @@
 <script lang='ts'>
-  import { onMount } from 'svelte'
   import CoverImage from './CoverImage.svelte'
 
   interface Props {
@@ -19,20 +18,14 @@
     title = '',
   }: Props = $props()
 
-  let mounted = $state(false)
-
-  onMount(() => {
-    mounted = true
-  })
-
   // 判断是否显示多图轮播
   const isMultipleImages = $derived(!fixedCover && !gradient && covers.length === 6)
   // 单图模式（固定封面或渐变背景的图片）
   const singleImage = $derived(fixedCover || (gradient ? 'https://7ed.net/bing/api' : covers[0]))
 </script>
 
-{#if enableCover && mounted}
-  <div class='h-60vh'></div>
+{#if enableCover}
+  <div class='h-40vh'></div>
   <div
     id='imgs'
     class='imgs-container bg-[#363636] h-70vh min-h-[25rem] w-full left-0 top-0 fixed -z-9'

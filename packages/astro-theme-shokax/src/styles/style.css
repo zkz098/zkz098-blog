@@ -134,6 +134,8 @@ main > .inner {
   box-shadow: 0 1.25rem 1rem 0.3125rem var(--body-bg-shadow);
   width: 100%;
   min-height: 37.5rem;
+  /* 防止内容加载时的布局偏移 */
+  content-visibility: auto;
 }
 
 #main .wrap {

@@ -140,6 +140,7 @@
     border-radius: 0.625rem 0 0 0.625rem;
     overflow: hidden;
     flex-shrink: 0;
+    aspect-ratio: 16 / 9;
   }
 
   .cover a {
@@ -154,6 +155,10 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
+  }
+
+  .cover img {
+    content-visibility: auto;
   }
 
   .cover-placeholder {
