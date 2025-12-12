@@ -1,7 +1,11 @@
 <script lang='ts'>
-  export let author: string = ''
-  export let avatar: string = ''
-  export let description: string = ''
+  interface Props {
+    author?: string
+    avatar?: string
+    description?: string
+  }
+
+  const { author = '', avatar = '', description = '' }: Props = $props()
 </script>
 
 {#if author || avatar}

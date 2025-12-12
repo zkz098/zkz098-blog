@@ -1,17 +1,30 @@
 <script lang='ts'>
-  export let id: string = ''
-  export let title: string = ''
-  export let isActive: boolean = false
-  let className: string = ''
+  import type { Snippet } from 'svelte'
 
-  export { className as class }
+  interface Props {
+    id?: string
+    title?: string
+    isActive?: boolean
+    class?: string
+    children?: Snippet
+  }
+
+  const {
+    id = '',
+    title = '',
+    isActive = false,
+    class: className = '',
+    children
+  }: Props = $props()
 </script>
 
 <div
   class={`panel ${id} ${isActive ? 'active' : ''} ${className}`}
   data-title={title}
 >
-  <slot />
+  {#if children}
+    {@render children()}
+  {/if}
 </div>
 
 <style>

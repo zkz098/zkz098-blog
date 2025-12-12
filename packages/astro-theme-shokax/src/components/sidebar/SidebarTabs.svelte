@@ -1,20 +1,36 @@
 <script lang='ts'>
-  export let panels: Array<{ id: string, title: string, hasContent: boolean }> = []
-  export let activePanel: string = ''
-  export let onSelect: (panelId: string) => void = () => {}
+  import type { PanelConfig } from './SidebarTypes'
+
+  interface Props {
+    panels?: PanelConfig[]
+    activePanel?: string
+    onSelect?: (panelId: string) => void
+  }
+
+  const { panels = [], activePanel = '', onSelect = () => {} }: Props = $props()
 </script>
 
 {#if panels.length > 1}
   <ul class='tab'>
     {#each panels as panel (panel.id)}
+      {@const iconClass = panel.id === 'contents'
+        ? 'i-ri-list-ordered'
+        : panel.id === 'related'
+        ? 'i-ri-git-branch-line'
+        : panel.id === 'overview' ? 'i-ri-home-2-line' : ''}
       <button
         class={`item ${panel.id} ${
           activePanel === panel.id ? 'active' : ''
         }`}
-        on:click={() => onSelect(panel.id)}
+        onclick={() => onSelect(panel.id)}
         type='button'
       >
-        <span>{panel.title}</span>
+        {#if iconClass}
+          <i class={`ic ${iconClass}`}></i>
+        {/if}
+        {#if activePanel === panel.id}
+          <span>{panel.title}</span>
+        {/if}
       </button>
     {/each}
   </ul>
@@ -30,10 +46,14 @@
     list-style: none;
   }
 
+  :global(#sidebar.affix) .tab {
+    padding-top: 0.625rem;
+  }
+
   .tab .item {
     cursor: pointer;
     display: inline-flex;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     padding: 0.3125rem 0.9375rem;
     color: var(--grey-5);
     border-radius: 0.625rem;
@@ -42,20 +62,19 @@
     background-color: rgba(0, 0, 0, 0.08);
     transition: all 0.2s ease-out;
     border: none;
-    cursor: pointer;
   }
 
   .tab .item:nth-child(2) {
     margin: auto 0.625rem;
   }
 
-  .tab .item span {
-    display: none;
-    word-break: keep-all;
+  .tab .item i {
+    font-size: 1rem;
   }
 
-  .tab .item.active span {
-    display: inherit;
+  .tab .item span {
+    margin-left: 0.3125rem;
+    word-break: keep-all;
   }
 
   .tab .item:hover,

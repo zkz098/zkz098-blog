@@ -7,15 +7,23 @@
   import MenuBar from './MenuBar.svelte'
   import RightNavBar from './RightNavBar.svelte'
 
-  export let name: string
-  export let navLinks: NavItemType[] = []
-  export let clickToggleCallback: (state: boolean) => void = () => {}
-  // Prefer an explicit callback prop over the legacy createEventDispatcher
-  export let onSearch: () => void = () => {}
+  interface Props {
+    name: string
+    navLinks?: NavItemType[]
+    clickToggleCallback?: (state: boolean) => void
+    onSearch?: () => void
+  }
 
-  let showNav = true
-  let atTop = true
-  let isDark = false
+  const {
+    name,
+    navLinks = [],
+    clickToggleCallback = () => {},
+    onSearch = () => {},
+  }: Props = $props()
+
+  let showNav = $state(true)
+  let atTop = $state(true)
+  let isDark = $state(false)
 
   onMount(() => {
     if (typeof window === 'undefined' || typeof document === 'undefined')
@@ -72,12 +80,12 @@
       <LeftNavBtn clickCallback={clickToggleCallback} />
       <MenuBar {name} navLinks={navLinks} />
       <RightNavBar>
-        <div class='text-5 pb-2.5 pl-2 pr-2 pt-2.5 cursor-pointer' on:click={handleToggleTheme}>
-          <div class={isDark ? 'i-ri-moon-line' : 'i-ri-sun-line'} />
-        </div>
-        <div id='search' class='text-5 pb-2.5 pl-2 pr-2 pt-2.5 cursor-pointer' on:click={handleSearch}>
-          <div class='i-ri-search-line' />
-        </div>
+        <button type='button' class='text-5 pb-2.5 pl-2 pr-2 pt-2.5 cursor-pointer border-none bg-transparent' onclick={handleToggleTheme} aria-label='Toggle theme'>
+          <div class={isDark ? 'i-ri-moon-line' : 'i-ri-sun-line'}></div>
+        </button>
+        <button type='button' id='search' class='text-5 pb-2.5 pl-2 pr-2 pt-2.5 cursor-pointer border-none bg-transparent' onclick={handleSearch} aria-label='Search'>
+          <div class='i-ri-search-line'></div>
+        </button>
       </RightNavBar>
     </div>
   </nav>

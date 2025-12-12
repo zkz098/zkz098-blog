@@ -1,14 +1,22 @@
 <script lang='ts'>
-  export let className: string = ''
-  let mergedClass = ''
-  let restProps: Record<string, any> = {}
+  import type { Snippet } from 'svelte'
 
-  $: {
-    const { class: incomingClass = '', ...others } = $$restProps
-    restProps = others
-    mergedClass = [className, incomingClass].filter(Boolean).join(' ')
+  interface Props {
+    class?: string
+    children?: Snippet
+    [key: string]: any
   }
+
+  const {
+    class: className = '',
+    children,
+    ...restProps
+  }: Props = $props()
+
+  const mergedClass = $derived([className].filter(Boolean).join(' '))
 </script>
 <ul class={`inline-flex cursor-pointer items-center justify-center ${mergedClass}`.trim()} {...restProps}>
-  <slot />
+  {#if children}
+    {@render children()}
+  {/if}
 </ul>

@@ -1,7 +1,11 @@
 <script lang='ts'>
   import type { StateConfig } from './SidebarTypes'
 
-  export let state: StateConfig | undefined
+  interface Props {
+    state?: StateConfig
+  }
+
+  const { state }: Props = $props()
 </script>
 
 {#if state && (state.posts || state.categories || state.tags)}

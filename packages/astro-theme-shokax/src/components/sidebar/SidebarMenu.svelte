@@ -2,7 +2,11 @@
   import type { NavItemType } from '../navbar/NavTypes'
   import type { MenuConfig } from './SidebarTypes'
 
-  export let menu: NavItemType[] | MenuConfig | undefined
+  interface Props {
+    menu?: NavItemType[] | MenuConfig
+  }
+
+  const { menu }: Props = $props()
 
   // Map old iconfont icons to remixicon equivalents
   const iconMap: Record<string, string> = {
@@ -88,8 +92,7 @@
     return []
   }
 
-  $: menuItems = Array.isArray(menu) ? renderNavItems(menu) : (menu ? renderConfigItems(menu) : [])
-
+  const menuItems = $derived(Array.isArray(menu) ? renderNavItems(menu) : (menu ? renderConfigItems(menu) : []))
 </script>
 
 <nav class='menu'>
@@ -142,7 +145,7 @@
 
         {#if item.isDropdown && dropboxItems.length > 0}
           <li class='item dropdown'>
-            <a href={url === '/' ? '#' : url} rel='section' on:click={(e) => {
+            <a href={url === '/' ? '#' : url} rel='section' onclick={(e) => {
               if (url === '/')
                 e.preventDefault()
             }}>

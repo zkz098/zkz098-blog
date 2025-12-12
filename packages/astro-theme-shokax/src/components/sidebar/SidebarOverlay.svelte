@@ -4,10 +4,10 @@
 
 <div
   class='sidebar-overlay'
-  on:click={toggleSidebar}
+  onclick={toggleSidebar}
   role='button'
   tabindex='0'
-  on:keydown={(e) => {
+  onkeydown={(e) => {
     if (e.key === 'Enter' || e.key === ' ')
       toggleSidebar()
   }}

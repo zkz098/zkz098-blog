@@ -6,8 +6,12 @@
   import SidebarSocial from './SidebarSocial.svelte'
   import SidebarState from './SidebarState.svelte'
 
-  export let config: SidebarConfig
-  export let menuSource: NavItemType[] | any
+  interface Props {
+    config: SidebarConfig
+    menuSource: NavItemType[] | any
+  }
+
+  const { config, menuSource }: Props = $props()
 </script>
 
 <div class='overview'>

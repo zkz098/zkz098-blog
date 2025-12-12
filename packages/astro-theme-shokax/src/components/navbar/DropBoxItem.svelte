@@ -2,16 +2,19 @@
   import type { NavItemType } from './NavTypes'
   import NavLinkItem from './NavLinkItem.svelte'
 
-  export let navLinks: NavItemType[] = []
-  export let className: string = ''
-  let mergedClass = ''
-  let restProps: Record<string, any> = {}
-
-  $: {
-    const { class: incomingClass = '', ...others } = $$restProps
-    restProps = others
-    mergedClass = [className, incomingClass].filter(Boolean).join(' ')
+  interface Props {
+    navLinks?: NavItemType[]
+    class?: string
+    [key: string]: any
   }
+
+  const {
+    navLinks = [],
+    class: className = '',
+    ...restProps
+  }: Props = $props()
+
+  const mergedClass = $derived([className].filter(Boolean).join(' '))
 </script>
 
 <ul

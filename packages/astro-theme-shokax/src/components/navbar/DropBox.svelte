@@ -4,18 +4,26 @@
   import DropBoxItem from './DropBoxItem.svelte'
   import NavItem from './NavItem.svelte'
 
-  export let icon: string | undefined
-  export let navLinks: NavItemType[] = []
-  export let rootText: string
-  export let className: string = ''
+  interface Props {
+    icon?: string
+    navLinks?: NavItemType[]
+    rootText: string
+    class?: string
+    [key: string]: any
+  }
 
-  let mergedClass = ''
-  let restProps: Record<string, any> = {}
+  const {
+    icon,
+    navLinks = [],
+    rootText,
+    class: className = '',
+    ...restProps
+  }: Props = $props()
 
-  let linkHover = false
-  let submenuHover = false
-  let linkTimer: ReturnType<typeof setTimeout> | undefined
-  let submenuTimer: ReturnType<typeof setTimeout> | undefined
+  let linkHover = $state(false)
+  let submenuHover = $state(false)
+  let linkTimer: ReturnType<typeof setTimeout> | undefined = $state(undefined)
+  let submenuTimer: ReturnType<typeof setTimeout> | undefined = $state(undefined)
 
   const setLinkHover = (value: boolean) => {
     if (linkTimer)
@@ -47,36 +55,33 @@
     }
   }
 
-  $: hovering = linkHover || submenuHover
-  const iconClasses = icon ? `${icon} text-xl vertical-text-bottom inline-block` : ''
-
-  $: {
-    const { class: incomingClass = '', ...others } = $$restProps
-    restProps = others
-    mergedClass = [className, incomingClass].filter(Boolean).join(' ')
-  }
+  const hovering = $derived(linkHover || submenuHover)
+  const iconClasses = $derived(icon ? `${icon} text-xl vertical-text-bottom inline-block` : '')
+  const mergedClass = $derived([className].filter(Boolean).join(' '))
 </script>
 
 <NavItem className={mergedClass} {...restProps}>
-  <a
-    href='javascript:void(0)'
+  <button
+    type='button'
     aria-haspopup='true'
     aria-expanded={hovering}
-    on:click|preventDefault
-    on:mouseenter={() => setLinkHover(true)}
-    on:mouseleave={() => setLinkHover(false)}
+    onclick={(e) => e.preventDefault()}
+    onmouseenter={() => setLinkHover(true)}
+    onmouseleave={() => setLinkHover(false)}
+    class='inline-block bg-transparent border-none cursor-pointer text-inherit font-inherit'
   >
     {#if icon}
-      <div class={iconClasses} />
+      <div class={iconClasses}></div>
     {/if}
     {rootText}
-    <div class='i-ri-arrow-drop-down-fill text-xl vertical-text-bottom inline-block' />
-  </a>
+    <div class='i-ri-arrow-drop-down-fill text-xl vertical-text-bottom inline-block'></div>
+  </button>
   {#if hovering}
     <div
       class='relative z-10'
-      on:mouseenter={() => setSubHover(true)}
-      on:mouseleave={() => setSubHover(false)}
+      role='menu'
+      onmouseenter={() => setSubHover(true)}
+      onmouseleave={() => setSubHover(false)}
       transition:fly|local={{ y: 12, duration: 300 }}
     >
       <DropBoxItem navLinks={navLinks} />
@@ -85,7 +90,9 @@
 </NavItem>
 
 <style>
-  a {
-    display: inline-block;
+  button {
+    padding: 0;
+    font-size: inherit;
+    line-height: inherit;
   }
 </style>

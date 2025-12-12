@@ -71,6 +71,15 @@ const commonSidebarIcons = [
   'i-ri-creative-commons-line',
   'i-ri-price-tag-3-line',
   'i-ri-link',
+  // Sidebar tabs icons
+  'i-ri-list-ordered',
+  'i-ri-git-branch-line',
+  'i-ri-home-2-line',
+  // Sidebar quick navigation icons
+  'i-ri-arrow-left-s-line',
+  'i-ri-arrow-up-line',
+  'i-ri-arrow-down-line',
+  'i-ri-arrow-right-s-line',
 ]
 
 export default defineConfig({

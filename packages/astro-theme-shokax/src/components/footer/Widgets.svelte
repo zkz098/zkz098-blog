@@ -12,15 +12,24 @@
     body?: string
   }
 
-  export let posts: Post[] = []
-  export let enableRandomPosts: boolean = true
-  export let enableRecentComments: boolean = true
-  export let recentCommentsLimit: number = 10
+  interface Props {
+    posts?: Post[]
+    enableRandomPosts?: boolean
+    enableRecentComments?: boolean
+    recentCommentsLimit?: number
+  }
 
-  let randomPosts: Post[] = []
-  let recentComments: any[] = []
-  let hasWaline: boolean = false
-  let hasTwikoo: boolean = false
+  const {
+    posts = [],
+    enableRandomPosts = true,
+    enableRecentComments = true,
+    recentCommentsLimit = 10,
+  }: Props = $props()
+
+  let randomPosts = $state<Post[]>([])
+  let recentComments = $state<any[]>([])
+  let hasWaline = $state(false)
+  let hasTwikoo = $state(false)
 
   onMount(() => {
     // Check if Waline or Twikoo is available

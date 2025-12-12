@@ -7,6 +7,7 @@ import Waves from '../components/Waves.svelte'
 import Footer from '../components/footer/Footer.astro'
 import Widgets from '../components/footer/Widgets.svelte'
 import { getCollection } from 'astro:content'
+import type { TocItem, RelatedPost, QuickNavigation } from '../components/sidebar/SidebarTypes'
 
 import themeConfig from '../theme.config.ts'
 
@@ -14,6 +15,16 @@ import '@/styles/palette.css'
 import '@/styles/style.css'
 import '@/styles/header-cover.css'
 import '@/components/footer/footer.css'
+
+// Accept sidebar props from child pages
+interface Props {
+  toc?: TocItem[]
+  relatedPosts?: RelatedPost[]
+  currentSlug?: string
+  navigation?: QuickNavigation
+}
+
+const { toc = [], relatedPosts = [], currentSlug = '', navigation = {} } = Astro.props
 
 const navLinks = themeConfig.nav
 const siteName = themeConfig.siteName
@@ -70,7 +81,15 @@ const posts = allPosts.filter((post) => !post.data.draft)
             </footer>
           </div>
           <div id="sidebar" class="mt-12">
-            <Sidebar client:load config={sidebarConfig} navLinks={navLinks} />
+            <Sidebar
+              client:load
+              config={sidebarConfig}
+              navLinks={navLinks}
+              toc={toc}
+              relatedPosts={relatedPosts}
+              currentSlug={currentSlug}
+              navigation={navigation}
+            />
           </div>
         </div>
       </main>

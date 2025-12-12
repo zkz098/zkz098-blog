@@ -1,82 +1,109 @@
 <script lang='ts'>
   import type { NavItemType } from '../navbar/NavTypes'
-  import type { SidebarConfig } from './SidebarTypes'
+  import type { PanelConfig, PanelType, QuickNavigation, RelatedPost, SidebarConfig, TocItem } from './SidebarTypes'
   import { onMount } from 'svelte'
   import { sidebarOpen } from '../../stores/sidebarStore'
-  import { initMenuActive, initSidebarTabs, initSidebarTOC } from './sidebarHelpers'
+  import SidebarContents from './SidebarContents.svelte'
+  import { initMenuActive } from './sidebarHelpers'
   import SidebarOverlay from './SidebarOverlay.svelte'
   import SidebarOverview from './SidebarOverview.svelte'
   import SidebarPanel from './SidebarPanel.svelte'
+  import SidebarQuick from './SidebarQuick.svelte'
+  import SidebarRelated from './SidebarRelated.svelte'
   import SidebarTabs from './SidebarTabs.svelte'
 
-  export let config: SidebarConfig = {
-    author: '',
-    description: '',
-    avatar: '',
-    social: {},
-    state: {
-      posts: 0,
-      categories: 0,
-      tags: 0,
-      archiveUrl: '/archives/',
-      categoryUrl: '/categories/',
-      tagUrl: '/tags/',
-    },
+  interface Props {
+    config?: SidebarConfig
+    navLinks?: NavItemType[]
+    toc?: TocItem[]
+    relatedPosts?: RelatedPost[]
+    currentSlug?: string
+    navigation?: QuickNavigation
   }
 
-  // Optional: Accept nav links to use as menu
-  export let navLinks: NavItemType[] = []
+  const {
+    config = {
+      author: '',
+      description: '',
+      avatar: '',
+      social: {},
+      state: {
+        posts: 0,
+        categories: 0,
+        tags: 0,
+        archiveUrl: '/archives/',
+        categoryUrl: '/categories/',
+        tagUrl: '/tags/',
+      },
+    },
+    navLinks = [],
+    toc = [],
+    relatedPosts = [],
+    currentSlug = '',
+    navigation = {},
+  }: Props = $props()
 
-  let panels: Array<{ id: string, title: string, hasContent: boolean }> = []
-  let activePanel: string = 'overview'
-  let sidebarElement: HTMLElement | null = null
-  let isAffix = false
+  let activePanel: PanelType = $state('overview')
+  let sidebarElement: HTMLElement | null = $state(null)
+  let isAffix = $state(false)
 
   // Determine menu source: use config.menu if provided, otherwise use navLinks
-  $: menuSource = config.menu !== undefined ? config.menu : navLinks
+  const menuSource = $derived(config.menu !== undefined ? config.menu : navLinks)
+
+  // Determine which panels should be available
+  const panels: PanelConfig[] = $derived.by(() => {
+    const availablePanels: PanelConfig[] = []
+
+    // Contents panel (TOC) - only show if there are TOC items
+    if (toc && toc.length > 0) {
+      availablePanels.push({
+        id: 'contents',
+        title: '目录',
+        hasContent: true,
+      })
+    }
+
+    // Related panel - only show if there are related posts
+    if (relatedPosts && relatedPosts.length > 0) {
+      availablePanels.push({
+        id: 'related',
+        title: '相关',
+        hasContent: true,
+      })
+    }
+
+    // Overview panel - always available
+    availablePanels.push({
+      id: 'overview',
+      title: '站点',
+      hasContent: true,
+    })
+
+    return availablePanels
+  })
+
+  // Set default active panel only once on initial render
+  let initialized = false
+  $effect(() => {
+    if (!initialized && panels.length > 0) {
+      initialized = true
+      const hasContents = panels.find(p => p.id === 'contents')
+      if (hasContents) {
+        activePanel = 'contents'
+      }
+    }
+  })
 
   onMount(() => {
     if (typeof window === 'undefined' || typeof document === 'undefined')
       return
 
-    // Initialize panels based on content availability
-    const contentsPanel = document.querySelector('.sidebar-contents')
-    const relatedPanel = document.querySelector('.sidebar-related')
-    const overviewPanel = document.querySelector('.sidebar-overview')
-
-    panels = [
-      {
-        id: 'overview',
-        title: 'Overview',
-        hasContent: overviewPanel ? overviewPanel.innerHTML.trim().length > 0 : true,
-      },
-      {
-        id: 'related',
-        title: 'Related',
-        hasContent: relatedPanel ? relatedPanel.innerHTML.trim().length > 0 : false,
-      },
-      {
-        id: 'contents',
-        title: 'Contents',
-        hasContent: contentsPanel ? contentsPanel.innerHTML.trim().length > 0 : false,
-      },
-    ].filter(p => p.hasContent)
-
-    if (panels.length > 0) {
-      activePanel = panels[0].id
-    }
-
-    // Initialize sidebar features
-    if (sidebarElement) {
-      initSidebarTabs(sidebarElement)
-      initSidebarTOC(sidebarElement)
-      initMenuActive()
-    }
+    // Initialize menu active state
+    initMenuActive()
 
     // Handle scroll for affix behavior on desktop
     const handleScroll = () => {
       // Calculate header height: nav (3.125rem = 50px) + header cover (70vh) + waves
-      // Using the same calculation as old project
       const headerElement = document.querySelector('#imgs') as HTMLElement | null
       const navElement = document.querySelector('#nav') as HTMLElement | null
       const wavesElement = document.querySelector('#waves') as HTMLElement | null
@@ -110,7 +137,7 @@
   })
 
   const selectPanel = (panelId: string) => {
-    activePanel = panelId
+    activePanel = panelId as PanelType
   }
 
 </script>
@@ -123,111 +150,91 @@
 <aside
   bind:this={sidebarElement}
   id='sidebar'
-  class={`sidebar ${
-    $sidebarOpen ? 'sidebar-open' : 'sidebar-closed'
-  } ${isAffix ? 'affix' : ''}`.trim()}
+  class={`${$sidebarOpen ? 'on' : ''} ${isAffix ? 'affix' : ''}`.trim()}
 >
   <div class='inner'>
-    <div class='panels-wrapper'>
-      <SidebarTabs {panels} {activePanel} onSelect={selectPanel} />
+    <SidebarTabs {panels} {activePanel} onSelect={selectPanel} />
 
-      <!-- Panels Container -->
-      <div class='panels'>
-        <div class='panels-inner'>
-          {#each panels as panel (panel.id)}
-            <SidebarPanel
-              id={panel.id}
-              title={panel.title}
-              isActive={activePanel === panel.id}
-              class={activePanel === panel.id ? 'active' : ''}
-            >
-              {#if panel.id === 'overview'}
-                <SidebarOverview {config} {menuSource} />
-              {:else if panel.id === 'related'}
-                <div class='sidebar-related'></div>
-              {:else if panel.id === 'contents'}
-                <div class='sidebar-contents contents'></div>
-              {/if}
-            </SidebarPanel>
-          {/each}
-        </div>
+    <!-- Panels Container -->
+    <div class='panels'>
+      <div class='inner'>
+        {#each panels as panel (panel.id)}
+          <SidebarPanel
+            id={panel.id}
+            title={panel.title}
+            isActive={activePanel === panel.id}
+            class={activePanel === panel.id ? 'active' : ''}
+          >
+            {#if panel.id === 'overview'}
+              <SidebarOverview {config} {menuSource} />
+            {:else if panel.id === 'related'}
+              <SidebarRelated posts={relatedPosts} {currentSlug} />
+            {:else if panel.id === 'contents'}
+              <SidebarContents {toc} isActive={activePanel === 'contents'} />
+            {/if}
+          </SidebarPanel>
+        {/each}
       </div>
     </div>
+
+    <!-- Quick navigation bar -->
+    <SidebarQuick {navigation} isVisible={isAffix || $sidebarOpen} />
   </div>
 </aside>
+
+<!-- Mobile dimmer -->
+<div class='dimmer' class:active={$sidebarOpen}></div>
 
 <style>
   /* Sidebar container */
   #sidebar {
-    position: fixed;
-    left: 0;
+    position: static;
+    overflow: scroll;
+    width: 280px;
     top: 0;
-    height: 100%;
-    padding-top: 3.125rem;
     bottom: 0;
-    z-index: 8;
-    width: 300px;
-    max-width: 85vw;
-    overflow-y: auto;
-    background: var(--grey-0);
-    box-shadow: 0.25rem 0 1rem rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
   }
 
-  /* Mobile closed state */
-  .sidebar-closed {
-    transform: translateX(-100%);
-  }
-
-  /* Mobile open state */
-  .sidebar-open {
-    transform: translateX(0);
-  }
-
-  @media (min-width: 1024px) {
-    #sidebar {
-      position: static;
-      width: 280px;
-      max-width: none;
-      height: auto;
-      overflow: scroll;
-      box-shadow: none;
-      transform: none !important;
-    }
-
-    /* Affix styles for desktop */
-    #sidebar.affix > .inner {
-      position: fixed;
-      top: 0;
-    }
-
-    #sidebar.affix .panels {
-      padding-top: 3.625rem;
-      height: 100vh;
-    }
-
-    .sidebar-closed,
-    .sidebar-open {
-      transform: none !important;
-    }
-  }
-
-  /* Additional sidebar styles */
-  .sidebar {
-    scrollbar-width: none;
-  }
-
-  .sidebar::-webkit-scrollbar {
+  #sidebar::-webkit-scrollbar {
     display: none;
   }
 
-  @media (min-width: 1024px) {
-    .sidebar {
-      overflow: scroll;
+  #sidebar {
+    scrollbar-width: none;
+  }
+
+  /* Tablet/Mobile styles */
+  @media (max-width: 1023px) {
+    #sidebar {
+      display: none;
+      position: fixed;
+      right: 0;
+      background: var(--grey-1);
+      box-shadow: 0 0.375rem 0.9375rem 0.3125rem rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      width: 280px;
+      height: 100%;
+    }
+
+    #sidebar.on {
+      display: block;
     }
   }
 
-  .sidebar .inner {
+  /* Affix styles */
+  #sidebar.affix > .inner {
+    position: fixed;
+    top: 0;
+  }
+
+  #sidebar.affix .panels {
+    padding-top: 3.625rem;
+    height: 100vh;
+  }
+
+  /* Sidebar inner */
+  #sidebar > .inner {
     position: relative;
     width: 280px;
     color: var(--grey-6);
@@ -239,10 +246,7 @@
     z-index: 1;
   }
 
-  .panels-wrapper {
-    width: 100%;
-  }
-
+  /* Panels */
   .panels {
     padding: 4.6875rem 0 2rem;
     width: 100%;
@@ -250,7 +254,7 @@
     min-height: 100vh;
   }
 
-  .panels-inner {
+  .panels > .inner {
     margin-top: 2.5rem;
     overflow-x: hidden;
     overflow-y: auto;
@@ -259,11 +263,52 @@
     height: 100%;
   }
 
-  .panels-inner::-webkit-scrollbar {
+  @media (max-width: 1023px) {
+    .panels > .inner {
+      margin-top: 0;
+    }
+  }
+
+  .panels > .inner::-webkit-scrollbar {
     display: none;
   }
 
-  :global([data-theme='dark']) .sidebar {
+  /* Dimmer overlay for mobile */
+  .dimmer {
+    display: none;
+  }
+
+  @media (max-width: 1023px) {
+    .dimmer {
+      background: black;
+      height: 100%;
+      left: 100%;
+      opacity: 0;
+      top: 0;
+      width: 100%;
+      z-index: 99;
+      transition: opacity 1s;
+    }
+
+    .dimmer.active {
+      position: fixed;
+      display: block;
+      opacity: 0.3;
+      transform: translateX(-100%);
+    }
+  }
+
+  /* Dark theme */
+  :global([data-theme='dark']) #sidebar {
     background-color: var(--grey-1);
+  }
+
+  /* iPad landscape mode */
+  @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape),
+    screen and (min-width: 768px) and (max-width: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2),
+    screen and (min-width: 768px) and (max-width: 1440px) and (-webkit-min-device-pixel-ratio: 1) {
+    #sidebar {
+      overflow: visible;
+    }
   }
 </style>

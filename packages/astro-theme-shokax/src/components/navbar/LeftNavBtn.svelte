@@ -1,7 +1,11 @@
 <script lang='ts'>
   import { sidebarOpen, toggleSidebar } from '../../stores/sidebarStore'
 
-  export let clickCallback: (state: boolean) => void = () => {}
+  interface Props {
+    clickCallback?: (state: boolean) => void
+  }
+
+  const { clickCallback = () => {} }: Props = $props()
 
   const handleToggle = () => {
     toggleSidebar()
@@ -9,7 +13,7 @@
   }
 </script>
 
-<button class='border-none bg-transparent flex flex-col cursor-pointer items-center justify-center lg:hidden' on:click={handleToggle} aria-label='Toggle sidebar' type='button'>
+<button class='border-none bg-transparent flex flex-col cursor-pointer items-center justify-center lg:hidden' onclick={handleToggle} aria-label='Toggle sidebar' type='button'>
   <div class='line-height-0 p-5 w-5.5 box-unset'>
     <div class={`line ${$sidebarOpen ? 'line-1' : ''}`}></div>
     <div class={`line mt-0.75 ${$sidebarOpen ? 'line-2' : ''}`}></div>

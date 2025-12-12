@@ -1,7 +1,11 @@
 <script lang='ts'>
   import type { SocialLink } from './SidebarTypes'
 
-  export let social: Record<string, string | SocialLink> = {}
+  interface Props {
+    social?: Record<string, string | SocialLink>
+  }
+
+  const { social = {} }: Props = $props()
 
   // Helper function to parse old social string format
   const parseSocialString = (str: string) => {
