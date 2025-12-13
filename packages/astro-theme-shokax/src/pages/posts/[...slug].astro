@@ -6,7 +6,7 @@ import PostFooter from '@/components/post/PostFooter.astro'
 import PostNav from '@/components/post/PostNav.astro'
 import { getCollection, render } from 'astro:content'
 import themeConfig from '@/theme.config'
-import type { TocItem, RelatedPost, QuickNavigation } from '@/components/sidebar/SidebarTypes'
+import type { TocItem, QuickNavigation } from '@/components/sidebar/SidebarTypes'
 
 import '@/styles/post.css'
 
@@ -102,7 +102,14 @@ const postMeta = {
 }
 ---
 
-<Layout toc={toc} relatedPosts={relatedPosts} currentSlug={post.id} navigation={navigation} pageTitle={post.data.title} postMeta={postMeta}>
+<Layout
+  toc={toc}
+  relatedPosts={relatedPosts}
+  currentSlug={post.id}
+  navigation={navigation}
+  pageTitle={post.data.title}
+  postMeta={postMeta}
+>
   <div class="article wrap">
     <Breadcrumb categories={post.data.categories} />
 

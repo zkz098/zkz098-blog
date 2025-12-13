@@ -107,11 +107,7 @@ function formatDate(date: Date): string {
 
                 <article class="item normal" itemscope itemtype="http://schema.org/Article">
                   <div class="meta">
-                    <time
-                      itemprop="dateCreated"
-                      datetime={postDate.toISOString()}
-                      content={postDate.toLocaleDateString()}
-                    >
+                    <time itemprop="dateCreated" datetime={postDate.toISOString()}>
                       {formatDate(postDate)}
                     </time>
                   </div>

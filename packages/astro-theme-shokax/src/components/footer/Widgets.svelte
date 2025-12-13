@@ -23,7 +23,6 @@
     posts = [],
     enableRandomPosts = true,
     enableRecentComments = true,
-    recentCommentsLimit = 10,
   }: Props = $props()
 
   let randomPosts = $state<Post[]>([])

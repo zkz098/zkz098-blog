@@ -12,7 +12,8 @@
   "packageManager": "bun@1.3.3",
   "scripts": {
     "build": "turbo build",
-    "check-types": "turbo check-types"
+    "check-types": "turbo check-types",
+    "lint": "turbo lint"
   },
   "peerDependencies": {
     "typescript": "^5"
@@ -23,16 +24,16 @@
     "@unocss/preset-icons": "^66.5.10",
     "@unocss/preset-wind4": "^66.5.10",
     "@unocss/reset": "^66.5.10",
-    "es-toolkit": "^1.42.0",
-    "svelte": "^5.45.6",
+    "es-toolkit": "^1.43.0",
+    "svelte": "^5.46.0",
     "unocss": "^66.5.10"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^6.4.2",
-    "@types/bun": "latest",
+    "@antfu/eslint-config": "^6.6.1",
+    "@types/bun": "1.3.4",
     "@unocss/eslint-plugin": "^66.5.10",
     "astro-eslint-parser": "^1.2.2",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "eslint-plugin-astro": "^1.5.0",
     "eslint-plugin-format": "^1.0.2",
     "eslint-plugin-svelte": "^3.13.0",

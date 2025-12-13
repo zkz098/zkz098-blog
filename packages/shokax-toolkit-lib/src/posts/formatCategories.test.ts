@@ -2,12 +2,12 @@ import { describe, expect, it } from 'vitest'
 import { formatCategories } from './formatCategories'
 
 describe('formatCategories', () => {
-  const post1 = { _id: 'p1', title: '文章一', content: '内容一', date: new Date() }
-  const post2 = { _id: 'p2', title: '文章二', content: '内容二', date: new Date() }
-  const post3 = { _id: 'p3', title: '文章三', content: '内容三', date: new Date() }
-  const post4 = { _id: 'p4', title: '文章四', content: '内容四', date: new Date() }
-  const post5 = { _id: 'p5', title: '文章五', content: '内容五', date: new Date() }
-  const post6 = { _id: 'p6', title: '文章六', content: '内容六', date: new Date() }
+  const post1 = { _id: 'p1', title: '文章一', content: '内容一', date: new Date(), categories: [] }
+  const post2 = { _id: 'p2', title: '文章二', content: '内容二', date: new Date(), categories: [] }
+  const post3 = { _id: 'p3', title: '文章三', content: '内容三', date: new Date(), categories: [] }
+  const post4 = { _id: 'p4', title: '文章四', content: '内容四', date: new Date(), categories: [] }
+  const post5 = { _id: 'p5', title: '文章五', content: '内容五', date: new Date(), categories: [] }
+  const post6 = { _id: 'p6', title: '文章六', content: '内容六', date: new Date(), categories: [] }
 
   const sampleCategories = [
     { _id: '1', name: '前端', length: 5, posts: [post1, post2, post3, post4, post5] },

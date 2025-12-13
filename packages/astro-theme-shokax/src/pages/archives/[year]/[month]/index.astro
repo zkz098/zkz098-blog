@@ -48,7 +48,18 @@ export async function getStaticPaths() {
   return paths
 }
 
-const { year, month, posts } = Astro.props
+const { year, month, posts } = Astro.props as {
+  year: number
+  month: number
+  posts: {
+    _id: string
+    title: string
+    content: string
+    date: Date
+    categories: string[]
+    link?: string
+  }[]
+}
 
 // Helper to get category URL
 function getCategoryUrl(category: string): string {
@@ -84,7 +95,7 @@ function formatDate(date: Date): string {
           return (
             <article class="item normal" itemscope itemtype="http://schema.org/Article">
               <div class="meta">
-                <time itemprop="dateCreated" datetime={postDate.toISOString()} content={postDate.toLocaleDateString()}>
+                <time itemprop="dateCreated" datetime={postDate.toISOString()}>
                   {formatDate(postDate)}
                 </time>
               </div>

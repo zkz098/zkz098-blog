@@ -9,24 +9,28 @@ describe('structurePostsByDate', () => {
       title: '文章一',
       content: '内容一',
       date: new Date('2023-05-12T10:00:00Z'),
+      categories: [],
     },
     {
       _id: 'p2',
       title: '文章二',
       content: '内容二',
       date: new Date('2023-05-12T15:30:00Z'),
+      categories: [],
     },
     {
       _id: 'p3',
       title: '文章三',
       content: '内容三',
       date: new Date('2023-06-01T08:00:00Z'),
+      categories: [],
     },
     {
       _id: 'p4',
       title: '文章四',
       content: '内容四',
       date: new Date('2024-01-01T00:00:00Z'),
+      categories: [],
     },
   ]
 

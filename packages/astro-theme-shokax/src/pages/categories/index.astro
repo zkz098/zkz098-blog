@@ -43,6 +43,7 @@ publishedPosts.forEach((post) => {
         title: post.data.title,
         content: '',
         date: post.data.date,
+        categories: post.data.categories || [],
       })
       catData.length = catData.posts.length
     }

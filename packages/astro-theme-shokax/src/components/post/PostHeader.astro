@@ -8,7 +8,7 @@ interface Props {
   readingTime?: number
 }
 
-const { title, link, date, updated, wordCount, readingTime } = Astro.props
+const { title, link, date, wordCount, readingTime } = Astro.props
 
 // Format date helper
 function formatDate(d: Date): string {
