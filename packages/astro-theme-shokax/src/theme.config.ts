@@ -113,7 +113,6 @@ export default defineConfig({
     author: 'Your Name',
     description: 'A brief introduction',
     avatar: '/avatar.jpg',
-    // Modern object-style social configuration
     social: {
       github: {
         url: 'https://github.com/yourname',
@@ -128,14 +127,6 @@ export default defineConfig({
         icon: 'i-ri-mail-line',
       },
     },
-    // Optional: Provide custom menu, otherwise it will use nav links
-    // menu: [
-    //   {
-    //     href: '/',
-    //     text: 'Home',
-    //     icon: 'i-ri-home-2-fill',
-    //   },
-    // ]
   },
   footer: {
     since: 2022,
