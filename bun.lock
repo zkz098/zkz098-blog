@@ -9,7 +9,7 @@
         "@astrojs/svelte": "^7.2.3",
         "@ctrl/tinycolor": "^4.2.0",
         "astro": "^5.16.5",
-        "cn-font-split": "^7.3.0",
+        "cn-font-split": "^7.4.1",
         "es-toolkit": "^1.43.0",
         "svelte": "^5.46.0",
         "typescript": "^5.9.3",
@@ -578,7 +578,7 @@
 
     "cn-font-metrics": ["cn-font-metrics@2.1.6", "https://registry.npmmirror.com/cn-font-metrics/-/cn-font-metrics-2.1.6.tgz", { "dependencies": { "fontaine": "^0.5.0" } }, "sha512-FwUzUb2SKm3QO6Jnb25kr0S8MqmfoZ43EJxDro8lV9KFlSPXvGihrM4TyMFaqMgi0HCRMcGdPzI1NANHlxDoug=="],
 
-    "cn-font-split": ["cn-font-split@7.3.0", "https://registry.npmmirror.com/cn-font-split/-/cn-font-split-7.3.0.tgz", { "dependencies": { "buffer": "^6.0.3", "commander": "^12.1.0", "fs-extra": "^11.2.0", "google-protobuf": "^3.21.4", "koffi": "^2.10.0", "proto-to-cli": "1.2.1", "set-value": "^4.1.0" }, "bin": { "cn-font-split": "dist/cli.js" } }, "sha512-STsLGuyFa3gABTn0J9un6K87uZEMH+RrqpDwywsVaHP6Xc4Ks9Sjgiy3eturst1h5F5ZRxjqGvYnRgraMuGtxQ=="],
+    "cn-font-split": ["cn-font-split@7.4.1", "", { "dependencies": { "buffer": "^6.0.3", "commander": "^12.1.0", "fs-extra": "^11.2.0", "google-protobuf": "^3.21.4", "koffi": "^2.10.0", "proto-to-cli": "1.2.1", "set-value": "^4.1.0" }, "bin": { "cn-font-split": "dist/cli.js" } }, "sha512-T3tGE+Vo+T5RP1O8gfWdXKylI2DDPVUAbSUx2B9Tj3+cxl662keWmB3I4zlSgJvy53ADYknnADJDcHPwdiuitA=="],
 
     "color-convert": ["color-convert@2.0.1", "https://registry.npmmirror.com/color-convert/-/color-convert-2.0.1.tgz", { "dependencies": { "color-name": "~1.1.4" } }, "sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ=="],
 

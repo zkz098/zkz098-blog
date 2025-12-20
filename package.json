@@ -17,7 +17,7 @@
     "@astrojs/svelte": "^7.2.3",
     "@ctrl/tinycolor": "^4.2.0",
     "astro": "^5.16.5",
-    "cn-font-split": "^7.3.0",
+    "cn-font-split": "^7.4.1",
     "es-toolkit": "^1.43.0",
     "svelte": "^5.46.0",
     "typescript": "^5.9.3",
