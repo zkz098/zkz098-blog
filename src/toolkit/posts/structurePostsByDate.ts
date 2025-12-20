@@ -21,7 +21,7 @@ export function structurePostsByDate(posts: Post[], config: ArchiveConfig = {}):
   const grouped: StructuredPosts = {}
 
   posts.forEach((post) => {
-    const date = post.date
+    const date = post.data.date
     const year = date.getFullYear()
     const month = date.getMonth() + 1 // month starts from 0
     const day = date.getDate()

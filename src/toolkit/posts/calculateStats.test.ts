@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'bun:test'
-import { countWords, calculateTotalWords, formatReadingTime, calculatePostStats, type Post } from './calculateStats'
+import { countWords, calculateTotalWords, formatReadingTime, calculatePostStats } from './calculateStats'
+import type { Post } from './types'
 
 describe('countWords', () => {
   it('should return 0 for empty string', () => {
@@ -31,23 +32,23 @@ describe('calculateTotalWords', () => {
 
   it('should calculate total words from posts with body', () => {
     const posts: Post[] = [
-      { data: { title: 'Test' }, body: 'hello world' },
-      { data: { title: 'Test2' }, body: '你好世界' }
+      { id: '1', collection: 'posts', data: { title: 'Test', date: new Date('2023-01-01') }, body: 'hello world' },
+      { id: '2', collection: 'posts', data: { title: 'Test2', date: new Date('2023-01-01') }, body: '你好世界' }
     ]
     expect(calculateTotalWords(posts)).toBe(6)
   })
 
   it('should calculate total words from posts with content', () => {
     const posts: Post[] = [
-      { data: { title: 'Test', content: 'hello world' } },
-      { data: { title: 'Test2', content: '你好世界' } }
+      { id: '1', collection: 'posts', data: { title: 'Test', date: new Date('2023-01-01') }, body: 'hello world' },
+      { id: '2', collection: 'posts', data: { title: 'Test2', date: new Date('2023-01-01') }, body: '你好世界' }
     ]
     expect(calculateTotalWords(posts)).toBe(6)
   })
 
   it('should prefer body over content', () => {
     const posts: Post[] = [
-      { data: { title: 'Test', content: 'old content' }, body: 'new body' }
+      { id: '1', collection: 'posts', data: { title: 'Test', date: new Date('2023-01-01') }, body: 'new body' }
     ]
     expect(calculateTotalWords(posts)).toBe(2)
   })
@@ -81,7 +82,7 @@ describe('calculatePostStats', () => {
 
   it('should calculate stats for posts', () => {
     const posts: Post[] = [
-      { data: { title: 'Test' }, body: 'hello world 你好' }
+      { id: '1', collection: 'posts', data: { title: 'Test', date: new Date('2023-01-01') }, body: 'hello world 你好' }
     ]
     const stats = calculatePostStats(posts)
     expect(stats.totalWords).toBe(4)
@@ -90,7 +91,7 @@ describe('calculatePostStats', () => {
 
   it('should use custom options', () => {
     const posts: Post[] = [
-      { data: { title: 'Test' }, body: 'hello world 你好' }
+      { id: '1', collection: 'posts', data: { title: 'Test', date: new Date('2023-01-01') }, body: 'hello world 你好' }
     ]
     const stats = calculatePostStats(posts, { awl: 100, wpm: 200 })
     expect(stats.totalWords).toBe(4)

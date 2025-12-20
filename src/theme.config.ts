@@ -60,7 +60,7 @@ export default defineConfig({
   sidebar: {
     author: 'Your Name',
     description: 'A brief introduction',
-    avatar: '/avatar.jpg',
+    avatar: '/avatar.avif',
     social: {
       github: {
         url: 'https://github.com/yourname',

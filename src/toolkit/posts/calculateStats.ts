@@ -1,20 +1,8 @@
-/**
- * Calculate word count and reading time for posts
- * Based on average word count per minute (AWL) and words per minute (WPM)
- */
+import type { Post } from './types'
 
 export interface PostStats {
   totalWords: number
   totalReadingTime: string
-}
-
-export interface Post {
-  data: {
-    title: string
-    content?: string
-    [key: string]: any
-  }
-  body?: string
 }
 
 /**
@@ -43,7 +31,7 @@ export function countWords(text: string): number {
  */
 export function calculateTotalWords(posts: Post[]): number {
   return posts.reduce((total, post) => {
-    const content = post.body || post.data.content || ''
+    const content = post.body || ''
     return total + countWords(content)
   }, 0)
 }

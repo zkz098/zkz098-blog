@@ -12,17 +12,7 @@ const publishedPosts = allPosts
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 
 // Structure posts by date
-const structuredPosts = structurePostsByDate(
-  publishedPosts.map((post) => ({
-    _id: post.id,
-    title: post.data.title,
-    content: '',
-    date: post.data.date,
-    categories: post.data.categories || [],
-    link: post.data.link,
-  })),
-  { daily: false },
-)
+const structuredPosts = structurePostsByDate(publishedPosts, { daily: false })
 
 // Get all years in descending order
 const years = Object.keys(structuredPosts)
@@ -82,18 +72,18 @@ function formatDate(date: Date): string {
           let monthPostCount = 0
 
           return yearPosts.map((post, index) => {
-            const postDate = post.date
+            const postDate = post.data.date
             const month = postDate.getMonth() + 1
             const isNewMonth = month !== lastMonth
 
             // Count posts in this month
             if (isNewMonth) {
-              monthPostCount = yearPosts.filter((p) => p.date.getMonth() + 1 === month).length
+              monthPostCount = yearPosts.filter((p) => p.data.date.getMonth() + 1 === month).length
               lastMonth = month
             }
 
             const prevPost = index > 0 ? yearPosts[index - 1] : null
-            const prevMonth = prevPost ? prevPost.date.getMonth() + 1 : 0
+            const prevMonth = prevPost ? prevPost.data.date.getMonth() + 1 : 0
 
             return (
               <>
@@ -113,11 +103,11 @@ function formatDate(date: Date): string {
                     </time>
                   </div>
 
-                  {post.categories && post.categories.length > 0 && (
+                  {post.data.categories && post.data.categories.length > 0 && (
                     <div class="meta">
-                      {post.categories.map((cat, catIndex) => (
+                      {post.data.categories.map((cat, catIndex) => (
                         <>
-                          {catIndex === post.categories.length - 1 && (
+                          {catIndex === post.data.categories!.length - 1 && (
                             <span>
                               <a href={getCategoryUrl(cat)}>{cat}</a>
                             </span>
@@ -128,14 +118,14 @@ function formatDate(date: Date): string {
                   )}
 
                   <div class="title">
-                    {post.link ? (
-                      <a href={post.link} class="external" itemprop="url" target="_blank" rel="noopener noreferrer">
-                        <span itemprop="name">{post.title || post.link}</span>
+                    {post.data.link ? (
+                      <a href={post.data.link} class="external" itemprop="url" target="_blank" rel="noopener noreferrer">
+                        <span itemprop="name">{post.data.title || post.data.link}</span>
                         <i class="i-ri-external-link-line" />
                       </a>
                     ) : (
-                      <a href={`/posts/${post._id.replace(/\.md$/, '')}`} itemprop="url">
-                        <span itemprop="name">{post.title || '未命名'}</span>
+                      <a href={`/posts/${post.id}`} itemprop="url">
+                        <span itemprop="name">{post.data.title || '未命名'}</span>
                       </a>
                     )}
                   </div>

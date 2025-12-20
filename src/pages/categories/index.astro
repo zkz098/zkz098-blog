@@ -38,13 +38,7 @@ publishedPosts.forEach((post) => {
     // Add post to the deepest category only
     if (index === categories.length - 1) {
       const catData = categoryMap.get(catId)!
-      catData.posts.push({
-        _id: post.id,
-        title: post.data.title,
-        content: '',
-        date: post.data.date,
-        categories: post.data.categories || [],
-      })
+      catData.posts.push(post)
       catData.length = catData.posts.length
     }
   })

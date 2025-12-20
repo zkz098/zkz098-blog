@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro'
 import IndexContent from '../components/IndexContent.astro'
 import { getCollection } from 'astro:content'
 import themeConfig from '@/theme.config'
-import { date } from 'astro:schema'
 
 // Fetch all posts
 const allPosts = await getCollection('posts')

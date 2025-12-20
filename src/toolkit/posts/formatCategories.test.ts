@@ -1,13 +1,14 @@
 import { describe, expect, it } from 'bun:test'
 import { formatCategories } from './formatCategories'
+import type { Post } from './types'
 
 describe('formatCategories', () => {
-  const post1 = { _id: 'p1', title: '文章一', content: '内容一', date: new Date(), categories: [] }
-  const post2 = { _id: 'p2', title: '文章二', content: '内容二', date: new Date(), categories: [] }
-  const post3 = { _id: 'p3', title: '文章三', content: '内容三', date: new Date(), categories: [] }
-  const post4 = { _id: 'p4', title: '文章四', content: '内容四', date: new Date(), categories: [] }
-  const post5 = { _id: 'p5', title: '文章五', content: '内容五', date: new Date(), categories: [] }
-  const post6 = { _id: 'p6', title: '文章六', content: '内容六', date: new Date(), categories: [] }
+  const post1: Post = { id: 'p1', collection: 'posts', data: { title: '文章一', date: new Date(), categories: [] }, body: '内容一' }
+  const post2: Post = { id: 'p2', collection: 'posts', data: { title: '文章二', date: new Date(), categories: [] }, body: '内容二' }
+  const post3: Post = { id: 'p3', collection: 'posts', data: { title: '文章三', date: new Date(), categories: [] }, body: '内容三' }
+  const post4: Post = { id: 'p4', collection: 'posts', data: { title: '文章四', date: new Date(), categories: [] }, body: '内容四' }
+  const post5: Post = { id: 'p5', collection: 'posts', data: { title: '文章五', date: new Date(), categories: [] }, body: '内容五' }
+  const post6: Post = { id: 'p6', collection: 'posts', data: { title: '文章六', date: new Date(), categories: [] }, body: '内容六' }
 
   const sampleCategories = [
     { _id: '1', name: '前端', length: 5, posts: [post1, post2, post3, post4, post5] },

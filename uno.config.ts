@@ -19,20 +19,18 @@ const iconSafeList = themeConfig.nav.flatMap((item) => {
 // Add sidebar social and menu icons to safelist
 if (themeConfig.sidebar?.social) {
   Object.values(themeConfig.sidebar.social).forEach((value) => {
-    const iconStr = typeof value === 'string' ? value.split('||')[1]?.trim() : value.icon
+    const iconStr = value.icon
     if (iconStr) {
-      const iconClass = iconStr.startsWith('i-') ? iconStr : `i-ri-${iconStr}`
-      iconSafeList.push(iconClass)
+      iconSafeList.push(iconStr.startsWith('i-') ? iconStr : `i-ri-${iconStr}`)
     }
   })
 }
 
 if (themeConfig.sidebar?.menu) {
   Object.values(themeConfig.sidebar.menu).forEach((value) => {
-    const iconStr = typeof value === 'string' ? value.split('||')[1]?.trim() : ''
+    const iconStr = value.icon
     if (iconStr) {
-      const iconClass = iconStr.startsWith('i-') ? iconStr : `i-ri-${iconStr}`
-      iconSafeList.push(iconClass)
+      iconSafeList.push(iconStr.startsWith('i-') ? iconStr : `i-ri-${iconStr}`)
     }
   })
 }

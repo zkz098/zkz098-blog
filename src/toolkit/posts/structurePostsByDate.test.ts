@@ -5,32 +5,44 @@ import { structurePostsByDate } from './structurePostsByDate'
 describe('structurePostsByDate', () => {
   const posts: Post[] = [
     {
-      _id: 'p1',
-      title: '文章一',
-      content: '内容一',
-      date: new Date('2023-05-12T10:00:00Z'),
-      categories: [],
+      id: 'p1',
+      collection: 'posts',
+      data: {
+        title: '文章一',
+        date: new Date('2023-05-12T10:00:00Z'),
+        categories: [],
+      },
+      body: '内容一',
     },
     {
-      _id: 'p2',
-      title: '文章二',
-      content: '内容二',
-      date: new Date('2023-05-12T15:30:00Z'),
-      categories: [],
+      id: 'p2',
+      collection: 'posts',
+      data: {
+        title: '文章二',
+        date: new Date('2023-05-12T15:30:00Z'),
+        categories: [],
+      },
+      body: '内容二',
     },
     {
-      _id: 'p3',
-      title: '文章三',
-      content: '内容三',
-      date: new Date('2023-06-01T08:00:00Z'),
-      categories: [],
+      id: 'p3',
+      collection: 'posts',
+      data: {
+        title: '文章三',
+        date: new Date('2023-06-01T08:00:00Z'),
+        categories: [],
+      },
+      body: '内容三',
     },
     {
-      _id: 'p4',
-      title: '文章四',
-      content: '内容四',
-      date: new Date('2024-01-01T00:00:00Z'),
-      categories: [],
+      id: 'p4',
+      collection: 'posts',
+      data: {
+        title: '文章四',
+        date: new Date('2024-01-01T00:00:00Z'),
+        categories: [],
+      },
+      body: '内容四',
     },
   ]
 

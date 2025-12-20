@@ -11,17 +11,7 @@ export async function getStaticPaths() {
     .filter((post) => !post.data.draft)
     .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 
-  const structuredPosts = structurePostsByDate(
-    publishedPosts.map((post) => ({
-      _id: post.id,
-      title: post.data.title,
-      content: '',
-      date: post.data.date,
-      categories: post.data.categories || [],
-      link: post.data.link,
-    })),
-    { daily: false },
-  )
+  const structuredPosts = structurePostsByDate(publishedPosts, { daily: false })
 
   const paths = []
 
@@ -49,17 +39,12 @@ export async function getStaticPaths() {
   return paths
 }
 
+import type { CollectionEntry } from 'astro:content'
+
 const { year, month, posts } = Astro.props as {
   year: number
   month: number
-  posts: {
-    _id: string
-    title: string
-    content: string
-    date: Date
-    categories: string[]
-    link?: string
-  }[]
+  posts: CollectionEntry<'posts'>[]
 }
 
 // Helper to get category URL
@@ -91,7 +76,7 @@ function formatDate(date: Date): string {
 
       {
         posts.map((post) => {
-          const postDate = post.date
+          const postDate = post.data.date
 
           return (
             <article class="item normal" itemscope itemtype="http://schema.org/Article">
@@ -101,11 +86,11 @@ function formatDate(date: Date): string {
                 </time>
               </div>
 
-              {post.categories && post.categories.length > 0 && (
+              {post.data.categories && post.data.categories.length > 0 && (
                 <div class="meta">
-                  {post.categories.map((cat, catIndex) => (
+                  {post.data.categories.map((cat, catIndex) => (
                     <>
-                      {catIndex === post.categories.length - 1 && (
+                      {catIndex === post.data.categories!.length - 1 && (
                         <span>
                           <a href={getCategoryUrl(cat)}>{cat}</a>
                         </span>
@@ -116,14 +101,14 @@ function formatDate(date: Date): string {
               )}
 
               <div class="title">
-                {post.link ? (
-                  <a href={post.link} class="external" itemprop="url" target="_blank" rel="noopener noreferrer">
-                    <span itemprop="name">{post.title || post.link}</span>
+                {post.data.link ? (
+                  <a href={post.data.link} class="external" itemprop="url" target="_blank" rel="noopener noreferrer">
+                    <span itemprop="name">{post.data.title || post.data.link}</span>
                     <i class="i-ri-external-link-line" />
                   </a>
                 ) : (
-                  <a href={`/posts/${post._id.replace(/\.md$/, '')}`} itemprop="url">
-                    <span itemprop="name">{post.title || '未命名'}</span>
+                  <a href={`/posts/${post.id}`} itemprop="url">
+                    <span itemprop="name">{post.data.title || '未命名'}</span>
                   </a>
                 )}
               </div>
