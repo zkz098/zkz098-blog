@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import {css} from '../assets/fonts/JetBrainsMono-VF.ttf?subsets'
+  import {css} from '../assets/fonts/MapleMono-CN-Regular.ttf?subsets';
   import unoStyle from 'unocss-inline/style';
 
   let container = $state<HTMLElement | null>(null);
@@ -95,7 +95,7 @@
     border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 0.5rem 0.5rem 1rem var(--grey-3);
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-family: 'Maple Mono', 'Courier New', monospace;
   }
 
   .dark.codeblock {
@@ -159,7 +159,7 @@
 
   /* 核心：处理插槽内的样式 */
   .content-wrapper ::slotted(*) {
-    font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+    font-family: 'Maple Mono', 'Courier New', Courier, monospace;
     font-size: 0.925rem;
     line-height: 1.25rem;
     line-break: anywhere;

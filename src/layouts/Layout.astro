@@ -140,9 +140,13 @@ const siteState = {
       </main>
     </div>
     <script>
-      import { css } from '@/assets/fonts/MiSans-VF.ttf?subsets'
-
-      document.body.style.fontFamily = css.family as string;
+      import { css } from '@/assets/fonts/LXGWWenKai-Regular.ttf?subsets';
+      document.addEventListener('astro:after-swap',()=>{
+        document.body.style.fontFamily = css.family as string;
+      })
+      document.addEventListener('DOMContentLoaded', () => {
+        document.body.style.fontFamily = css.family as string;
+      })
     </script>
     <script>
       import { initializeCodeBlock } from '@/toolkit/initCodeBlock'
