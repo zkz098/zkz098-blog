@@ -366,8 +366,7 @@
 </style>
 
 <script>
-  const MINIMUM_LOADING_TIME = 1000
-  const startTime = performance.now()
+  const MINIMUM_LOADING_TIME = 1500
   const SESSION_KEY = 'hasShownLoading'
 
   // TODO: 仅在第一次访问时显示加载动画
@@ -382,13 +381,10 @@
           return
         }
 
-        const elapsed = performance.now() - startTime
-        const remaining = Math.max(0, MINIMUM_LOADING_TIME - elapsed)
-
         setTimeout(() => {
           loading.classList.add('hidden')
           sessionStorage.setItem(SESSION_KEY, 'true')
-        }, remaining)
+        }, MINIMUM_LOADING_TIME)
       })
     })
   })

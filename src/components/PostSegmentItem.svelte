@@ -39,6 +39,7 @@
           alt={title}
           loading={lazy ? "lazy" : "eager"}
           decoding="async"
+          fetchpriority="high"
         />
       </a>
     {:else}

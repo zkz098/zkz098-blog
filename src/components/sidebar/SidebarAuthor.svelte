@@ -1,31 +1,33 @@
-<script lang='ts'>
+<script lang="ts">
   interface Props {
-    author?: string
-    avatar?: string
-    description?: string
+    author?: string;
+    avatar?: string;
+    description?: string;
   }
 
-  const { author = '', avatar = '', description = '' }: Props = $props()
+  const { author = "", avatar = "", description = "" }: Props = $props();
 </script>
 
 {#if author || avatar}
-  <div class='author' itemscope itemtype='http://schema.org/Person'>
+  <div class="author" itemscope itemtype="http://schema.org/Person">
     {#if avatar}
       <img
-        class='image'
+        class="image"
         src={avatar}
-        alt={author || 'Author'}
-        itemprop='image'
-        loading='lazy'
-        decoding='async'
-        fetchpriority='high'
+        alt={author || "Author"}
+        itemprop="image"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+        width="160"
+        height="160"
       />
     {/if}
     {#if author}
-      <p class='name' itemprop='name'>{author}</p>
+      <p class="name" itemprop="name">{author}</p>
     {/if}
     {#if description}
-      <div class='description' itemprop='description'>{description}</div>
+      <div class="description" itemprop="description">{description}</div>
     {/if}
   </div>
 {/if}
