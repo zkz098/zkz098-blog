@@ -83,6 +83,7 @@ const hasUpdated = updated && formatDate(date) !== formatDate(updated)
       <div id="copyright">
         <ul>
           <li class="author">
+            <div class="icon i-ri-account-circle-line"></div>
             <strong>文章作者: </strong>
             {author}
             <i class="ic i-ri-at-line">
@@ -91,12 +92,14 @@ const hasUpdated = updated && formatDate(date) !== formatDate(updated)
             {siteName}
           </li>
           <li class="link">
+            <div class="icon i-ri-link"></div>
             <strong>文章链接: </strong>
             <a href={permalink} title={title}>
               {permalink}
             </a>
           </li>
           <li class="license">
+            <div class="icon i-ri-copyright-line"></div>
             <strong>版权声明: </strong>
             本文采用
             <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">

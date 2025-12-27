@@ -180,25 +180,13 @@
   color: var(--grey-6);
 }
 
-#copyright li::before {
-  font-family: "iconfont";
+#copyright li .icon {
+  display: inline-block;
+  vertical-align: text-bottom;
   color: var(--grey-5);
   margin-right: 0.3125rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 0.75rem;
-  vertical-align: -0.0667rem;
-}
-
-#copyright .author::before {
-  content: "\e900";
-}
-
-#copyright .link::before {
-  content: "\e901";
-}
-
-#copyright .license::before {
-  content: "\e902";
 }
 
 /* Reward */
