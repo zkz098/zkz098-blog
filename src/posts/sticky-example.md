@@ -6,7 +6,6 @@ tags: [announcement, sticky]
 categories: [公告]
 sticky: true
 draft: false
-cover: https://picsum.photos/800/400?random=1
 ---
 
 这是一篇置顶文章的示例内容。置顶文章会显示在首页的最上方,在分类卡片之前。

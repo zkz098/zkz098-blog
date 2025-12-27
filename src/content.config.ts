@@ -1,5 +1,7 @@
 import { glob } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
+import { sample } from "es-toolkit";
+import themeConfig from "./theme.config";
 
 const posts = defineCollection({
   loader: glob({
@@ -16,7 +18,9 @@ const posts = defineCollection({
     tags: z.array(z.string()).optional(),
     categories: z.array(z.string()).optional(),
     draft: z.boolean().optional(),
-    cover: z.string().optional(),
+    cover: z.string().default(() => {
+      return sample(themeConfig.cover?.covers || []);
+    }),
     sticky: z.boolean().optional(),
     link: z.string().optional(),
   }),

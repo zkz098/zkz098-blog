@@ -45,12 +45,12 @@ export default defineConfig({
     // gradient: true, // 渐变模式
     enableNextGradientCover: false, // 文章导航使用渐变背景
     covers: [
-      "https://picsum.photos/1920/1080?random=1",
-      "https://picsum.photos/1920/1080?random=2",
-      "https://picsum.photos/1920/1080?random=3",
-      "https://picsum.photos/1920/1080?random=4",
-      "https://picsum.photos/1920/1080?random=5",
-      "https://picsum.photos/1920/1080?random=6",
+      "https://img.cdn.kaitaku.xyz/cover-1.avif",
+      "https://img.cdn.kaitaku.xyz/cover-2.avif",
+      "https://img.cdn.kaitaku.xyz/cover-3.avif",
+      "https://img.cdn.kaitaku.xyz/cover-4.avif",
+      "https://img.cdn.kaitaku.xyz/cover-5.avif",
+      "https://img.cdn.kaitaku.xyz/cover-6.avif",
     ],
   },
   sidebar: {

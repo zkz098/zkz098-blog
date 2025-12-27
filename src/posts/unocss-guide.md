@@ -5,7 +5,6 @@ description: UnoCSS 是一个即时按需的原子化 CSS 引擎
 tags: [css, unocss, styling]
 categories: [Frontend, Styling]
 draft: false
-cover: https://picsum.photos/800/400?random=7
 ---
 
 UnoCSS 是一个高性能且极具灵活性的即时原子化 CSS 引擎。

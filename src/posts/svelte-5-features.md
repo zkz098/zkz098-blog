@@ -5,7 +5,6 @@ description: 探索 Svelte 5 带来的全新 Runes API 和性能改进
 tags: [svelte, runes, frontend]
 categories: [Frontend, Tutorial]
 draft: false
-cover: https://picsum.photos/800/400?random=6
 ---
 
 Svelte 5 引入了全新的 Runes API,为响应式编程带来了更强大的能力。

@@ -5,7 +5,6 @@ description: This is the first post on the ShokaX blog. Welcome to our new Astro
 tags: [welcome, astro, shokaX]
 categories: [Getting Started]
 draft: false
-cover: https://picsum.photos/800/400?random=4
 ---
 
 This is the initial hello world post to demonstrate the blog structure. You can now start creating your own posts in the `src/posts/` directory.
