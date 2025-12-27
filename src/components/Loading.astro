@@ -366,31 +366,28 @@
 </style>
 
 <script>
-  const MINIMUM_LOADING_TIME = 200 // 最少显示时间（毫秒）
-  const loadingStartTime = Date.now()
+  const MINIMUM_LOADING_TIME = 200
+  const startTime = performance.now()
+  const SESSION_KEY = 'hasShownLoading'
 
-  function hideLoading() {
-    const loadingElement = document.getElementById('loading')
-    if (loadingElement && !loadingElement.classList.contains('hidden')) {
-      const elapsedTime = Date.now() - loadingStartTime
-      const remainingTime = Math.max(0, MINIMUM_LOADING_TIME - elapsedTime)
+  // TODO: 仅在第一次访问时显示加载动画
+  window.addEventListener('DOMContentLoaded',() => {
+    const loading = document.getElementById('loading')
+    if (!loading) return
 
-      if (remainingTime > 0) {
-        setTimeout(() => {
-          loadingElement.classList.add('hidden')
-        }, remainingTime)
-      } else {
-        loadingElement.classList.add('hidden')
-      }
+    if (sessionStorage.getItem(SESSION_KEY)) {
+      loading.classList.add('hidden')
+      return
     }
-  }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', hideLoading)
-  } else {
-    hideLoading()
-  }
+    const elapsed = performance.now() - startTime
+    const remaining = Math.max(0, MINIMUM_LOADING_TIME - elapsed)
 
-  document.addEventListener('astro:after-swap', hideLoading)
-  window.addEventListener('load', hideLoading)
+    setTimeout(() => {
+      loading.classList.add('hidden')
+      sessionStorage.setItem(SESSION_KEY, 'true')
+    }, remaining)
+  })
 </script>
+
+
