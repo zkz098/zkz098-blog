@@ -367,7 +367,6 @@
 
 <script>
   const MINIMUM_LOADING_TIME = 1500
-  const SESSION_KEY = 'hasShownLoading'
 
   // TODO: 仅在第一次访问时显示加载动画
   window.addEventListener('DOMContentLoaded',() => {
@@ -376,14 +375,8 @@
         const loading = document.getElementById('loading')
         if (!loading) return
 
-        if (sessionStorage.getItem(SESSION_KEY)) {
-          loading.classList.add('hidden')
-          return
-        }
-
         setTimeout(() => {
           loading.classList.add('hidden')
-          sessionStorage.setItem(SESSION_KEY, 'true')
         }, MINIMUM_LOADING_TIME)
       })
     })

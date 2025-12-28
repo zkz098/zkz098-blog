@@ -52,6 +52,7 @@ export default defineConfig({
       "https://img.cdn.kaitaku.xyz/cover-5.avif",
       "https://img.cdn.kaitaku.xyz/cover-6.avif",
     ],
+    inferImageSize: false,
   },
   sidebar: {
     author: "Your Name",

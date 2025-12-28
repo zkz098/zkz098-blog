@@ -22,7 +22,14 @@ import Font from "vite-plugin-font";
 // https://astro.build/config
 export default defineConfig({
   site: "https://preview.astro.kaitaku.xyz",
-  // trailingSlash: 'always',
+  trailingSlash: "always",
+  build: {
+    format: "directory",
+  },
+
+  image: {
+    // domains: ["img.cdn.kaitaku.xyz"]
+  },
 
   prefetch: true,
 

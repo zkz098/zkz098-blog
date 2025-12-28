@@ -1,77 +1,81 @@
 ---
-import NavBar from '@/components/navbar/NavBar.svelte'
-import Brand from '@/components/Brand.svelte'
-import Sidebar from '@/components/sidebar/Sidebar.svelte'
-import HeaderCover from '@/components/HeaderCover.svelte'
-import Waves from '@/components/Waves.svelte'
-import Footer from '@/components/footer/Footer.astro'
-import Widgets from '@/components/footer/Widgets.svelte'
-import { getCollection } from 'astro:content'
-import type { TocItem, RelatedPost, QuickNavigation } from '@/components/sidebar/SidebarTypes'
-import "@/styles/view-transition.css"
-import "@vtbag/element-crossing?url"
+import NavBar from "@/components/navbar/NavBar.svelte";
+import Brand from "@/components/Brand.svelte";
+import Sidebar from "@/components/sidebar/Sidebar.svelte";
+import HeaderCover from "@/components/HeaderCover.astro";
+import Waves from "@/components/Waves.svelte";
+import Footer from "@/components/footer/Footer.astro";
+import Widgets from "@/components/footer/Widgets.svelte";
+import { getCollection } from "astro:content";
+import type {
+  TocItem,
+  RelatedPost,
+  QuickNavigation,
+} from "@/components/sidebar/SidebarTypes";
+import "@/styles/view-transition.css";
+import "@vtbag/element-crossing?url";
 
-import themeConfig from '@/theme.config.ts'
+import themeConfig from "@/theme.config.ts";
 
-import '@/styles/palette.css'
-import '@/styles/style.css'
-import '@/styles/header-cover.css'
-import '@/components/footer/footer.css'
+import "@/styles/palette.css";
+import "@/styles/style.css";
+import "@/styles/header-cover.css";
+import "@/components/footer/footer.css";
 
 // Import CodeBlock to define custom element
-import CodeBlock from '@/components/CodeBlock.svelte'
-import Loading from '@/components/Loading.astro'
+import CodeBlock from "@/components/CodeBlock.svelte";
+import Loading from "@/components/Loading.astro";
 
 // Accept sidebar props from child pages
 interface PostMeta {
-  date: Date
-  wordCount: number
-  readTime: number
+  date: Date;
+  wordCount: number;
+  readTime: number;
 }
 
 interface Props {
-  toc?: TocItem[]
-  relatedPosts?: RelatedPost[]
-  currentSlug?: string
-  navigation?: QuickNavigation
-  pageTitle?: string
-  postMeta?: PostMeta
-  indexPage?: boolean
+  toc?: TocItem[];
+  relatedPosts?: RelatedPost[];
+  currentSlug?: string;
+  navigation?: QuickNavigation;
+  pageTitle?: string;
+  postMeta?: PostMeta;
+  indexPage?: boolean;
 }
 
 const {
   toc = [],
   relatedPosts = [],
-  currentSlug = '',
+  currentSlug = "",
   navigation = {},
-  pageTitle = '',
+  pageTitle = "",
   postMeta,
   indexPage = false,
-} = Astro.props
+} = Astro.props;
 
-const navLinks = themeConfig.nav
-const siteName = themeConfig.siteName
-const sidebarConfig = themeConfig.sidebar || {}
-const brandConfig = themeConfig.brand || {}
-const coverConfig = themeConfig.cover || {}
-const footerConfig = themeConfig.footer || {}
-const widgetsConfig = themeConfig.widgets || {}
+const navLinks = themeConfig.nav;
+const siteName = themeConfig.siteName;
+const sidebarConfig = themeConfig.sidebar || {};
+const brandConfig = themeConfig.brand || {};
+const coverConfig = themeConfig.cover || {};
+const footerConfig = themeConfig.footer || {};
+const widgetsConfig = themeConfig.widgets || {};
 
 // Get all posts for widgets
-const allPosts = await getCollection('posts')
-const posts = allPosts.filter((post) => !post.data.draft)
+const allPosts = await getCollection("posts");
+const posts = allPosts.filter((post) => !post.data.draft);
 
 const siteState = {
   categories: allPosts.reduce((acc, post) => {
-    post.data.categories?.forEach((category) => acc.add(category))
-    return acc
+    post.data.categories?.forEach((category) => acc.add(category));
+    return acc;
   }, new Set()).size,
   posts: posts.length,
   tags: allPosts.reduce((acc, post) => {
-    post.data.tags?.forEach((tag) => acc.add(tag))
-    return acc
+    post.data.tags?.forEach((tag) => acc.add(tag));
+    return acc;
   }, new Set()).size,
-}
+};
 ---
 
 <!doctype html>
@@ -86,16 +90,28 @@ const siteState = {
 
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
 
+    {
+      themeConfig.cover?.enablePreload &&
+        themeConfig.cover?.covers?.map((cover) => (
+          <link rel="preload" as="image" href={cover} />
+        ))
+    }
+
+    {
+      themeConfig.cover?.fixedCover && themeConfig.cover.enablePreload && (
+        <link rel="preload" as="image" href={themeConfig.cover.fixedCover} />
+      )
+    }
+
     <title>{pageTitle}</title>
   </head>
   <body>
     <div class="hidden">
       <CodeBlock client:only />
     </div>
-    <Loading transition:persist />
+    <Loading />
     <div id="container">
       <HeaderCover
-        client:load
         enableCover={coverConfig.enableCover}
         enablePreload={coverConfig.enablePreload}
         fixedCover={coverConfig.fixedCover}
@@ -103,13 +119,18 @@ const siteState = {
         covers={coverConfig.covers}
         title={brandConfig.title}
       />
-      <NavBar client:load name={siteName} navLinks={navLinks} clickToggleCallback={() => void 0} />
+      <NavBar
+        client:load
+        name={siteName}
+        navLinks={navLinks}
+        clickToggleCallback={() => void 0}
+      />
       <Brand
         client:load
         title={brandConfig.title}
         subtitle={brandConfig.subtitle}
         logo={brandConfig.logo}
-        pageTitle={indexPage ? '' : pageTitle}
+        pageTitle={indexPage ? "" : pageTitle}
         postMeta={postMeta}
       />
       <Waves client:load />
@@ -124,10 +145,15 @@ const siteState = {
                     client:visible
                     posts={posts}
                     enableRandomPosts={widgetsConfig.randomPosts !== false}
-                    enableRecentComments={widgetsConfig.recentComments !== false}
+                    enableRecentComments={widgetsConfig.recentComments !==
+                      false}
                   />
                 </div>
-                <Footer config={footerConfig} siteName={siteName} author={sidebarConfig.author} />
+                <Footer
+                  config={footerConfig}
+                  siteName={siteName}
+                  author={sidebarConfig.author}
+                />
               </div>
             </footer>
           </div>
@@ -147,25 +173,25 @@ const siteState = {
       </main>
     </div>
     <script>
-      import { css } from '@/assets/fonts/LXGWWenKai-Regular.ttf?subsets'
+      import { css } from "@/assets/fonts/LXGWWenKai-Regular.ttf?subsets";
 
-      document.addEventListener('pagereveal', () => {
-        document.body.style.fontFamily = css.family as string
-      })
-      document.addEventListener('DOMContentLoaded', () => {
-        document.body.style.fontFamily = css.family as string
-      })
+      document.addEventListener("pagereveal", () => {
+        document.body.style.fontFamily = css.family as string;
+      });
+      document.addEventListener("DOMContentLoaded", () => {
+        document.body.style.fontFamily = css.family as string;
+      });
     </script>
     <script>
-      import { initializeCodeBlock } from '@/toolkit/initCodeBlock'
+      import { initializeCodeBlock } from "@/toolkit/initCodeBlock";
 
-      document.addEventListener('pagereveal', () => {
-        initializeCodeBlock('.astro-code')
-      })
+      document.addEventListener("pagereveal", () => {
+        initializeCodeBlock(".astro-code");
+      });
 
-      document.addEventListener('DOMContentLoaded', () => {
-        initializeCodeBlock('.astro-code')
-      })
+      document.addEventListener("DOMContentLoaded", () => {
+        initializeCodeBlock(".astro-code");
+      });
     </script>
   </body>
 </html>

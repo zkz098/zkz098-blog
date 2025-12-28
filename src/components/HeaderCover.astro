@@ -1,0 +1,70 @@
+---
+import CoverImage from './CoverImage.astro'
+
+interface Props {
+  enableCover?: boolean
+  enablePreload?: boolean
+  fixedCover?: string
+  gradient?: boolean
+  covers?: string[]
+  title?: string
+}
+
+const {
+  enableCover = false,
+  fixedCover,
+  gradient = false,
+  covers = [],
+  title = '',
+} = Astro.props as Props
+
+// 是否显示多图轮播
+const isMultipleImages =
+  !fixedCover && !gradient && covers.length === 6
+
+// 单图模式图片来源
+const singleImage =
+  fixedCover || (gradient ? 'https://7ed.net/bing/api' : covers[0])
+---
+{enableCover && (
+  <>
+    <div class="h-40vh"></div>
+
+    <div
+      id="imgs"
+      class="imgs-container bg-[#363636] h-70vh min-h-[25rem] w-full left-0 top-0 fixed -z-9"
+    >
+      {isMultipleImages ? (
+        <!-- 多图轮播模式 -->
+        <ul class="h-full w-full relative">
+          {covers.map((cover, index) => (
+            <CoverImage
+              src={cover}
+              alt={title}
+              index={index}
+              isListItem={true}
+            />
+          ))}
+        </ul>
+      ) : (
+        <!-- 单图模式 -->
+        <CoverImage
+          src={singleImage}
+          alt={title}
+          index={0}
+          isListItem={false}
+        />
+      )}
+
+      <!-- 遮罩层 -->
+      <div class="imgs-overlay bg-black/20 h-full w-full transition-opacity duration-300 left-0 top-0 absolute z-1"></div>
+    </div>
+  </>
+)}
+
+<style>
+  .imgs-container {
+    content-visibility: auto;
+    contain-intrinsic-size: 100vw 70vh;
+  }
+</style>

@@ -2,18 +2,24 @@ import type { NavItemType } from "@/components/navbar/NavTypes";
 import type { SidebarConfig } from "@/components/sidebar/SidebarTypes";
 
 interface BrandConfig {
+  // 首页大标题
   title?: string;
+  // 首页副标题
   subtitle?: string;
+  // 首页 Logo，可以是文本或emoji
   logo?: string;
 }
 
 interface CoverConfig {
+  // 是否启用封面
   enableCover?: boolean;
+  // 是否启用预加载
   enablePreload?: boolean;
   fixedCover?: string;
   gradient?: boolean;
   covers?: string[];
   enableNextGradientCover?: boolean;
+  inferImageSize?: boolean
 }
 
 interface FooterConfig {
