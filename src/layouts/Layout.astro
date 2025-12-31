@@ -25,6 +25,7 @@ import "@/components/footer/footer.css";
 // Import CodeBlock to define custom element
 import CodeBlock from "@/components/CodeBlock.svelte";
 import Loading from "@/components/Loading.astro";
+import { covers } from "@/components/Images.astro";
 
 // Accept sidebar props from child pages
 interface PostMeta {
@@ -92,7 +93,7 @@ const siteState = {
 
     {
       themeConfig.cover?.enablePreload &&
-        themeConfig.cover?.covers?.map((cover) => (
+        covers?.map((cover) => (
           <link rel="preload" as="image" href={cover.src} />
         ))
     }
@@ -116,7 +117,7 @@ const siteState = {
         enablePreload={coverConfig.enablePreload}
         fixedCover={coverConfig.fixedCover}
         gradient={coverConfig.gradient}
-        covers={coverConfig.covers}
+        covers={covers}
         title={brandConfig.title}
       />
       <NavBar

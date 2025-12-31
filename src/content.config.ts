@@ -1,7 +1,5 @@
 import { glob } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
-import { sample } from "es-toolkit";
-import themeConfig from "./theme.config";
 
 const posts = defineCollection({
   loader: glob({

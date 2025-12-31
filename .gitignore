@@ -26,3 +26,6 @@ pnpm-debug.log*
 .turbo
 
 old_project
+
+.vercel
+.env*.local
