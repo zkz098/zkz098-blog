@@ -71,7 +71,7 @@ const transformedPosts = transformPosts(posts);
       <>
         <Divider title="置顶文章" />
         <div class="segments sticky">
-          <PostSegments posts={transformedStickyPosts} client:load />
+          <PostSegments posts={transformedStickyPosts} />
         </div>
       </>
     )
