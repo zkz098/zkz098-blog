@@ -105,12 +105,40 @@ const siteState = {
     }
 
     <title>{pageTitle}</title>
+    <script>
+      // 方法1: 检查元素是否在 DOM 中但未渲染
+      console.log(
+        "DOMContentLoaded时main存在吗:",
+        document.querySelector("main"),
+      );
+
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("DOMContentLoaded时main:", document.querySelector("main"));
+      });
+
+      window.addEventListener("load", () => {
+        console.log("Load时main:", document.querySelector("main"));
+      });
+
+      // 方法2: 持续检查
+      let checkCount = 0;
+      const interval = setInterval(() => {
+        const main = document.querySelector("main");
+        console.log(`检查 ${checkCount++}:`, {
+          exists: !!main,
+          visible: main?.offsetParent !== null,
+          computed: main ? getComputedStyle(main).display : "N/A",
+        });
+
+        if (checkCount > 20) clearInterval(interval);
+      }, 100);
+    </script>
   </head>
   <body>
     <div class="hidden">
       <CodeBlock client:only />
     </div>
-    <Loading />
+    <!-- <Loading /> -->
     <div id="container">
       <HeaderCover
         enableCover={coverConfig.enableCover}
@@ -120,18 +148,18 @@ const siteState = {
         covers={covers}
         title={brandConfig.title}
       />
-      <NavBar
-        client:load
-        name={siteName}
-        navLinks={navLinks}
-        clickToggleCallback={() => void 0}
-      />
       <Brand
         title={brandConfig.title}
         subtitle={brandConfig.subtitle}
         logo={brandConfig.logo}
         pageTitle={indexPage ? "" : pageTitle}
         postMeta={postMeta}
+      />
+      <NavBar
+        client:load
+        name={siteName}
+        navLinks={navLinks}
+        clickToggleCallback={() => void 0}
       />
       <Waves client:load />
       <main>
