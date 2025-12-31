@@ -1,21 +1,30 @@
 ---
-import type { CollectionEntry } from 'astro:content'
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  post: CollectionEntry<'posts'>
+  post: CollectionEntry<"posts">;
 }
 
-const { post } = Astro.props
-const postUrl = `/posts/${post.id}`
-const publicDescription = post.data.description || post.body?.substring(0, 300) || ''
-const lastCategory = post.data.categories?.[post.data.categories.length - 1]
+const { post } = Astro.props;
+const postUrl = `/posts/${post.id}`;
+const publicDescription =
+  post.data.description || post.body?.substring(0, 300) || "";
+const lastCategory = post.data.categories?.[post.data.categories.length - 1];
 ---
 
 <article class="post-card">
   <div class="cover">
     {
       post.data.cover && (
-        <img src={post.data.cover} alt={post.data.title} loading="lazy" decoding="async" class="cover-image" />
+        <Image
+          layout="constrained"
+          src={post.data.cover}
+          alt={post.data.title}
+          loading="lazy"
+          decoding="async"
+          class="cover-image"
+        />
       )
     }
     <div class="cover-overlay"></div>
@@ -120,7 +129,11 @@ const lastCategory = post.data.categories?.[post.data.categories.length - 1]
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(67, 67, 67, 0.3), rgba(0, 0, 0, 0.3));
+    background: linear-gradient(
+      135deg,
+      rgba(67, 67, 67, 0.3),
+      rgba(0, 0, 0, 0.3)
+    );
     z-index: 1;
   }
 
@@ -217,7 +230,11 @@ const lastCategory = post.data.categories?.[post.data.categories.length - 1]
     padding: 0.3rem 1rem;
     border-radius: 1rem 0;
     color: var(--grey-0);
-    background: linear-gradient(to right, var(--color-pink), var(--color-orange));
+    background: linear-gradient(
+      to right,
+      var(--color-pink),
+      var(--color-orange)
+    );
     text-decoration: none;
     font-size: 0.875rem;
     font-weight: 500;

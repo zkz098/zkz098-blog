@@ -1,5 +1,6 @@
 import type { NavItemType } from "@/components/navbar/NavTypes";
 import type { SidebarConfig } from "@/components/sidebar/SidebarTypes";
+import type { ImageMetadata } from "astro";
 
 interface BrandConfig {
   // 首页大标题
@@ -17,9 +18,9 @@ interface CoverConfig {
   enablePreload?: boolean;
   fixedCover?: string;
   gradient?: boolean;
-  covers?: string[];
+  covers?: ImageMetadata[];
   enableNextGradientCover?: boolean;
-  inferImageSize?: boolean
+  inferImageSize?: boolean;
 }
 
 interface FooterConfig {

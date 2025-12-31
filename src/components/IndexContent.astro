@@ -4,6 +4,7 @@ import PostSegments from "./PostSegments.astro";
 import CategoryCards from "./CategoryCards.svelte";
 import Divider from "./Divider.astro";
 import { countWords } from "@/toolkit/posts/calculateStats";
+import { getPostCover } from "@/toolkit/posts/getPostCover";
 
 interface CategoryItem {
   name: string;
@@ -51,7 +52,7 @@ function transformPosts(postList: CollectionEntry<"posts">[]) {
       url: `/posts/${post.id}`,
       date: post.data.date,
       excerpt: post.data.description || post.body?.substring(0, 300) || "",
-      cover: post.data.cover,
+      cover: getPostCover(post),
       category: lastCategory,
       categoryUrl: lastCategory ? `/categories/${lastCategory}` : undefined,
       wordCount,

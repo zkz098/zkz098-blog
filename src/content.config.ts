@@ -8,22 +8,21 @@ const posts = defineCollection({
     pattern: "**/*.md",
     base: "src/posts",
   }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string().optional(),
-    date: z.date().refine((date) => !Number.isNaN(date), {
-      message: "Invalid date format",
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string().optional(),
+      date: z.date().refine((date) => !Number.isNaN(date), {
+        message: "Invalid date format",
+      }),
+      updated: z.date().optional(),
+      tags: z.array(z.string()).optional(),
+      categories: z.array(z.string()).optional(),
+      draft: z.boolean().optional(),
+      cover: image().optional(),
+      sticky: z.boolean().optional(),
+      link: z.string().optional(),
     }),
-    updated: z.date().optional(),
-    tags: z.array(z.string()).optional(),
-    categories: z.array(z.string()).optional(),
-    draft: z.boolean().optional(),
-    cover: z.string().default(() => {
-      return sample(themeConfig.cover?.covers || []);
-    }),
-    sticky: z.boolean().optional(),
-    link: z.string().optional(),
-  }),
 });
 
 export const collections = {

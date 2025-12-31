@@ -93,7 +93,7 @@ const siteState = {
     {
       themeConfig.cover?.enablePreload &&
         themeConfig.cover?.covers?.map((cover) => (
-          <link rel="preload" as="image" href={cover} />
+          <link rel="preload" as="image" href={cover.src} />
         ))
     }
 

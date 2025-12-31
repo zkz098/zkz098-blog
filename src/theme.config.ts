@@ -1,6 +1,13 @@
 // cannot use path alias here because unocss can not resolve it
 import { defineConfig } from "./toolkit/themeConfig";
 
+import cover1 from "@/assets/images/cover-1.avif";
+import cover2 from "@/assets/images/cover-2.avif";
+import cover3 from "@/assets/images/cover-3.avif";
+import cover4 from "@/assets/images/cover-4.avif";
+import cover5 from "@/assets/images/cover-5.avif";
+import cover6 from "@/assets/images/cover-6.avif";
+
 export default defineConfig({
   siteName: "ShokaX",
   nav: [
@@ -44,14 +51,7 @@ export default defineConfig({
     // fixedCover: '/path/to/cover.jpg', // 固定封面模式
     // gradient: true, // 渐变模式
     enableNextGradientCover: false, // 文章导航使用渐变背景
-    covers: [
-      "https://img.cdn.kaitaku.xyz/cover-1.avif",
-      "https://img.cdn.kaitaku.xyz/cover-2.avif",
-      "https://img.cdn.kaitaku.xyz/cover-3.avif",
-      "https://img.cdn.kaitaku.xyz/cover-4.avif",
-      "https://img.cdn.kaitaku.xyz/cover-5.avif",
-      "https://img.cdn.kaitaku.xyz/cover-6.avif",
-    ],
+    covers: [cover1, cover2, cover3, cover4, cover5, cover6],
     inferImageSize: false,
   },
   sidebar: {
