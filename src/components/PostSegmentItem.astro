@@ -41,9 +41,7 @@ const {
             src={cover}
             layout="constrained"
             alt={title}
-            loading={lazy ? "lazy" : "eager"}
-            decoding="async"
-            fetchpriority="high"
+            priority={!lazy}
             format="avif"
           />
         </a>

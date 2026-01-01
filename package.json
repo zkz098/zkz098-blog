@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
+    "@astrojs/rss": "^4.0.14",
+    "@astrojs/sitemap": "^3.6.0",
     "@astrojs/svelte": "^7.2.4",
     "@ctrl/tinycolor": "^4.2.0",
     "@vtbag/element-crossing": "^1.1.0",

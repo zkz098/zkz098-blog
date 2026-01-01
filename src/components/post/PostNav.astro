@@ -1,20 +1,22 @@
 ---
-import { generateRandomBrightColor } from '@/toolkit/tools/generateRandomBrightColor'
+import { generateRandomBrightColor } from "@/toolkit/tools/generateRandomBrightColor";
+import { covers } from "../Images.astro";
+import { sample } from "es-toolkit";
 
 interface NavPost {
-  title: string
-  slug: string
-  category?: string
-  cover?: string
+  title: string;
+  slug: string;
+  category?: string;
+  cover?: string;
 }
 
 interface Props {
-  prevPost?: NavPost
-  nextPost?: NavPost
-  enableGradientCover?: boolean
+  prevPost?: NavPost;
+  nextPost?: NavPost;
+  enableGradientCover?: boolean;
 }
 
-const { prevPost, nextPost, enableGradientCover = false } = Astro.props
+const { prevPost, nextPost, enableGradientCover = false } = Astro.props;
 ---
 
 <div class="post-nav">
@@ -22,14 +24,14 @@ const { prevPost, nextPost, enableGradientCover = false } = Astro.props
     {
       prevPost && (
         <a
-          href={`/posts/${prevPost.slug}`}
+          href={`/posts/${prevPost.slug}/`}
           itemprop="url"
           rel="prev"
           title={prevPost.title}
           style={
             enableGradientCover
               ? `background-image: linear-gradient(to bottom right, ${generateRandomBrightColor()}, ${generateRandomBrightColor()});`
-              : `background-image: url(${prevPost.cover || '/default-cover.jpg'});`
+              : `background-image: url(${prevPost.cover || sample(covers ?? []).src});`
           }
         >
           <span class="type">上一篇</span>
@@ -49,14 +51,14 @@ const { prevPost, nextPost, enableGradientCover = false } = Astro.props
     {
       nextPost && (
         <a
-          href={`/posts/${nextPost.slug}`}
+          href={`/posts/${nextPost.slug}/`}
           itemprop="url"
           rel="next"
           title={nextPost.title}
           style={
             enableGradientCover
               ? `background-image: linear-gradient(to bottom right, ${generateRandomBrightColor()}, ${generateRandomBrightColor()});`
-              : `background-image: url(${nextPost.cover || '/default-cover.jpg'});`
+              : `background-image: url(${nextPost.cover || sample(covers ?? []).src});`
           }
         >
           <span class="type">下一篇</span>

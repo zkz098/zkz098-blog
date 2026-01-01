@@ -36,8 +36,7 @@ const animationDelay = isListItem ? `${index * 6}s` : '0s'
       alt={alt}
       layout='constrained'
       format='avif'
-      loading="eager"
-      fetchpriority="high"
+      priority={true}
       class="cover-image"
     />
   </li>
@@ -47,10 +46,9 @@ const animationDelay = isListItem ? `${index * 6}s` : '0s'
     src={src}
     alt={alt}
     layout='constrained'
-    loading="eager"
     format='avif'
-    fetchpriority="high"
     class="single-image"
+    priority={true}
   />
 )}
 

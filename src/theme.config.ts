@@ -44,7 +44,6 @@ export default defineConfig({
     // fixedCover: '/path/to/cover.jpg', // 固定封面模式
     // gradient: true, // 渐变模式
     enableNextGradientCover: false, // 文章导航使用渐变背景
-    inferImageSize: false,
   },
   sidebar: {
     author: "Your Name",
@@ -74,9 +73,9 @@ export default defineConfig({
     count: true,
     powered: true,
     icp: {
-      enable: false,
+      enable: true,
       // icon: '/beian-icon.png',
-      // icpnumber: 'ICP12345678',
+      icpnumber: "津ICP备2022001375号",
       // beian: '网安备案号',
       // recordcode: 'xxxxx',
     },

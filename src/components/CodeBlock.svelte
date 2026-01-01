@@ -264,16 +264,16 @@
   }
 
   /* 暗色模式适配 */
-  :global(html[data-theme="dark"]) .codeblock {
+  .dark .codeblock {
     box-shadow: none;
   }
 
-  :global(html[data-theme="dark"]) .content-wrapper ::slotted(pre) {
+  .dark .content-wrapper ::slotted(pre) {
     background-color: #1a1a1a !important;
   }
 
-  :global(html[data-theme="dark"]) :global(.shiki),
-  :global(html[data-theme="dark"]) :global(.shiki span) {
+  .dark :global(.shiki),
+  .dark :global(.shiki span) {
     font-style: var(--shiki-dark-font-style) !important;
     font-weight: var(--shiki-dark-font-weight) !important;
     text-decoration: var(--shiki-dark-text-decoration) !important;

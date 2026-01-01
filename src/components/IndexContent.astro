@@ -49,12 +49,12 @@ function transformPosts(postList: CollectionEntry<"posts">[]) {
 
     return {
       title: post.data.title,
-      url: `/posts/${post.id}`,
+      url: `/posts/${post.id}/`,
       date: post.data.date,
       excerpt: post.data.description || post.body?.substring(0, 300) || "",
       cover: getPostCover(post),
       category: lastCategory,
-      categoryUrl: lastCategory ? `/categories/${lastCategory}` : undefined,
+      categoryUrl: lastCategory ? `/categories/${lastCategory}/` : undefined,
       wordCount,
       readTime,
     };

@@ -18,7 +18,6 @@ interface CoverConfig {
   fixedCover?: string;
   gradient?: boolean;
   enableNextGradientCover?: boolean;
-  inferImageSize?: boolean;
 }
 
 interface FooterConfig {

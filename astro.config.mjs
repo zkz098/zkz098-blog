@@ -1,5 +1,6 @@
 import svelte from "@astrojs/svelte";
 import { defineConfig } from "astro/config";
+import sitemap from '@astrojs/sitemap';
 import esToolkitPlugin from "vite-plugin-es-toolkit";
 import transformerDirectives from "@unocss/transformer-directives";
 import { transformerColorizedBrackets } from "@shikijs/colorized-brackets";
@@ -31,7 +32,10 @@ export default defineConfig({
     // domains: ["img.cdn.kaitaku.xyz"]
   },
 
-  prefetch: true,
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "hover",
+  },
 
   integrations: [
     UnoCSS({
@@ -43,6 +47,8 @@ export default defineConfig({
         customElement: true,
       },
     }),
+    sitemap(),
+    
   ],
 
   vite: {

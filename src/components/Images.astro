@@ -20,8 +20,8 @@ import cover6 from "@/assets/images/cover-6.avif";
 
 export const covers = [cover1, cover2, cover3, cover4, cover5, cover6];
 
-export function getPostCover(post: Post): ImageMetadata {
-  if (post.data.cover) {
+export function getPostCover(post: Partial<Post>): ImageMetadata {
+  if (post?.data?.cover) {
     return post.data.cover;
   }
 
