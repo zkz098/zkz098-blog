@@ -21,6 +21,7 @@
     "@astrojs/svelte": "^7.2.4",
     "@ctrl/tinycolor": "^4.2.0",
     "@pagefind/default-ui": "^1.4.0",
+    "@unocss/extractor-svelte": "^66.5.12",
     "@vtbag/element-crossing": "^1.1.0",
     "astro": "^5.16.6",
     "cn-font-split": "^7.4.1",

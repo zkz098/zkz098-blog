@@ -1,5 +1,7 @@
 import { defineConfig, presetAttributify, presetIcons, presetWind4 } from "unocss";
 import themeConfig from "./src/theme.config";
+import extractorSvelte from "@unocss/extractor-svelte";
+import { transformerDirectives } from "unocss";
 
 const iconSafeList = themeConfig.nav.flatMap((item) => {
   const icons: string[] = [];
@@ -36,5 +38,7 @@ if (themeConfig.sidebar?.menu) {
 
 export default defineConfig({
   presets: [presetWind4(), presetIcons(), presetAttributify()],
+  extractors: [extractorSvelte()],
+  transformers: [transformerDirectives()],
   safelist: [...new Set(iconSafeList)],
 });

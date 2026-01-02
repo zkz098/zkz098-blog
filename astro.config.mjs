@@ -39,8 +39,7 @@ export default defineConfig({
 
   integrations: [
     UnoCSS({
-      injectReset: true,
-      transformers: [transformerDirectives()],
+      injectReset: true
     }),
     svelte({
       compilerOptions: {

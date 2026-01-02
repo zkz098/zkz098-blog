@@ -2,17 +2,22 @@
 
 <script lang="ts">
   import { onMount } from "svelte";
-  // import unoStyle from "unocss-inline/style";
   import { css } from "../assets/fonts/MapleMono-CN-Regular.ttf?subsets";
+  import ArrowDownSLine from "@/assets/icons/arrow-down-s-line.svg";
+  import ArrowUpSLine from "@/assets/icons/arrow-up-s-line.svg";
+  import CheckFill from "@/assets/icons/check-fill.svg";
+  import FileCopyFill from "@/assets/icons/file-copy-fill.svg";
 
   let container = $state<HTMLElement | null>(null);
   let copied = $state(false);
   let codeLanguage = $state("");
   let isDark = $state(false);
+  let isCollapsed = $state(false);
+  let shouldShowCollapse = $state(false);
 
-  // 复制逻辑
+  const COLLAPSE_THRESHOLD = 15;
+
   async function copyCode() {
-    // 获取 slot 元素，然后查询其分配的内容
     const slot = container?.querySelector("slot") as HTMLSlotElement;
     const assignedElements = slot?.assignedElements({ flatten: true }) ?? [];
     const preElement = assignedElements.find((el) => el.tagName === "PRE") as
@@ -21,7 +26,6 @@
 
     if (!preElement) return;
 
-    // 获取纯文本内容
     const code = preElement.textContent ?? "";
 
     try {
@@ -37,7 +41,6 @@
 
   // 获取语言逻辑
   function getCodeLanguage() {
-    // 获取 slot 分配的元素
     const slot = container?.querySelector("slot") as HTMLSlotElement;
     const assignedElements = slot?.assignedElements({ flatten: true }) ?? [];
     const preElement = assignedElements.find((el) => el.tagName === "PRE") as
@@ -45,23 +48,41 @@
       | undefined;
     if (!preElement) return "";
 
-    // 从 PRE 元素的 data-language 属性获取语言
     const language = preElement.getAttribute("data-language");
     return language ?? "";
   }
 
+  // 检查代码行数
+  function checkCodeLength() {
+    const slot = container?.querySelector("slot") as HTMLSlotElement;
+    const assignedElements = slot?.assignedElements({ flatten: true }) ?? [];
+    const preElement = assignedElements.find((el) => el.tagName === "PRE") as
+      | HTMLPreElement
+      | undefined;
+
+    if (!preElement) return;
+
+    const codeElement = preElement.querySelector("code");
+    if (!codeElement) return;
+
+    const lines = codeElement.querySelectorAll(".line");
+    if (lines.length > COLLAPSE_THRESHOLD) {
+      shouldShowCollapse = true;
+      isCollapsed = true;
+    }
+  }
+
+  function toggleCollapse() {
+    isCollapsed = !isCollapsed;
+  }
+
   onMount(async () => {
-    // FIXME: 经查证，unocss-inline 会导致严重 CLS 问题，现暂时禁用，寻找其他解决方案
-    // const unoStyle = await import("unocss-inline/style");
-    // 从插入的 DOM 中分析语言
     codeLanguage = getCodeLanguage();
 
-    // const shadowRoot = container?.getRootNode() as ShadowRoot | Document;
-    // if (shadowRoot instanceof ShadowRoot) {
-    //   shadowRoot.appendChild(unoStyle.default.cloneNode(true));
-    // } else {
-    //   container?.appendChild(unoStyle.default);
-    // }
+    // 延迟检查，确保内容已完全渲染
+    setTimeout(() => {
+      checkCodeLength();
+    }, 100);
   });
 
   const updateTheme = () => {
@@ -70,10 +91,8 @@
   };
 
   $effect(() => {
-    // 初始化
     updateTheme();
 
-    // 监听 html[data-theme] 变化
     const observer = new MutationObserver(updateTheme);
 
     observer.observe(document.documentElement, {
@@ -97,19 +116,39 @@
     </div>
     <div class="actions">
       <button
-        class="copy-btn {copied ? 'i-ri-check-fill' : 'i-ri-file-copy-fill'}"
+        class="copy-btn"
+        style="mask-image: url({copied
+          ? CheckFill.src
+          : FileCopyFill.src}); -webkit-mask-image: url({copied
+          ? CheckFill.src
+          : FileCopyFill.src});"
         onclick={copyCode}
         aria-label="Copy code"
       ></button>
     </div>
   </div>
 
-  <div
-    bind:this={container}
-    class="content-wrapper"
-    style="font-family: {css.family};"
-  >
-    <slot />
+  <div class="content-container {isCollapsed ? 'collapsed' : ''}">
+    <div
+      bind:this={container}
+      class="content-wrapper"
+      style="font-family: {css.family};"
+    >
+      <slot />
+    </div>
+
+    {#if shouldShowCollapse}
+      <button
+        class="collapse-btn"
+        style="mask-image: url({isCollapsed
+          ? ArrowDownSLine.src
+          : ArrowUpSLine.src}); -webkit-mask-image: url({isCollapsed
+          ? ArrowDownSLine.src
+          : ArrowUpSLine.src});"
+        onclick={toggleCollapse}
+        aria-label={isCollapsed ? "Expand code" : "Collapse code"}
+      ></button>
+    {/if}
   </div>
 </div>
 
@@ -172,20 +211,93 @@
     display: flex;
     flex-direction: row;
     padding-right: 1.5rem;
-    padding-top: 0.5rem;
     color: var(--grey-5);
   }
 
   .copy-btn {
     border: none;
     cursor: pointer;
-    color: var(--grey-5);
-    font-size: 1.1rem;
-    transition: color 0.2s;
+    background-color: var(--grey-5);
+    width: 1.1rem;
+    height: 1.1rem;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    transition: background-color 0.2s;
   }
 
   .copy-btn:hover {
-    color: var(--grey-4);
+    background-color: var(--grey-4);
+  }
+
+  /* 内容容器 - 支持折叠 */
+  .content-container {
+    position: relative;
+    transition: max-height 0.3s ease-in-out;
+  }
+
+  .content-container.collapsed {
+    max-height: 400px;
+    overflow: hidden;
+  }
+
+  .content-container.collapsed::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, var(--grey-3));
+    pointer-events: none;
+  }
+
+  .collapse-btn {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--grey-5);
+    border: 1px solid var(--grey-4);
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    mask-size: 1.75rem;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: 1.25rem;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    animation: float 2s ease-in-out infinite;
+    scale: 1.5;
+  }
+
+  .collapse-btn:hover {
+    background-color: var(--grey-6);
+    transform: translateX(-50%) scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  /* 飘动动画 */
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      transform: translateX(-50%) translateY(-6px);
+    }
+  }
+
+  .collapse-btn:hover {
+    animation-play-state: paused;
   }
 
   /* 核心：处理插槽内的样式 */

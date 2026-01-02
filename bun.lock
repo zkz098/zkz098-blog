@@ -11,6 +11,7 @@
         "@astrojs/svelte": "^7.2.4",
         "@ctrl/tinycolor": "^4.2.0",
         "@pagefind/default-ui": "^1.4.0",
+        "@unocss/extractor-svelte": "^66.5.12",
         "@vtbag/element-crossing": "^1.1.0",
         "astro": "^5.16.6",
         "cn-font-split": "^7.4.1",
@@ -443,6 +444,8 @@
     "@unocss/core": ["@unocss/core@66.5.12", "https://registry.npmmirror.com/@unocss/core/-/core-66.5.12.tgz", {}, "sha512-/m6su0OXcCYRwIMf8sobBjZTC25iBLUnQVcfyvHOJwLJzOMr8dtNmZbqTs7+Kouz40jlPF7pR+ufFrN+s5ZD7g=="],
 
     "@unocss/extractor-arbitrary-variants": ["@unocss/extractor-arbitrary-variants@66.5.12", "https://registry.npmmirror.com/@unocss/extractor-arbitrary-variants/-/extractor-arbitrary-variants-66.5.12.tgz", { "dependencies": { "@unocss/core": "66.5.12" } }, "sha512-UGzHhLaaSu/YT0rmXtdoE1ttLvwWsI/RVTwNNy3QnL/y4Hvmo7T1MtG5Ri5btfqfDWPzrQLQiTvI8loGCD8lFQ=="],
+
+    "@unocss/extractor-svelte": ["@unocss/extractor-svelte@66.5.12", "https://registry.npmmirror.com/@unocss/extractor-svelte/-/extractor-svelte-66.5.12.tgz", {}, "sha512-BXCTtmdr8Ydj+NKwk5pHOyq/duqSKFXbp39uAf7NuM9GykY6vAZ3wnzt92yyOzo2mOPeNTI2VB2Opz2hT672QQ=="],
 
     "@unocss/inspector": ["@unocss/inspector@66.5.12", "https://registry.npmmirror.com/@unocss/inspector/-/inspector-66.5.12.tgz", { "dependencies": { "@unocss/core": "66.5.12", "@unocss/rule-utils": "66.5.12", "colorette": "^2.0.20", "gzip-size": "^6.0.0", "sirv": "^3.0.2", "vue-flow-layout": "^0.2.0" } }, "sha512-X8Ygo842Yy0g46JNlgUGvqDhvr5BuVfFwMJeWSFJBYHzPKsZFxTU29aGxNDNDascTnNdWjZZqerPpG5esa+K2Q=="],
 

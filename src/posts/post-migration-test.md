@@ -49,6 +49,36 @@ function greet(name: string): string {
 }
 
 console.log(greet('ShokaX'))
+function greet(name: string): string {
+  return `Hello, ${name}!`
+}
+
+console.log(greet('ShokaX'))
+function greet(name: string): string {
+  return `Hello, ${name}!`
+}
+
+console.log(greet('ShokaX'))
+function greet(name: string): string {
+  return `Hello, ${name}!`
+}
+
+console.log(greet('ShokaX'))
+function greet(name: string): string {
+  return `Hello, ${name}!`
+}
+
+console.log(greet('ShokaX'))
+function greet(name: string): string {
+  return `Hello, ${name}!`
+}
+
+console.log(greet('ShokaX'))
+function greet(name: string): string {
+  return `Hello, ${name}!`
+}
+
+console.log(greet('ShokaX'))
 ```
 
 ## 列表示例
