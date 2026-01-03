@@ -70,11 +70,11 @@ const categories = Array.from(categoryMap.entries())
     cover: themeConfig.home?.selectedCategories?.find(
       (cat) => cat.name === name,
     )?.cover,
-    url: `/categories/${name}`,
+    url: `/categories/${name}/`,
     postCount: data.posts.length,
     posts: data.posts.slice(0, 6).map((p) => ({
       title: p.title,
-      url: `/posts/${p.slug}`,
+      url: `/posts/${p.slug}/`,
     })),
   }))
   .sort((a, b) => b.postCount - a.postCount);
