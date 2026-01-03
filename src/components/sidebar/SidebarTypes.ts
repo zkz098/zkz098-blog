@@ -4,7 +4,6 @@ import type { ImageMetadata } from "astro";
 export interface SidebarConfig {
   author?: string;
   description?: string;
-  avatar?: ImageMetadata;
   social?: Record<string, SocialLink>;
   menu?: NavItemType[];
 }

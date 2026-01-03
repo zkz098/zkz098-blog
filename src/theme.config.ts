@@ -1,6 +1,5 @@
 // cannot use path alias here because unocss can not resolve it
 import { defineConfig } from "./toolkit/themeConfig";
-import avatar from "./assets/avatar.avif";
 
 export default defineConfig({
   siteName: "ShokaX",
@@ -49,7 +48,6 @@ export default defineConfig({
   sidebar: {
     author: "Your Name",
     description: "A brief introduction",
-    avatar: avatar, // 使用ImageMetadata
     social: {
       github: {
         url: "https://github.com/yourname",
