@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { QuickNavigation } from "./SidebarTypes";
   import { onMount } from "svelte";
+  import { t } from "@/i18n";
 
   interface Props {
     navigation?: QuickNavigation;
@@ -50,19 +51,27 @@
       <a
         href={navigation.prevUrl}
         rel="prev"
-        title={navigation.prevTitle || "上一页"}
+        title={navigation.prevTitle || t("pagination.prev")}
       >
         <i class="ic i-ri-arrow-left-s-line"></i>
       </a>
     {/if}
   </li>
   <li class="up">
-    <button type="button" onclick={scrollToTop} aria-label="回到顶部">
+    <button
+      type="button"
+      onclick={scrollToTop}
+      aria-label={t("sidebar.scrollTop")}
+    >
       <i class="ic i-ri-arrow-up-line"></i>
     </button>
   </li>
   <li class="down">
-    <button type="button" onclick={scrollToBottom} aria-label="去到底部">
+    <button
+      type="button"
+      onclick={scrollToBottom}
+      aria-label={t("sidebar.scrollBottom")}
+    >
       <i class="ic i-ri-arrow-down-line"></i>
     </button>
   </li>
@@ -71,7 +80,7 @@
       <a
         href={navigation.nextUrl}
         rel="next"
-        title={navigation.nextTitle || "下一页"}
+        title={navigation.nextTitle || t("pagination.next")}
       >
         <i class="ic i-ri-arrow-right-s-line"></i>
       </a>

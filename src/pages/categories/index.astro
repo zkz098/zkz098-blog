@@ -1,23 +1,27 @@
 ---
-import Layout from '../../layouts/Layout.astro'
-import { getCollection } from 'astro:content'
-import { formatCategories, type Category } from '@/toolkit/posts/formatCategories'
-import '../../styles/collapse.css'
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import {
+  formatCategories,
+  type Category,
+} from "@/toolkit/posts/formatCategories";
+import { t } from "@/i18n";
+import "../../styles/collapse.css";
 
 // Get all published posts
-const allPosts = await getCollection('posts')
-const publishedPosts = allPosts.filter((post) => !post.data.draft)
+const allPosts = await getCollection("posts");
+const publishedPosts = allPosts.filter((post) => !post.data.draft);
 
 // Create a map to track category hierarchy
 // Categories format: ["Parent", "Child", "Grandchild"] - array represents path
-const categoryMap = new Map<string, Category>()
+const categoryMap = new Map<string, Category>();
 
 publishedPosts.forEach((post) => {
-  const categories = post.data.categories || []
+  const categories = post.data.categories || [];
 
   // Build hierarchy from category array
   categories.forEach((cat, index) => {
-    const catId = cat.toLowerCase().replace(/\s+/g, '-')
+    const catId = cat.toLowerCase().replace(/\s+/g, "-");
 
     if (!categoryMap.has(catId)) {
       categoryMap.set(catId, {
@@ -25,48 +29,48 @@ publishedPosts.forEach((post) => {
         name: cat,
         posts: [],
         length: 0,
-      })
+      });
     }
 
     // Set parent relationship (previous category in array is parent)
     if (index > 0) {
-      const parentCat = categories[index - 1]
-      const parentId = parentCat.toLowerCase().replace(/\s+/g, '-')
-      categoryMap.get(catId)!.parent = parentId
+      const parentCat = categories[index - 1];
+      const parentId = parentCat.toLowerCase().replace(/\s+/g, "-");
+      categoryMap.get(catId)!.parent = parentId;
     }
 
     // Add post to the deepest category only
     if (index === categories.length - 1) {
-      const catData = categoryMap.get(catId)!
-      catData.posts.push(post)
-      catData.length = catData.posts.length
+      const catData = categoryMap.get(catId)!;
+      catData.posts.push(post);
+      catData.length = catData.posts.length;
     }
-  })
-})
+  });
+});
 
 // Update length counts for parent categories
 categoryMap.forEach((cat) => {
   if (cat.parent) {
-    const parent = categoryMap.get(cat.parent)
+    const parent = categoryMap.get(cat.parent);
     if (parent) {
-      parent.length += cat.length
+      parent.length += cat.length;
     }
   }
-})
+});
 
 // Convert to array and format with depth 3
-const categoriesArray = Array.from(categoryMap.values())
-const hierarchicalCategories = formatCategories(categoriesArray, { depth: 3 })
+const categoriesArray = Array.from(categoryMap.values());
+const hierarchicalCategories = formatCategories(categoriesArray, { depth: 3 });
 
 // Helper to render category item based on level
 function getCategoryUrl(name: string): string {
-  return `/categories/${encodeURIComponent(name)}`
+  return `/categories/${encodeURIComponent(name)}`;
 }
 
-type CategoryWithChildren = Category & { children?: CategoryWithChildren[] }
+type CategoryWithChildren = Category & { children?: CategoryWithChildren[] };
 ---
 
-<Layout pageTitle="全部分类">
+<Layout pageTitle={t("category.title")}>
   <div class="wrap">
     <div class="timeline">
       {
@@ -93,7 +97,10 @@ type CategoryWithChildren = Category & { children?: CategoryWithChildren[] }
                     child.children.map((grandchild: CategoryWithChildren) => (
                       <div class="item normal">
                         <div class="title">
-                          <a href={getCategoryUrl(grandchild.name)} itemprop="url">
+                          <a
+                            href={getCategoryUrl(grandchild.name)}
+                            itemprop="url"
+                          >
                             {grandchild.name}
                           </a>
                           <small>( {grandchild.length} )</small>
@@ -109,7 +116,7 @@ type CategoryWithChildren = Category & { children?: CategoryWithChildren[] }
       {
         hierarchicalCategories.length === 0 && (
           <div class="empty-state">
-            <p>暂无分类</p>
+            <p>{t("post.noContent")}</p>
           </div>
         )
       }

@@ -1,6 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import Sidebar from "./Sidebar.svelte";
+import { getT } from "@/i18n";
+import themeConfig from "@/theme.config";
 import type { NavItemType } from "../navbar/NavTypes";
 import type {
   TocItem,
@@ -41,6 +43,9 @@ const {
     tags: 0,
   },
 } = Astro.props;
+
+const t = getT((themeConfig.locale as "zh-CN" | "en") || "zh-CN");
+const authorLabel = config.author || t("post.author");
 ---
 
 <Sidebar
@@ -57,7 +62,7 @@ const {
     (
       <Image
         src={avatar}
-        alt={config.author || "Author"}
+        alt={authorLabel}
         priority
         quality="high"
         layout="constrained"

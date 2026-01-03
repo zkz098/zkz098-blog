@@ -1,6 +1,7 @@
 <script lang="ts">
   import { shuffle } from "es-toolkit";
   import { onMount } from "svelte";
+  import { t } from "@/i18n";
 
   interface Post {
     id: string;
@@ -79,7 +80,9 @@
   <!-- Random Posts Widget -->
   {#if enableRandomPosts && randomPosts.length > 0}
     <div class="rpost px-4 py-4 w-1/2">
-      <h2 class="text-base font-semibold m-0 mb-4">Random Posts</h2>
+      <h2 class="text-base font-semibold m-0 mb-4">
+        {t("footer.randomPosts")}
+      </h2>
       <ul class="post-list m-0 p-0 list-none">
         {#each randomPosts as post}
           <li

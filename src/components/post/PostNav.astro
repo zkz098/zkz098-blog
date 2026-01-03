@@ -1,4 +1,6 @@
 ---
+import { getT } from "@/i18n";
+import themeConfig from "@/theme.config";
 import { generateRandomBrightColor } from "@/toolkit/tools/generateRandomBrightColor";
 import { covers } from "../Images.astro";
 import { sample } from "es-toolkit";
@@ -17,6 +19,7 @@ interface Props {
 }
 
 const { prevPost, nextPost, enableGradientCover = false } = Astro.props;
+const t = getT((themeConfig.locale as "zh-CN" | "en") || "zh-CN");
 ---
 
 <div class="post-nav">
@@ -34,7 +37,7 @@ const { prevPost, nextPost, enableGradientCover = false } = Astro.props;
               : `background-image: url(${prevPost.cover || sample(covers ?? []).src});`
           }
         >
-          <span class="type">上一篇</span>
+          <span class="type">{t("post.previousPost")}</span>
           {prevPost.category && (
             <span class="category">
               <i class="ic i-ri-flag-line" />
@@ -61,7 +64,7 @@ const { prevPost, nextPost, enableGradientCover = false } = Astro.props;
               : `background-image: url(${nextPost.cover || sample(covers ?? []).src});`
           }
         >
-          <span class="type">下一篇</span>
+          <span class="type">{t("post.nextPost")}</span>
           {nextPost.category && (
             <span class="category">
               <i class="ic i-ri-flag-line" />

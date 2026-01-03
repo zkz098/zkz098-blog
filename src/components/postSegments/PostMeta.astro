@@ -1,4 +1,6 @@
 ---
+import { t } from "@/i18n";
+
 export interface Props {
   date: Date;
   showLabel?: boolean;
@@ -15,16 +17,19 @@ const formatDate = (d: Date) =>
     day: "numeric",
   });
 
-const formatReadTime = (minutes: number) => `${minutes} 分钟`;
+const formatReadTime = (minutes: number) => `${minutes} ${t("post.minutes")}`;
 ---
 
 <div class={`post-meta${showLabel ? " full" : ""}`}>
-  <span class="meta-item" title={`发布于：${date.toLocaleString()}`}>
+  <span
+    class="meta-item"
+    title={`${t("post.publishedAt")}：${date.toLocaleString()}`}
+  >
     <span class="icon">
       <i class="i-ri-calendar-line"></i>
     </span>
 
-    {showLabel && <span class="text">发布于</span>}
+    {showLabel && <span class="text">{t("post.publishedAt")}</span>}
 
     <time datetime={date.toISOString()}>
       {formatDate(date)}
@@ -33,21 +38,23 @@ const formatReadTime = (minutes: number) => `${minutes} 分钟`;
 
   {
     wordCount && (
-      <span class="meta-item" title="字数统计">
+      <span class="meta-item" title={t("post.wordCount")}>
         <span class="icon">
           <i class="i-ri-pencil-line" />
         </span>
 
-        {showLabel && <span class="text">字数</span>}
+        {showLabel && <span class="text">{t("post.wordCount")}</span>}
 
-        <span>{wordCount} 字</span>
+        <span>
+          {wordCount} {t("post.words")}
+        </span>
       </span>
     )
   }
 
   {
     readTime && (
-      <span class="meta-item" title="阅读时长">
+      <span class="meta-item" title={t("post.readingTime")}>
         <span class="icon">
           <i class="i-ri-time-line" />
         </span>

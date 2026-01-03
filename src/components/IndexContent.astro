@@ -5,6 +5,7 @@ import CategoryCards from "./categoryCard/CategoryCards.svelte";
 import Divider from "./Divider.astro";
 import { countWords } from "@/toolkit/posts/calculateStats";
 import { getPostCover } from "./Images.astro";
+import { t } from "@/i18n";
 
 interface CategoryItem {
   name: string;
@@ -69,7 +70,7 @@ const transformedPosts = transformPosts(posts);
   {
     isFirstPage && transformedStickyPosts.length > 0 && (
       <section class="sticky-section">
-        <Divider title="置顶文章" />
+        <Divider title={t("post.sticky")} />
         <div class="segments sticky">
           <PostSegments posts={transformedStickyPosts} />
         </div>
@@ -80,7 +81,7 @@ const transformedPosts = transformPosts(posts);
   {
     isFirstPage && categories.length > 0 && (
       <section class="categories-section">
-        <Divider title="分类" />
+        <Divider title={t("category.title")} />
         <div class="cards">
           <CategoryCards categories={categories} client:load />
         </div>
@@ -91,7 +92,7 @@ const transformedPosts = transformPosts(posts);
   {
     transformedPosts.length > 0 ? (
       <section class="posts-section">
-        {isFirstPage && <Divider title="最新文章" />}
+        {isFirstPage && <Divider title={t("post.latest")} />}
         <div class="segments posts">
           <PostSegments posts={transformedPosts} />
         </div>
@@ -99,7 +100,7 @@ const transformedPosts = transformPosts(posts);
     ) : (
       <section class="no-posts-section">
         <div class="no-posts">
-          <p>暂无文章</p>
+          <p>{t("post.noContent")}</p>
         </div>
       </section>
     )

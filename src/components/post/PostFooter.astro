@@ -1,4 +1,6 @@
 ---
+import { t } from "@/i18n";
+
 interface Props {
   date: Date;
   updated?: Date;
@@ -88,7 +90,7 @@ const hasUpdated = updated && formatDate(date) !== formatDate(updated);
         <ul>
           <li class="author">
             <div class="icon i-ri-account-circle-line" />
-            <strong>文章作者: </strong>
+            <strong>{t("post.author")}: </strong>
             {author}
             <i class="ic i-ri-at-line">
               <em>@</em>
@@ -97,14 +99,14 @@ const hasUpdated = updated && formatDate(date) !== formatDate(updated);
           </li>
           <li class="link">
             <div class="icon i-ri-link" />
-            <strong>文章链接: </strong>
+            <strong>{t("post.link")}: </strong>
             <a href={permalink} title={title}>
               {permalink}
             </a>
           </li>
           <li class="license">
             <div class="icon i-ri-copyright-line" />
-            <strong>版权声明: </strong>
+            <strong>{t("post.copyright")}: </strong>
             本文采用
             <a
               href="https://creativecommons.org/licenses/by-nc-sa/4.0/"

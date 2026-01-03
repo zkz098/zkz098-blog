@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { getT } from "@/i18n";
+  import themeConfig from "@/theme.config";
   import type { RelatedPost } from "./SidebarTypes";
 
   interface Props {
@@ -7,6 +9,7 @@
   }
 
   const { posts = [], currentSlug = "" }: Props = $props();
+  const t = getT((themeConfig.locale as "zh-CN" | "en") || "zh-CN");
 </script>
 
 <div class="related">
@@ -21,7 +24,7 @@
       {/each}
     </ul>
   {:else}
-    <p class="no-related">No related posts</p>
+    <p class="no-related">{t("sidebar.related.noContent")}</p>
   {/if}
 </div>
 

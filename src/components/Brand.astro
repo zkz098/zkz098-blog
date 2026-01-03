@@ -1,4 +1,6 @@
 ---
+import { t } from "@/i18n";
+
 interface PostMeta {
   date: Date;
   wordCount: number;
@@ -77,23 +79,34 @@ function formatWordCount(count: number): string {
         <div class="meta text-base mt-2.5 opacity-80 flex flex-wrap gap-3 items-center justify-center">
           <span
             class="item flex gap-1 items-center"
-            title={`发表于 ${formatDate(postMeta.date)}`}
+            title={`${t("post.publishedAt")} ${formatDate(postMeta.date)}`}
           >
             <i class="i-ri-calendar-line" />
-            <span class="text">发表于</span>
+            <span class="text">{t("post.publishedAt")}</span>
             <time datetime={postMeta.date.toISOString()}>
               {formatDate(postMeta.date)}
             </time>
           </span>
-          <span class="item flex gap-1 items-center" title="本文字数">
+          <span
+            class="item flex gap-1 items-center"
+            title={t("post.wordCount")}
+          >
             <i class="i-ri-quill-pen-line" />
-            <span class="text">本文字数</span>
-            <span>{formatWordCount(postMeta.wordCount)}字</span>
+            <span class="text">{t("post.wordCount")}</span>
+            <span>
+              {formatWordCount(postMeta.wordCount)}
+              {t("post.words")}
+            </span>
           </span>
-          <span class="item flex gap-1 items-center" title="阅读时长">
+          <span
+            class="item flex gap-1 items-center"
+            title={t("post.readingTime")}
+          >
             <i class="i-ri-time-line" />
-            <span class="text">阅读时长</span>
-            <span>{postMeta.readTime} 分钟</span>
+            <span class="text">{t("post.readingTime")}</span>
+            <span>
+              {postMeta.readTime} {t("post.minutes")}
+            </span>
           </span>
         </div>
       )

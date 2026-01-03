@@ -3,6 +3,7 @@ import Layout from "../../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import { structurePostsByDate } from "@/toolkit/posts/structurePostsByDate";
 import { fmtNum } from "@/toolkit/tools/fmtNum";
+import { t } from "@/i18n";
 import "../../../styles/collapse.css";
 
 export async function getStaticPaths() {
@@ -134,7 +135,7 @@ function formatDate(date: Date): string {
                     ) : (
                       <a href={`/posts/${post.id}/`} itemprop="url">
                         <span itemprop="name">
-                          {post.data.title || "未命名"}
+                          {post.data.title || t("post.noContent")}
                         </span>
                       </a>
                     )}

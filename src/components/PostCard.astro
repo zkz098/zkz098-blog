@@ -1,12 +1,14 @@
 ---
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
+import { getT } from "@/i18n";
 
 interface Props {
   post: CollectionEntry<"posts">;
 }
 
 const { post } = Astro.props;
+const t = getT();
 const postUrl = `/posts/${post.id}/`;
 const publicDescription =
   post.data.description || post.body?.substring(0, 300) || "";
@@ -59,7 +61,7 @@ const lastCategory = post.data.categories?.[post.data.categories.length - 1];
       )
     }
 
-    <a href={postUrl} class="read-more-btn"> Read More </a>
+    <a href={postUrl} class="read-more-btn"> {t("button.readMore")} </a>
   </div>
 </article>
 

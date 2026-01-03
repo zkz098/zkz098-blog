@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import { structurePostsByDate } from "@/toolkit/posts/structurePostsByDate";
 import { fmtNum } from "@/toolkit/tools/fmtNum";
+import { t } from "@/i18n";
 import "../../styles/collapse.css";
 
 // Get all published posts sorted by date
@@ -41,27 +42,30 @@ function formatDate(date: Date): string {
 }
 ---
 
-<Layout pageTitle="归档">
+<Layout pageTitle={t("archive.title")}>
   <div class="wrap">
     <div class="timeline">
       <h2 class="item header">
-        <a href="/">首页</a>
+        <a href="/">{t("nav.home")}</a>
         <small>/</small>
-        目前共计 {totalPosts} 篇文章。
+        {t("common.total")}
+        {totalPosts}
+        {t("category.posts")}。
         <small class="cheers"
           >{
             cheers === "excellent"
-              ? "太棒了"
+              ? t("archive.excellent")
               : cheers === "great"
-                ? "非常好"
+                ? t("archive.great")
                 : cheers === "good"
-                  ? "很好"
+                  ? t("archive.good")
                   : cheers === "nice"
-                    ? "不错"
+                    ? t("archive.nice")
                     : cheers === "ok"
-                      ? "还行"
-                      : "嗯.."
-          } 继续努力。</small
+                      ? t("archive.ok")
+                      : t("archive.emh")
+          }
+          {t("archive.keepTrying")}。</small
         >
       </h2>
 
@@ -91,10 +95,12 @@ function formatDate(date: Date): string {
               <>
                 {(index === 0 || month !== prevMonth) && (
                   <h3 class="item section">
-                    <a href={`/archives/${year}`}>{year} 年</a>
+                    <a href={`/archives/${year}`}>
+                      {year} {t("archive.year")}
+                    </a>
                     <small>/</small>
                     <a href={`/archives/${year}/${fmtNum(month)}`}>
-                      {month} 月
+                      {month} {t("archive.month")}
                     </a>
                     <small>({monthPostCount})</small>
                   </h3>
@@ -145,7 +151,7 @@ function formatDate(date: Date): string {
                     ) : (
                       <a href={`/posts/${post.id}/`} itemprop="url">
                         <span itemprop="name">
-                          {post.data.title || "未命名"}
+                          {post.data.title || t("post.noContent")}
                         </span>
                       </a>
                     )}

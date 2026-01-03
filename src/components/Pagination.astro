@@ -1,4 +1,6 @@
 ---
+import { getT } from "@/i18n";
+
 interface Props {
   currentPage: number;
   lastPage: number;
@@ -56,6 +58,7 @@ function buildPageItems(current: number, last: number): Array<number | "…"> {
 }
 
 const items = buildPageItems(safeCurrent, safeLast);
+const t = getT();
 ---
 
 {
@@ -64,7 +67,7 @@ const items = buildPageItems(safeCurrent, safeLast);
       <div class="inner">
         {prevHref ? (
           <a class="prev" href={prevHref} rel="prev">
-            上一页
+            {t("pagination.prev")}
           </a>
         ) : null}
 
@@ -86,7 +89,7 @@ const items = buildPageItems(safeCurrent, safeLast);
 
         {nextHref ? (
           <a class="next" href={nextHref} rel="next">
-            下一页
+            {t("pagination.next")}
           </a>
         ) : null}
       </div>

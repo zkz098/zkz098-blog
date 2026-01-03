@@ -26,6 +26,7 @@
     "astro": "^5.16.6",
     "cn-font-split": "^7.4.1",
     "es-toolkit": "^1.43.0",
+    "i18next": "^25.7.3",
     "katex": "^0.16.27",
     "pagefind": "^1.4.0",
     "rehype-autolink-headings": "^7.1.0",

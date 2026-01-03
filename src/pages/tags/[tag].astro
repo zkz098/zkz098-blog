@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
+import { t } from "@/i18n";
 import "../../styles/collapse.css";
 
 export async function getStaticPaths() {
@@ -65,10 +66,10 @@ function getLastCategory(categories: string[]): string | undefined {
   <div class="wrap">
     <div class="timeline">
       <h2 class="item header">
-        <a href="/tags/">所有标签</a>
+        <a href="/tags/">{t("tags.allTags")}</a>
         <small>/</small>
         {tag}
-        <small>标签</small>
+        <small>{t("tags.tagged")}</small>
       </h2>
 
       {
@@ -117,7 +118,9 @@ function getLastCategory(categories: string[]): string | undefined {
                     href={`/posts/${post.id.replace(/\.md$/, "")}/`}
                     itemprop="url"
                   >
-                    <span itemprop="name">{post.data.title || "未命名"}</span>
+                    <span itemprop="name">
+                      {post.data.title || t("post.noContent")}
+                    </span>
                   </a>
                 )}
               </div>

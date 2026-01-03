@@ -1,6 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
+import { getT } from "@/i18n";
+import themeConfig from "@/theme.config";
 import "../../styles/collapse.css";
 
 export async function getStaticPaths() {
@@ -26,6 +28,7 @@ interface Props {
 }
 
 const { category } = Astro.props;
+const t = getT((themeConfig.locale as "zh-CN" | "en") || "zh-CN");
 
 // Get all published posts
 const allPosts = await getCollection("posts");
@@ -119,7 +122,7 @@ let currentSlug = "c";
         }
         <small>/</small>
         {category}
-        <small>分类</small>
+        <small>{t("category.label")}</small>
       </h2>
 
       {
@@ -185,7 +188,7 @@ let currentSlug = "c";
       {
         sortedPosts.length === 0 && (
           <div class="empty-state">
-            <p>该分类下暂无文章</p>
+            <p>{t("category.noContent")}</p>
           </div>
         )
       }

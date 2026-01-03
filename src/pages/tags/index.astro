@@ -1,62 +1,67 @@
 ---
-import Layout from '../../layouts/Layout.astro'
-import { getCollection } from 'astro:content'
-import { generateTagCloud } from '@/toolkit/posts/generateTagCloud'
-import '../../styles/tags.css'
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { generateTagCloud } from "@/toolkit/posts/generateTagCloud";
+import { t } from "@/i18n";
+import "../../styles/tags.css";
 
 // Get all published posts
-const allPosts = await getCollection('posts')
-const publishedPosts = allPosts.filter((post) => !post.data.draft)
+const allPosts = await getCollection("posts");
+const publishedPosts = allPosts.filter((post) => !post.data.draft);
 
 // Collect all tags with their counts
 interface TagCount {
-  name: string
-  count: number
+  name: string;
+  count: number;
 }
 
-const tagMap = new Map<string, number>()
+const tagMap = new Map<string, number>();
 
 publishedPosts.forEach((post) => {
-  const tags = post.data.tags || []
+  const tags = post.data.tags || [];
   tags.forEach((tag) => {
-    tagMap.set(tag, (tagMap.get(tag) || 0) + 1)
-  })
-})
+    tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
+  });
+});
 
 // Convert to array and generate tag cloud
 const tags: TagCount[] = Array.from(tagMap.entries()).map(([name, count]) => ({
   name,
   count,
-}))
+}));
 
 // Generate tag cloud with colors and font sizes
 const tagCloud = generateTagCloud(tags, {
   minFontSize: 12,
   maxFontSize: 30,
-  startColor: '#8a8a8a',
-  endColor: '#0084ff',
+  startColor: "#8a8a8a",
+  endColor: "#0084ff",
   limit: 200,
-})
+});
 
 // Sort tag cloud alphabetically for display
-const sortedTagCloud = [...tagCloud].sort((a, b) => a.name.localeCompare(b.name))
+const sortedTagCloud = [...tagCloud].sort((a, b) =>
+  a.name.localeCompare(b.name),
+);
 
 // Total tag count
-const totalTags = tags.length
+const totalTags = tags.length;
 
 // Helper to get tag URL
 function getTagUrl(tagName: string): string {
-  return `/tags/${encodeURIComponent(tagName.toLowerCase().replace(/\s+/g, '-'))}`
+  return `/tags/${encodeURIComponent(tagName.toLowerCase().replace(/\s+/g, "-"))}`;
 }
 ---
 
-<Layout pageTitle="全部标签">
+<Layout pageTitle={t("tag.title")}>
   <div class="wrap">
     <div class="tag-cloud-container">
       <h2 class="item header">
-        <a href="/">首页</a>
+        <a href="/">{t("nav.home")}</a>
         <small>/</small>
-        目前共计 {totalTags} 个标签
+        {t("common.total")}
+        {totalTags}
+        {t("tag.title")}
       </h2>
 
       <div class="tag-cloud">

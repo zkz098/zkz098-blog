@@ -3,6 +3,7 @@ import { defineConfig } from "./toolkit/themeConfig";
 
 export default defineConfig({
   siteName: "ShokaX",
+  locale: "zh-CN", // 网站语言: "zh-CN" | "en"
   nav: [
     {
       href: "/",

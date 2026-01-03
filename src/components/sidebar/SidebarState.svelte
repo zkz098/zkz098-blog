@@ -1,39 +1,42 @@
-<script lang='ts'>
+<script lang="ts">
+  import { getT } from "@/i18n";
+  import themeConfig from "@/theme.config";
 
   interface Props {
     state: {
-      categories: number
-      posts: number
-      tags: number
-    }
+      categories: number;
+      posts: number;
+      tags: number;
+    };
   }
 
-  const { state }: Props = $props()
+  const { state }: Props = $props();
+  const t = getT((themeConfig.locale as "zh-CN" | "en") || "zh-CN");
 </script>
 
 {#if state && (state.posts || state.categories || state.tags)}
-  <nav class='state'>
+  <nav class="state">
     {#if state.posts && state.posts > 0}
-      <div class='item posts'>
-        <a href='/archives/'>
-          <span class='count'>{state.posts}</span>
-          <span class='name'>Posts</span>
+      <div class="item posts">
+        <a href="/archives/">
+          <span class="count">{state.posts}</span>
+          <span class="name">{t("sidebar.state.posts")}</span>
         </a>
       </div>
     {/if}
     {#if state.categories && state.categories > 0}
-      <div class='item categories'>
-        <a href='/categories/'>
-          <span class='count'>{state.categories}</span>
-          <span class='name'>Categories</span>
+      <div class="item categories">
+        <a href="/categories/">
+          <span class="count">{state.categories}</span>
+          <span class="name">{t("sidebar.state.categories")}</span>
         </a>
       </div>
     {/if}
     {#if state.tags && state.tags > 0}
-      <div class='item tags'>
-        <a href='/tags/'>
-          <span class='count'>{state.tags}</span>
-          <span class='name'>Tags</span>
+      <div class="item tags">
+        <a href="/tags/">
+          <span class="count">{state.tags}</span>
+          <span class="name">{t("sidebar.state.tags")}</span>
         </a>
       </div>
     {/if}

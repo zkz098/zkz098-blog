@@ -1,5 +1,6 @@
 import type { NavItemType } from "@/components/navbar/NavTypes";
 import type { SidebarConfig } from "@/components/sidebar/SidebarTypes";
+import type { Locale } from "@/i18n";
 
 interface BrandConfig {
   // 首页大标题
@@ -54,6 +55,7 @@ interface HomeConfig {
 
 export interface ShokaXThemeConfig {
   siteName: string;
+  locale?: Locale; // 网站语言设置，默认为 zh-CN
   nav: NavItemType[];
   sidebar?: SidebarConfig;
   brand?: BrandConfig;

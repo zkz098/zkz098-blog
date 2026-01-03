@@ -11,6 +11,8 @@
   import type { Snippet } from "svelte";
   import { onMount } from "svelte";
   import { sidebarOpen } from "../../stores/sidebarStore";
+  import { getT } from "@/i18n";
+  import themeConfig from "@/theme.config";
   import SidebarContents from "./SidebarContents.svelte";
   import { initMenuActive } from "./sidebarHelpers";
   import SidebarOverlay from "./SidebarOverlay.svelte";
@@ -54,6 +56,8 @@
     children,
   }: Props = $props();
 
+  const t = getT((themeConfig.locale as "zh-CN" | "en") || "zh-CN");
+
   let activePanel: PanelType = $state("overview");
   let sidebarElement: HTMLElement | null = $state(null);
   let isAffix = $state(false);
@@ -68,7 +72,7 @@
     if (toc && toc.length > 0) {
       availablePanels.push({
         id: "contents",
-        title: "目录",
+        title: t("sidebar.panels.contents"),
         hasContent: true,
       });
     }
@@ -77,7 +81,7 @@
     if (relatedPosts && relatedPosts.length > 0) {
       availablePanels.push({
         id: "related",
-        title: "相关",
+        title: t("sidebar.panels.related"),
         hasContent: true,
       });
     }
@@ -85,7 +89,7 @@
     // Overview panel - always available
     availablePanels.push({
       id: "overview",
-      title: "站点",
+      title: t("sidebar.panels.overview"),
       hasContent: true,
     });
 

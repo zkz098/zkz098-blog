@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { t } from "@/i18n";
+
   interface PostInfo {
     title: string;
     url: string;
@@ -54,9 +56,9 @@
   const countText = $derived(() => {
     let text = "";
     if (childCount > 0) {
-      text += `${childCount} 个子分类 `;
+      text += `${childCount} ${t("category.subcategories")} `;
     }
-    text += `${postCount} 篇文章`;
+    text += `${postCount} ${t("category.posts")}`;
     return text;
   });
 </script>
@@ -110,7 +112,7 @@
       </div>
     </div>
 
-    <a href={url} class="btn" title={name} itemprop="url">more...</a>
+    <a href={url} class="btn" title={name} itemprop="url">{t("button.more")}</a>
   </div>
 </section>
 
