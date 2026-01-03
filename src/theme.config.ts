@@ -12,21 +12,21 @@ export default defineConfig({
     {
       dropbox: true,
       text: "文章",
-      href: "/posts",
+      href: "/posts/",
       icon: "i-ri-quill-pen-fill",
       dropboxItems: [
         {
-          href: "/categories",
+          href: "/categories/",
           text: "分类",
           icon: "i-ri-book-shelf-fill",
         },
         {
-          href: "/tags",
+          href: "/tags/",
           text: "标签",
           icon: "i-ri-price-tag-3-fill",
         },
         {
-          href: "/archives",
+          href: "/archives/",
           text: "归档",
           icon: "i-ri-archive-line",
         },

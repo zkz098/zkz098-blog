@@ -104,9 +104,9 @@ const toc: TocItem[] = headings.map((h) => ({
 
 // Build quick navigation
 const navigation: QuickNavigation = {
-  prevUrl: prevPost ? `/posts/${prevPost.slug}` : undefined,
+  prevUrl: prevPost ? `/posts/${prevPost.slug}/` : undefined,
   prevTitle: prevPost?.title,
-  nextUrl: nextPost ? `/posts/${nextPost.slug}` : undefined,
+  nextUrl: nextPost ? `/posts/${nextPost.slug}/` : undefined,
   nextTitle: nextPost?.title,
 };
 
@@ -200,7 +200,7 @@ const postMeta = {
               <div class="tags">
                 {post.data.tags.map((tag) => (
                   <a
-                    href={`/tags/${tag.toLowerCase().replace(/\s+/g, "-")}`}
+                    href={`/tags/${tag.toLowerCase().replace(/\s+/g, "-")}/`}
                     rel="tag"
                   >
                     <i class="ic i-ri-price-tag-3-line" />

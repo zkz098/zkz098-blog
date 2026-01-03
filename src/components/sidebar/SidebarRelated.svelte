@@ -1,27 +1,27 @@
-<script lang='ts'>
-  import type { RelatedPost } from './SidebarTypes'
+<script lang="ts">
+  import type { RelatedPost } from "./SidebarTypes";
 
   interface Props {
-    posts?: RelatedPost[]
-    currentSlug?: string
+    posts?: RelatedPost[];
+    currentSlug?: string;
   }
 
-  const { posts = [], currentSlug = '' }: Props = $props()
+  const { posts = [], currentSlug = "" }: Props = $props();
 </script>
 
-<div class='related'>
+<div class="related">
   {#if posts.length > 0}
     <ul>
       {#each posts as post (post.slug)}
-        <li class={post.slug === currentSlug ? 'active' : ''}>
-          <a href={`/posts/${post.slug}`} title={post.title}>
+        <li class={post.slug === currentSlug ? "active" : ""}>
+          <a href={`/posts/${post.slug}/`} title={post.title}>
             {post.title}
           </a>
         </li>
       {/each}
     </ul>
   {:else}
-    <p class='no-related'>No related posts</p>
+    <p class="no-related">No related posts</p>
   {/if}
 </div>
 
@@ -63,7 +63,7 @@
   }
 
   .related ul li::before {
-    content: '';
+    content: "";
     width: 0.5rem;
     height: 0.5rem;
     background: var(--primary-color);
@@ -82,7 +82,7 @@
   }
 
   .related ul li:not(:last-child)::after {
-    content: '';
+    content: "";
     height: 100%;
     width: 0.125rem;
     background: var(--color-red-a3);

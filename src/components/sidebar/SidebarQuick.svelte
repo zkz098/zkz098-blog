@@ -1,75 +1,83 @@
-<script lang='ts'>
-  import type { QuickNavigation } from './SidebarTypes'
-  import { onMount } from 'svelte'
+<script lang="ts">
+  import type { QuickNavigation } from "./SidebarTypes";
+  import { onMount } from "svelte";
 
   interface Props {
-    navigation?: QuickNavigation
-    isVisible?: boolean
+    navigation?: QuickNavigation;
+    isVisible?: boolean;
   }
 
-  const { navigation = {}, isVisible = false }: Props = $props()
+  const { navigation = {}, isVisible = false }: Props = $props();
 
-  let scrollPercent = $state(0)
+  let scrollPercent = $state(0);
 
   function scrollToTop() {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
-    })
+      behavior: "smooth",
+    });
   }
 
   function scrollToBottom() {
     window.scrollTo({
       top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    })
+      behavior: "smooth",
+    });
   }
 
   onMount(() => {
-    if (typeof window === 'undefined')
-      return
+    if (typeof window === "undefined") return;
 
     const updateScrollPercent = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
-      scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0
-    }
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const scrollHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    };
 
-    window.addEventListener('scroll', updateScrollPercent, { passive: true })
-    updateScrollPercent()
+    window.addEventListener("scroll", updateScrollPercent, { passive: true });
+    updateScrollPercent();
 
     return () => {
-      window.removeEventListener('scroll', updateScrollPercent)
-    }
-  })
+      window.removeEventListener("scroll", updateScrollPercent);
+    };
+  });
 </script>
 
-<ul id='quick' class:visible={isVisible}>
-  <li class='prev pjax'>
+<ul id="quick" class:visible={isVisible}>
+  <li class="prev pjax">
     {#if navigation.prevUrl}
-      <a href={navigation.prevUrl} rel='prev' title='上一篇'>
-        <i class='ic i-ri-arrow-left-s-line'></i>
+      <a
+        href={navigation.prevUrl}
+        rel="prev"
+        title={navigation.prevTitle || "上一页"}
+      >
+        <i class="ic i-ri-arrow-left-s-line"></i>
       </a>
     {/if}
   </li>
-  <li class='up'>
-    <button type='button' onclick={scrollToTop} aria-label='回到顶部'>
-      <i class='ic i-ri-arrow-up-line'></i>
+  <li class="up">
+    <button type="button" onclick={scrollToTop} aria-label="回到顶部">
+      <i class="ic i-ri-arrow-up-line"></i>
     </button>
   </li>
-  <li class='down'>
-    <button type='button' onclick={scrollToBottom} aria-label='去到底部'>
-      <i class='ic i-ri-arrow-down-line'></i>
+  <li class="down">
+    <button type="button" onclick={scrollToBottom} aria-label="去到底部">
+      <i class="ic i-ri-arrow-down-line"></i>
     </button>
   </li>
-  <li class='next pjax'>
+  <li class="next pjax">
     {#if navigation.nextUrl}
-      <a href={navigation.nextUrl} rel='next' title='下一篇'>
-        <i class='ic i-ri-arrow-right-s-line'></i>
+      <a
+        href={navigation.nextUrl}
+        rel="next"
+        title={navigation.nextTitle || "下一页"}
+      >
+        <i class="ic i-ri-arrow-right-s-line"></i>
       </a>
     {/if}
   </li>
-  <li class='percent' style={`width: ${scrollPercent}%`}></li>
+  <li class="percent" style={`width: ${scrollPercent}%`}></li>
 </ul>
 
 <style>

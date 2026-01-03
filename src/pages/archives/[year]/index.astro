@@ -1,19 +1,21 @@
 ---
-import Layout from '../../../layouts/Layout.astro'
-import { getCollection } from 'astro:content'
-import { structurePostsByDate } from '@/toolkit/posts/structurePostsByDate'
-import { fmtNum } from '@/toolkit/tools/fmtNum'
-import '../../../styles/collapse.css'
+import Layout from "../../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { structurePostsByDate } from "@/toolkit/posts/structurePostsByDate";
+import { fmtNum } from "@/toolkit/tools/fmtNum";
+import "../../../styles/collapse.css";
 
 export async function getStaticPaths() {
-  const allPosts = await getCollection('posts')
+  const allPosts = await getCollection("posts");
   const publishedPosts = allPosts
     .filter((post) => !post.data.draft)
-    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-  const structuredPosts = structurePostsByDate(publishedPosts, { daily: false })
+  const structuredPosts = structurePostsByDate(publishedPosts, {
+    daily: false,
+  });
 
-  const years = Object.keys(structuredPosts).map(Number)
+  const years = Object.keys(structuredPosts).map(Number);
 
   return years.map((year) => ({
     params: { year: String(year) },
@@ -22,26 +24,26 @@ export async function getStaticPaths() {
       posts: structuredPosts[year][0],
       allYears: years.sort((a, b) => b - a),
     },
-  }))
+  }));
 }
 
-import type { CollectionEntry } from 'astro:content'
+import type { CollectionEntry } from "astro:content";
 
 const { year, posts } = Astro.props as {
-  year: number
-  posts: CollectionEntry<'posts'>[]
-}
+  year: number;
+  posts: CollectionEntry<"posts">[];
+};
 
 // Helper to get category URL
 function getCategoryUrl(category: string): string {
-  return `/categories/${encodeURIComponent(category)}`
+  return `/categories/${encodeURIComponent(category)}`;
 }
 
 // Helper to format date
 function formatDate(date: Date): string {
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const day = String(date.getDate()).padStart(2, '0')
-  return `${month}-${day}`
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${month}-${day}`;
 }
 ---
 
@@ -49,7 +51,7 @@ function formatDate(date: Date): string {
   <div class="wrap">
     <div class="timeline">
       <h2 class="item header">
-        <a href="/archives">全部</a>
+        <a href="/archives/">全部</a>
         <small>/</small>
         {year} 年
         <small>归档</small>
@@ -57,35 +59,46 @@ function formatDate(date: Date): string {
 
       {
         (() => {
-          let lastMonth = 0
-          let monthPostCount = 0
+          let lastMonth = 0;
+          let monthPostCount = 0;
 
           return posts.map((post, index) => {
-            const postDate = post.data.date
-            const month = postDate.getMonth() + 1
-            const isNewMonth = month !== lastMonth
+            const postDate = post.data.date;
+            const month = postDate.getMonth() + 1;
+            const isNewMonth = month !== lastMonth;
 
             // Count posts in this month
             if (isNewMonth) {
-              monthPostCount = posts.filter((p) => p.data.date.getMonth() + 1 === month).length
-              lastMonth = month
+              monthPostCount = posts.filter(
+                (p) => p.data.date.getMonth() + 1 === month,
+              ).length;
+              lastMonth = month;
             }
 
-            const prevPost = index > 0 ? posts[index - 1] : null
-            const prevMonth = prevPost ? prevPost.data.date.getMonth() + 1 : 0
+            const prevPost = index > 0 ? posts[index - 1] : null;
+            const prevMonth = prevPost ? prevPost.data.date.getMonth() + 1 : 0;
 
             return (
               <>
                 {(index === 0 || month !== prevMonth) && (
                   <h3 class="item section">
-                    <a href={`/archives/${year}/${fmtNum(month)}`}>{month} 月</a>
+                    <a href={`/archives/${year}/${fmtNum(month)}/`}>
+                      {month} 月
+                    </a>
                     <small>({monthPostCount})</small>
                   </h3>
                 )}
 
-                <article class="item normal" itemscope itemtype="http://schema.org/Article">
+                <article
+                  class="item normal"
+                  itemscope
+                  itemtype="http://schema.org/Article"
+                >
                   <div class="meta">
-                    <time itemprop="dateCreated" datetime={postDate.toISOString()}>
+                    <time
+                      itemprop="dateCreated"
+                      datetime={postDate.toISOString()}
+                    >
                       {formatDate(postDate)}
                     </time>
                   </div>
@@ -113,19 +126,23 @@ function formatDate(date: Date): string {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <span itemprop="name">{post.data.title || post.data.link}</span>
+                        <span itemprop="name">
+                          {post.data.title || post.data.link}
+                        </span>
                         <i class="i-ri-external-link-line" />
                       </a>
                     ) : (
-                      <a href={`/posts/${post.id}`} itemprop="url">
-                        <span itemprop="name">{post.data.title || '未命名'}</span>
+                      <a href={`/posts/${post.id}/`} itemprop="url">
+                        <span itemprop="name">
+                          {post.data.title || "未命名"}
+                        </span>
                       </a>
                     )}
                   </div>
                 </article>
               </>
-            )
-          })
+            );
+          });
         })()
       }
     </div>

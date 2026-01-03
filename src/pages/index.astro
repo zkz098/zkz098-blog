@@ -29,6 +29,12 @@ const lastPage = Math.max(1, Math.ceil(regularPosts.length / pageSize));
 const currentPage = 1;
 const pagePosts = regularPosts.slice(0, pageSize);
 
+// Build pagination navigation
+const paginationNavigation = {
+  prevUrl: undefined,
+  nextUrl: lastPage > 1 ? "/page/2/" : undefined,
+};
+
 // Build category list with post counts
 const categoryMap = new Map<
   string,
@@ -77,6 +83,7 @@ const categories = Array.from(categoryMap.entries())
 <Layout
   pageTitle=`${themeConfig.brand?.logo || ''} = ${themeConfig.brand?.title || ''} = ${themeConfig.brand?.subtitle || ''}`
   indexPage={true}
+  navigation={paginationNavigation}
 >
   <Fragment slot="head">
     <meta name="description" content={themeConfig.sidebar?.description} />

@@ -1,43 +1,43 @@
 ---
-import Layout from '../../layouts/Layout.astro'
-import { getCollection } from 'astro:content'
-import { structurePostsByDate } from '@/toolkit/posts/structurePostsByDate'
-import { fmtNum } from '@/toolkit/tools/fmtNum'
-import '../../styles/collapse.css'
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { structurePostsByDate } from "@/toolkit/posts/structurePostsByDate";
+import { fmtNum } from "@/toolkit/tools/fmtNum";
+import "../../styles/collapse.css";
 
 // Get all published posts sorted by date
-const allPosts = await getCollection('posts')
+const allPosts = await getCollection("posts");
 const publishedPosts = allPosts
   .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
 // Structure posts by date
-const structuredPosts = structurePostsByDate(publishedPosts, { daily: false })
+const structuredPosts = structurePostsByDate(publishedPosts, { daily: false });
 
 // Get all years in descending order
 const years = Object.keys(structuredPosts)
   .map(Number)
-  .sort((a, b) => b - a)
+  .sort((a, b) => b - a);
 
 // Total post count for cheers message
-const totalPosts = publishedPosts.length
-let cheers = 'um'
-if (totalPosts > 210) cheers = 'excellent'
-else if (totalPosts > 130) cheers = 'great'
-else if (totalPosts > 80) cheers = 'good'
-else if (totalPosts > 50) cheers = 'nice'
-else if (totalPosts > 30) cheers = 'ok'
+const totalPosts = publishedPosts.length;
+let cheers = "um";
+if (totalPosts > 210) cheers = "excellent";
+else if (totalPosts > 130) cheers = "great";
+else if (totalPosts > 80) cheers = "good";
+else if (totalPosts > 50) cheers = "nice";
+else if (totalPosts > 30) cheers = "ok";
 
 // Helper to get category URL
 function getCategoryUrl(category: string): string {
-  return `/categories/${encodeURIComponent(category)}`
+  return `/categories/${encodeURIComponent(category)}/`;
 }
 
 // Helper to format date
 function formatDate(date: Date): string {
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const day = String(date.getDate()).padStart(2, '0')
-  return `${month}-${day}`
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${month}-${day}`;
 }
 ---
 
@@ -50,40 +50,42 @@ function formatDate(date: Date): string {
         目前共计 {totalPosts} 篇文章。
         <small class="cheers"
           >{
-            cheers === 'excellent'
-              ? '太棒了'
-              : cheers === 'great'
-                ? '非常好'
-                : cheers === 'good'
-                  ? '很好'
-                  : cheers === 'nice'
-                    ? '不错'
-                    : cheers === 'ok'
-                      ? '还行'
-                      : '嗯..'
+            cheers === "excellent"
+              ? "太棒了"
+              : cheers === "great"
+                ? "非常好"
+                : cheers === "good"
+                  ? "很好"
+                  : cheers === "nice"
+                    ? "不错"
+                    : cheers === "ok"
+                      ? "还行"
+                      : "嗯.."
           } 继续努力。</small
         >
       </h2>
 
       {
         years.map((year) => {
-          const yearPosts = structuredPosts[year][0]
-          let lastMonth = 0
-          let monthPostCount = 0
+          const yearPosts = structuredPosts[year][0];
+          let lastMonth = 0;
+          let monthPostCount = 0;
 
           return yearPosts.map((post, index) => {
-            const postDate = post.data.date
-            const month = postDate.getMonth() + 1
-            const isNewMonth = month !== lastMonth
+            const postDate = post.data.date;
+            const month = postDate.getMonth() + 1;
+            const isNewMonth = month !== lastMonth;
 
             // Count posts in this month
             if (isNewMonth) {
-              monthPostCount = yearPosts.filter((p) => p.data.date.getMonth() + 1 === month).length
-              lastMonth = month
+              monthPostCount = yearPosts.filter(
+                (p) => p.data.date.getMonth() + 1 === month,
+              ).length;
+              lastMonth = month;
             }
 
-            const prevPost = index > 0 ? yearPosts[index - 1] : null
-            const prevMonth = prevPost ? prevPost.data.date.getMonth() + 1 : 0
+            const prevPost = index > 0 ? yearPosts[index - 1] : null;
+            const prevMonth = prevPost ? prevPost.data.date.getMonth() + 1 : 0;
 
             return (
               <>
@@ -91,14 +93,23 @@ function formatDate(date: Date): string {
                   <h3 class="item section">
                     <a href={`/archives/${year}`}>{year} 年</a>
                     <small>/</small>
-                    <a href={`/archives/${year}/${fmtNum(month)}`}>{month} 月</a>
+                    <a href={`/archives/${year}/${fmtNum(month)}`}>
+                      {month} 月
+                    </a>
                     <small>({monthPostCount})</small>
                   </h3>
                 )}
 
-                <article class="item normal" itemscope itemtype="http://schema.org/Article">
+                <article
+                  class="item normal"
+                  itemscope
+                  itemtype="http://schema.org/Article"
+                >
                   <div class="meta">
-                    <time itemprop="dateCreated" datetime={postDate.toISOString()}>
+                    <time
+                      itemprop="dateCreated"
+                      datetime={postDate.toISOString()}
+                    >
                       {formatDate(postDate)}
                     </time>
                   </div>
@@ -126,19 +137,23 @@ function formatDate(date: Date): string {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <span itemprop="name">{post.data.title || post.data.link}</span>
+                        <span itemprop="name">
+                          {post.data.title || post.data.link}
+                        </span>
                         <i class="i-ri-external-link-line" />
                       </a>
                     ) : (
-                      <a href={`/posts/${post.id}`} itemprop="url">
-                        <span itemprop="name">{post.data.title || '未命名'}</span>
+                      <a href={`/posts/${post.id}/`} itemprop="url">
+                        <span itemprop="name">
+                          {post.data.title || "未命名"}
+                        </span>
                       </a>
                     )}
                   </div>
                 </article>
               </>
-            )
-          })
+            );
+          });
         })
       }
     </div>

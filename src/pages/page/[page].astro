@@ -24,7 +24,7 @@ export const getStaticPaths = (async ({ paginate }) => {
   // 但我们只输出 /page/2..N，第一页交给 src/pages/index.astro（输出 index.html）
   const pages = paginate(regularPosts, { pageSize });
   return pages.filter((p) => p.params.page !== "1");
-}) satisfies GetStaticPaths; 
+}) satisfies GetStaticPaths;
 
 const { page } = Astro.props as {
   page: {
@@ -35,9 +35,27 @@ const { page } = Astro.props as {
 };
 
 const pageTitle = `${themeConfig.brand?.logo || ""} = ${themeConfig.brand?.title || ""} = ${themeConfig.brand?.subtitle || ""} - 第${page.currentPage}页`;
+
+// Build pagination navigation
+const paginationNavigation = {
+  prevUrl:
+    page.currentPage > 1
+      ? page.currentPage === 2
+        ? "/"
+        : `/page/${page.currentPage - 1}/`
+      : undefined,
+  nextUrl:
+    page.currentPage < page.lastPage
+      ? `/page/${page.currentPage + 1}/`
+      : undefined,
+};
 ---
 
-<Layout pageTitle={pageTitle} indexPage={true}>
+<Layout
+  pageTitle={pageTitle}
+  indexPage={true}
+  navigation={paginationNavigation}
+>
   <Fragment slot="head">
     <meta name="description" content={themeConfig.sidebar?.description} />
   </Fragment>
