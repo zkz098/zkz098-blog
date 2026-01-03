@@ -1,55 +1,69 @@
 ---
-import Layout from '../layouts/Layout.astro'
-import IndexContent from '../components/IndexContent.astro'
-import { getCollection } from 'astro:content'
-import themeConfig from '@/theme.config'
+import Layout from "../layouts/Layout.astro";
+import IndexContent from "../components/IndexContent.astro";
+import Pagination from "../components/Pagination.astro";
+import { getCollection } from "astro:content";
+import themeConfig from "@/theme.config";
 
 // Fetch all posts
-const allPosts = await getCollection('posts')
+const allPosts = await getCollection("posts");
 
 // Filter out drafts
-const publishedPosts = allPosts.filter((post) => !post.data.draft)
+const publishedPosts = allPosts.filter((post) => !post.data.draft);
 
 // Separate sticky posts and regular posts
 const stickyPosts = publishedPosts
   .filter((post) => post.data.sticky === true)
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .sort(
+    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+  );
 
 const regularPosts = publishedPosts
   .filter((post) => !post.data.sticky)
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .sort(
+    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+  );
+
+const pageSize = themeConfig.home?.pageSize ?? 10;
+const lastPage = Math.max(1, Math.ceil(regularPosts.length / pageSize));
+const currentPage = 1;
+const pagePosts = regularPosts.slice(0, pageSize);
 
 // Build category list with post counts
 const categoryMap = new Map<
   string,
   {
-    name: string
-    posts: Array<{ title: string; slug: string }>
+    name: string;
+    posts: Array<{ title: string; slug: string }>;
   }
->()
+>();
 
 publishedPosts.forEach((post) => {
-  const categories = post.data.categories || []
+  const categories = post.data.categories || [];
   categories.forEach((cat) => {
     if (!categoryMap.has(cat)) {
       categoryMap.set(cat, {
         name: cat,
         posts: [],
-      })
+      });
     }
     categoryMap.get(cat)!.posts.push({
       title: post.data.title,
       slug: post.id,
-    })
-  })
-})
+    });
+  });
+});
 
 // Transform categories for CategoryCards component
 const categories = Array.from(categoryMap.entries())
-  .filter(([name, _]) => themeConfig.home?.selectedCategories?.some((cat) => cat.name === name))
+  .filter(([name, _]) =>
+    themeConfig.home?.selectedCategories?.some((cat) => cat.name === name),
+  )
   .map(([name, data]) => ({
     name,
-    cover: themeConfig.home?.selectedCategories?.find((cat) => cat.name === name)?.cover,
+    cover: themeConfig.home?.selectedCategories?.find(
+      (cat) => cat.name === name,
+    )?.cover,
     url: `/categories/${name}`,
     postCount: data.posts.length,
     posts: data.posts.slice(0, 6).map((p) => ({
@@ -57,7 +71,7 @@ const categories = Array.from(categoryMap.entries())
       url: `/posts/${p.slug}`,
     })),
   }))
-  .sort((a, b) => b.postCount - a.postCount)
+  .sort((a, b) => b.postCount - a.postCount);
 ---
 
 <Layout
@@ -68,5 +82,16 @@ const categories = Array.from(categoryMap.entries())
     <meta name="description" content={themeConfig.sidebar?.description} />
   </Fragment>
 
-  <IndexContent posts={regularPosts} stickyPosts={stickyPosts} categories={categories} isFirstPage={true} />
+  <IndexContent
+    posts={pagePosts}
+    stickyPosts={stickyPosts}
+    categories={categories}
+    isFirstPage={true}
+  />
+  <Pagination
+    currentPage={currentPage}
+    lastPage={lastPage}
+    firstPageHref="/"
+    routePrefix="/page"
+  />
 </Layout>

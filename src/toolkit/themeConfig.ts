@@ -47,6 +47,9 @@ interface HomeConfig {
     name: string;
     cover?: string;
   }[];
+
+  /** 首页分页：每页文章数量（不含置顶文章） */
+  pageSize?: number;
 }
 
 export interface ShokaXThemeConfig {

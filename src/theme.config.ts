@@ -87,5 +87,6 @@ export default defineConfig({
   },
   home: {
     selectedCategories: [{ name: "Tutorial" }, { name: "Frontend" }],
+    pageSize: 2,
   },
 });
