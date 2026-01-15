@@ -3,6 +3,13 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import esToolkitPlugin from "vite-plugin-es-toolkit";
 import { transformerColorizedBrackets } from "@shikijs/colorized-brackets";
+import {
+  transformerMetaHighlight,
+  transformerNotationDiff,
+  transformerNotationErrorLevel,
+  transformerNotationFocus,
+  transformerNotationHighlight,
+} from "@shikijs/transformers";
 
 import UnoCSS from "unocss/astro";
 
@@ -15,6 +22,9 @@ import remarkRubyDirective from "remark-ruby-directive";
 import rehypeAutoLinkHeadings from "rehype-autolink-headings";
 import remarkEmoji from "remark-emoji";
 import remarkExtendedTable from "remark-extended-table";
+import remarkBreaks from "remark-breaks";
+
+import spoiler from "./src/plugins/spoiler.mjs";
 
 import Font from "vite-plugin-font";
 
@@ -62,16 +72,25 @@ export default defineConfig({
         light: "github-light",
         dark: "github-dark",
       },
-      transformers: [transformerColorizedBrackets()],
+      transformers: [
+        transformerNotationDiff(),
+        transformerNotationHighlight(),
+        transformerNotationFocus(),
+        transformerNotationErrorLevel(),
+        transformerMetaHighlight(),
+        transformerColorizedBrackets(),
+      ],
     },
     remarkPlugins: [
       remarkMath,
+      remarkBreaks,
       remarkRubyDirective,
       remarkIns,
       remarkDirective,
       remarkGfm,
       remarkEmoji,
       remarkExtendedTable,
+      [spoiler, { title: "..." }],
     ],
     rehypePlugins: [rehypeKatex, rehypeAutoLinkHeadings],
   },

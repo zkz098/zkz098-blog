@@ -1,0 +1,97 @@
+/* Note Container Styles - Migrated from hexo-theme-shokaX */
+
+.md .note {
+  border-radius: 0.1875rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  position: relative;
+  background: var(--note-bg, var(--grey-2));
+  color: var(--grey-6);
+  border-left: 0.25rem solid var(--note-border, var(--grey-4));
+  font-size: 0.875rem;
+  padding-left: 2.5rem;
+}
+
+.md .note::before {
+  position: absolute;
+  left: 0.5rem;
+  top: calc(50% - 0.75rem);
+  font-size: 1.5rem;
+  color: var(--note-text, var(--grey-6));
+}
+
+/* Note variants with icons */
+.md .note.default::before {
+  content: "➜";
+}
+
+.md .note.primary::before {
+  content: "⊕";
+}
+
+.md .note.info::before {
+  content: "ℹ";
+}
+
+.md .note.success::before {
+  content: "✓";
+}
+
+.md .note.warning::before {
+  content: "⚠";
+}
+
+.md .note.danger::before {
+  content: "⊖";
+}
+
+.md .note.no-icon {
+  padding-left: 1rem;
+}
+
+.md .note.no-icon::before {
+  content: none;
+}
+
+/* Headings inside note */
+.md .note h2,
+.md .note h3,
+.md .note h4,
+.md .note h5,
+.md .note h6 {
+  margin-top: 0.1875rem;
+  border-bottom: initial;
+  margin-bottom: 0;
+  padding-top: 0;
+}
+
+/* Paragraphs inside note */
+.md .note p {
+  line-height: 1.8;
+}
+
+/* Links inside note */
+.md .note a:not(.btn) {
+  color: var(--note-hover);
+  border-bottom: 0.0625rem dashed var(--note-text);
+}
+
+.md .note a:not(.btn):hover {
+  color: var(--note-text);
+  border-bottom-color: var(--note-text);
+}
+
+/* Lists inside note */
+.md .note ul li::before {
+  background: var(--note-text);
+}
+
+.md .note ol li::before {
+  background: var(--note-text, var(--primary-color)) !important;
+  width: 0.8rem;
+  height: 0.8rem;
+  font-size: 0.45rem;
+  line-height: 0.8rem;
+  top: 0.4rem;
+  left: -1.2rem;
+}
