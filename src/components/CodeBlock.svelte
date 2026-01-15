@@ -392,6 +392,10 @@
     display: block;
     min-height: 1.25rem;
     contain-intrinsic-height: 24px;
+    transition:
+      background-color 0.15s ease,
+      opacity 0.15s ease,
+      box-shadow 0.15s ease;
   }
 
   :global(code-block .line):hover {
@@ -415,30 +419,68 @@
     color: var(--grey-5);
   }
 
-  /* Diff 高亮 */
-  :global(code-block .diff .remove) {
-    background-color: var(--color-red);
-    opacity: 0.7;
+  /* Shiki Transformers（@shikijs/transformers）样式化
+   * - transformerNotationHighlight / transformerMetaHighlight: .line.highlighted + pre.has-highlighted
+   * - transformerNotationDiff: .line.diff.add | .line.diff.remove + pre.has-diff
+   * - transformerNotationFocus: .line.focused + pre.has-focused
+   * - transformerNotationErrorLevel: .line.highlighted.error | .line.highlighted.warning
+   */
+
+  /* 行高亮（highlight + meta highlight 复用同一个 class） */
+  :global(code-block .line.highlighted) {
+    background-color: var(--cb-line-highlight-bg);
+    box-shadow: inset 0.25rem 0 0 var(--cb-line-highlight-border);
   }
 
-  :global(code-block .diff .remove)::before {
-    content: "-";
-    color: var(--color-red);
-    font-weight: bold;
+  /* Diff（增删行） */
+  :global(code-block .line.diff.add) {
+    background-color: var(--cb-diff-add-bg);
+    box-shadow: inset 0.25rem 0 0 var(--cb-diff-add-border);
   }
 
-  :global(code-block .diff .add) {
-    background-color: var(--color-green);
+  :global(code-block .line.diff.remove) {
+    background-color: var(--cb-diff-remove-bg);
+    box-shadow: inset 0.25rem 0 0 var(--cb-diff-remove-border);
   }
 
-  :global(code-block .diff .add)::before {
-    content: "+";
-    color: var(--color-green);
-    font-weight: bold;
+  /* 不占用额外 DOM 的情况下，用行号前缀标识 + / -（避免覆盖 .line::before 计数逻辑） */
+  :global(code-block code .line.diff.add::before) {
+    content: counter(step) " +";
+    color: var(--cb-diff-add-border);
   }
 
-  :global(code-block .diff .highlighted) {
-    background-color: var(--grey-4);
+  :global(code-block code .line.diff.remove::before) {
+    content: counter(step) " -";
+    color: var(--cb-diff-remove-border);
+  }
+
+  /* Focus（聚焦显示）：当存在 focused 行时，其他行整体淡化 */
+  :global(code-block pre.has-focused .line) {
+    opacity: var(--cb-focus-dim-opacity);
+  }
+
+  :global(code-block pre.has-focused .line.focused) {
+    opacity: 1;
+    background-color: var(--cb-focus-bg);
+    box-shadow: inset 0.25rem 0 0 var(--cb-focus-border);
+  }
+
+  /* Error / Warning（基于 transformerNotationErrorLevel） */
+  :global(code-block .line.highlighted.error) {
+    background-color: var(--cb-error-bg);
+    box-shadow: inset 0.25rem 0 0 var(--cb-error-border);
+  }
+
+  :global(code-block .line.highlighted.warning) {
+    background-color: var(--cb-warning-bg);
+    box-shadow: inset 0.25rem 0 0 var(--cb-warning-border);
+  }
+
+  /* 额外兜底：word highlight（虽然本次 astro.config 未开启，但留着不伤身） */
+  :global(code-block .highlighted-word) {
+    background-color: var(--cb-highlighted-word-bg);
+    border-radius: 0.2rem;
+    padding: 0.05rem 0.15rem;
   }
 
   :global(code-block .dark) {
@@ -448,10 +490,38 @@
   /* 主题相关的悬停颜色 - 与 Shiki 主题颜色协调 */
   :global(html:not([data-theme="dark"]) code-block) {
     --line-hover-bg: rgba(0, 0, 0, 0.06);
+    --cb-line-highlight-bg: rgba(255, 235, 59, 0.14);
+    --cb-line-highlight-border: rgba(255, 193, 7, 0.9);
+    --cb-diff-add-bg: rgba(76, 175, 80, 0.14);
+    --cb-diff-add-border: rgba(76, 175, 80, 0.75);
+    --cb-diff-remove-bg: rgba(244, 67, 54, 0.14);
+    --cb-diff-remove-border: rgba(244, 67, 54, 0.75);
+    --cb-focus-dim-opacity: 0.55;
+    --cb-focus-bg: rgba(33, 150, 243, 0.08);
+    --cb-focus-border: rgba(33, 150, 243, 0.65);
+    --cb-error-bg: rgba(244, 67, 54, 0.14);
+    --cb-warning-bg: rgba(255, 152, 0, 0.14);
+    --cb-error-border: rgba(244, 67, 54, 0.85);
+    --cb-warning-border: rgba(255, 152, 0, 0.85);
+    --cb-highlighted-word-bg: rgba(255, 235, 59, 0.25);
   }
 
   :global(html[data-theme="dark"] code-block) {
     --line-hover-bg: rgba(255, 255, 255, 0.1);
+    --cb-line-highlight-bg: rgba(255, 255, 255, 0.06);
+    --cb-line-highlight-border: rgba(255, 193, 7, 0.35);
+    --cb-diff-add-bg: rgba(76, 175, 80, 0.16);
+    --cb-diff-add-border: rgba(76, 175, 80, 0.55);
+    --cb-diff-remove-bg: rgba(244, 67, 54, 0.16);
+    --cb-diff-remove-border: rgba(244, 67, 54, 0.55);
+    --cb-focus-dim-opacity: 0.5;
+    --cb-focus-bg: rgba(33, 150, 243, 0.12);
+    --cb-focus-border: rgba(33, 150, 243, 0.55);
+    --cb-error-bg: rgba(244, 67, 54, 0.18);
+    --cb-warning-bg: rgba(255, 152, 0, 0.18);
+    --cb-error-border: rgba(244, 67, 54, 0.7);
+    --cb-warning-border: rgba(255, 152, 0, 0.7);
+    --cb-highlighted-word-bg: rgba(255, 235, 59, 0.18);
   }
 
   /* 全屏样式 */

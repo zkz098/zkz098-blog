@@ -108,3 +108,65 @@ console.log(greet("ShokaX"));
 ## 总结
 
 通过这次迁移，我们成功地将 hexo-theme-shokaX 的 Post 页面功能完整地迁移到了 Astro 项目中，保持了原有的样式和布局，同时使用了更现代的技术栈。
+
+---
+
+## CodeBlock（Shiki Transformers）样式测试
+
+下面这些代码块用于测试 `@shikijs/transformers` 在本主题中的渲染效果（对应你在 `astro.config.mjs` 里启用的 transformers）。
+
+### transformerMetaHighlight（代码块 Meta 高亮行）
+
+```ts {1,3-4}
+const a = 1;
+const b = 2;
+const c = 3;
+const d = 4;
+console.log({ a, b, c, d });
+```
+
+### transformerNotationHighlight（行高亮）
+
+```ts
+console.log("Not highlighted");
+console.log("Highlighted"); // [!code highlight]
+console.log("Not highlighted");
+```
+
+```ts
+// [!code highlight:3]
+console.log("Highlighted 1");
+console.log("Highlighted 2");
+console.log("Not highlighted");
+```
+
+### transformerNotationDiff（Diff 增删行）
+
+```ts
+const oldName = "hewwo"; // [!code --]
+const newName = "hello"; // [!code ++]
+console.log({ oldName, newName });
+```
+
+### transformerNotationFocus（聚焦行）
+
+```ts
+console.log("Not focused");
+console.log("Focused"); // [!code focus]
+console.log("Not focused");
+```
+
+```ts
+// [!code focus:2]
+console.log("Focused 1");
+console.log("Focused 2");
+console.log("Not focused");
+```
+
+### transformerNotationErrorLevel（Error / Warning 级别）
+
+```ts
+console.log("No errors or warnings");
+console.error("Error"); // [!code error]
+console.warn("Warning"); // [!code warning]
+```
