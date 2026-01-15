@@ -395,7 +395,7 @@
   }
 
   :global(code-block .line):hover {
-    background-color: var(--grey-2);
+    background-color: var(--line-hover-bg);
   }
 
   :global(code-block code) {
@@ -443,6 +443,15 @@
 
   :global(code-block .dark) {
     box-shadow: none;
+  }
+
+  /* 主题相关的悬停颜色 - 与 Shiki 主题颜色协调 */
+  :global(html:not([data-theme="dark"]) code-block) {
+    --line-hover-bg: rgba(0, 0, 0, 0.06);
+  }
+
+  :global(html[data-theme="dark"] code-block) {
+    --line-hover-bg: rgba(255, 255, 255, 0.1);
   }
 
   /* 全屏样式 */
