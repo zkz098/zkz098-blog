@@ -1,7 +1,15 @@
 import type { PluginManifest } from "./plugin";
 
+/**
+ * 插件上下文，提供给插件函数使用的全局信息
+ */
+export interface PluginContext {
+  /** CSS 选择器映射表 */
+  injectPoints: injectPoints;
+}
+
 export interface Plugin<O> {
-  plugin: (options: O) => PluginManifest;
+  plugin: (options: O, context: PluginContext) => PluginManifest;
   options: O;
 }
 

@@ -59,7 +59,10 @@ async function loadPluginConfig(root: URL): Promise<HyacinePluginSystemConfig | 
  * 将插件列表转换为 manifest 列表
  */
 function getPluginManifests(config: HyacinePluginSystemConfig): PluginManifest[] {
-  return config.plugins.map((p) => p.plugin(p.options));
+  const context = {
+    injectPoints: config.injectPoints,
+  };
+  return config.plugins.map((p) => p.plugin(p.options, context));
 }
 
 /**
@@ -112,6 +115,7 @@ async function generateFiles(
   root: URL,
   groups: Map<string, Array<SSREntry | CustomElementEntry>>,
   runtimeEntries: RuntimeOnlyEntry[],
+  config: HyacinePluginSystemConfig,
 ): Promise<void> {
   const rootPath = root.pathname;
   const outputDir = join(rootPath, "generated", "hyacine");
@@ -132,7 +136,7 @@ async function generateFiles(
   // 生成 runtime.ts 文件
   if (runtimeEntries.length > 0) {
     const runtimePath = join(outputDir, "runtime.ts");
-    const content = generateTempRuntimeFile(runtimeEntries);
+    const content = generateTempRuntimeFile(runtimeEntries, config.injectPoints);
 
     await writeFile(runtimePath, content, "utf-8");
     console.log(`[hyacine-plugin] 已生成: runtime.ts`);
@@ -167,7 +171,7 @@ export default function hyacinePlugin(): AstroIntegration {
         const runtimeEntries = getRuntimeOnlyEntries(manifests);
 
         // 4. 生成文件
-        await generateFiles(root, groups, runtimeEntries);
+        await generateFiles(root, groups, runtimeEntries, config);
 
         logger.info("插件文件生成完成!");
       },
