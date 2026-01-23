@@ -24,6 +24,8 @@ import remarkEmoji from "remark-emoji";
 import remarkExtendedTable from "remark-extended-table";
 import remarkBreaks from "remark-breaks";
 
+import { hyacinePlugin } from "@hyacine/astro";
+
 import spoiler from "./src/remark-plugins/spoiler.mjs";
 
 import Font from "vite-plugin-font";
@@ -51,6 +53,7 @@ export default defineConfig({
       },
     }),
     sitemap(),
+    hyacinePlugin()
   ],
 
   vite: {
