@@ -11,8 +11,9 @@
         "@astrojs/svelte": "^7.2.5",
         "@astrojs/ts-plugin": "^1.10.6",
         "@ctrl/tinycolor": "^4.2.0",
-        "@hyacine/core": "^0.0.2",
-        "@hyacine/helper": "^0.0.2",
+        "@hyacine/astro": "^0.0.3",
+        "@hyacine/core": "^0.0.3",
+        "@hyacine/helper": "^0.0.3",
         "@pagefind/default-ui": "^1.4.0",
         "@unocss/extractor-svelte": "^66.6.0",
         "@vtbag/element-crossing": "^1.1.0",
@@ -183,9 +184,11 @@
 
     "@esbuild/win32-x64": ["@esbuild/win32-x64@0.25.12", "https://registry.npmmirror.com/@esbuild/win32-x64/-/win32-x64-0.25.12.tgz", { "os": "win32", "cpu": "x64" }, "sha512-alJC0uCZpTFrSL0CCDjcgleBXPnCrEAhTBILpeAp7M/OFgoqtAetfBzX0xM00MUsVVPpVjlPuMbREqnZCXaTnA=="],
 
-    "@hyacine/core": ["@hyacine/core@0.0.2", "", {}, "sha512-fG+XcqkGwq9EzElyJiZt25FQ3fTnSv4dQQhB5IOxSMY4ARcylB8ZpSIihoAvWS3hzs/x1sW/Y8xAxr7BdZX6nQ=="],
+    "@hyacine/astro": ["@hyacine/astro@0.0.3", "", { "dependencies": { "@hyacine/core": "0.0.3", "@hyacine/helper": "0.0.3" }, "peerDependencies": { "astro": "^5.16.11" } }, "sha512-thY4998kEqPcNS2nrNgZg2DOJieYjuE+010YzXj9Ub+qiLacgQMBgK/Gyt5DUm1hDwKI3/VWjKYchyPKg1CGNw=="],
 
-    "@hyacine/helper": ["@hyacine/helper@0.0.2", "", { "dependencies": { "@hyacine/core": "0.0.1", "es-toolkit": "^1.44.0" } }, "sha512-mC7P85aDebkfB/tEWZJkwEqrg/dEdbLy0uPiHnH6dPi4rVYm6TwcM0ESJHyFieyhKQevRvuAtU/qx3f/q/ZfHA=="],
+    "@hyacine/core": ["@hyacine/core@0.0.3", "", {}, "sha512-uD7ZlatFB+unFFcrsjFlDgoa1SNBAjfH0U4AFuVGpe9NRYN8uVYRBeEBhgE8U0+f0TsVGtJyk4tX9u8vtj7Q5w=="],
+
+    "@hyacine/helper": ["@hyacine/helper@0.0.3", "", { "dependencies": { "@hyacine/core": "0.0.3", "es-toolkit": "^1.44.0" } }, "sha512-Ir52bNtxSLD5owzuF5YfEhqCRsJi552xf0N6zwoNHrIbXYcSH/qhVIEQ4iX7NMVfbzfe/dDgHgTs/ZluzSkUDQ=="],
 
     "@iconify-json/ri": ["@iconify-json/ri@1.2.7", "https://registry.npmmirror.com/@iconify-json/ri/-/ri-1.2.7.tgz", { "dependencies": { "@iconify/types": "*" } }, "sha512-j/Fkb8GlWY5y/zLj1BGxWRtDzuJFrI7562zLw+iQVEykieBgew43+r8qAvtSajvb75MfUIHjsNOYQPRD8FfLfw=="],
 
@@ -1420,8 +1423,6 @@
     "@babel/template/@babel/parser": ["@babel/parser@7.28.5", "https://registry.npmmirror.com/@babel/parser/-/parser-7.28.5.tgz", { "dependencies": { "@babel/types": "^7.28.5" }, "bin": "./bin/babel-parser.js" }, "sha512-KKBU1VGYR7ORr3At5HAtUQ+TV3SzRCXmA/8OdDZiLDBIZxVyzXuztPjfLd3BV1PRAQGCMWWSHYhL0F8d5uHBDQ=="],
 
     "@babel/traverse/@babel/parser": ["@babel/parser@7.28.5", "https://registry.npmmirror.com/@babel/parser/-/parser-7.28.5.tgz", { "dependencies": { "@babel/types": "^7.28.5" }, "bin": "./bin/babel-parser.js" }, "sha512-KKBU1VGYR7ORr3At5HAtUQ+TV3SzRCXmA/8OdDZiLDBIZxVyzXuztPjfLd3BV1PRAQGCMWWSHYhL0F8d5uHBDQ=="],
-
-    "@hyacine/helper/@hyacine/core": ["@hyacine/core@0.0.1", "", {}, "sha512-rdx2/CxjOMaSuu9WTJ/XgL3cUUmWa8pYi9Qv4lBs4bjQD8HmhFjeDJFS/g1QCQckg3t3vbGhwW8Fq36/wpWBkw=="],
 
     "@hyacine/helper/es-toolkit": ["es-toolkit@1.44.0", "", {}, "sha512-6penXeZalaV88MM3cGkFZZfOoLGWshWWfdy0tWw/RlVVyhvMaWSBTOvXNeiW3e5FwdS5ePW0LGEu17zT139ktg=="],
 
