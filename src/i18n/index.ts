@@ -41,19 +41,19 @@ export async function initI18n(locale: Locale = "zh-CN") {
  * Get translation function for the configured locale
  */
 export function getT(locale: Locale = "zh-CN") {
-  // Create a new instance for SSR safety
-  const instance = i18next.createInstance();
-  // Initialize synchronously (void to ignore promise)
-  void instance.init({
-    lng: locale,
-    fallbackLng: "zh-CN",
-    resources,
-    interpolation: {
-      escapeValue: false,
-    },
-    initImmediate: false, // Synchronous init
-  });
-  return instance.t.bind(instance);
+  if (!i18next.isInitialized || i18next.language !== locale) {
+    // Synchronous init for SSR predictability
+    void i18next.init({
+      lng: locale,
+      fallbackLng: "zh-CN",
+      resources,
+      interpolation: {
+        escapeValue: false,
+      },
+      initImmediate: false,
+    });
+  }
+  return i18next.t.bind(i18next);
 }
 
 /**
