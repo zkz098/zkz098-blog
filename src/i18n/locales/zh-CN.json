@@ -80,7 +80,12 @@
     "poweredBy": "由",
     "and": "和",
     "poweredSuffix": "主题强力驱动",
-    "randomPosts": "随机文章"
+    "randomPosts": "随机文章",
+    "recentComments": "最新评论",
+    "noRecentComments": "暂无评论，来抢个沙发吧～",
+    "recentCommentsLoadFailed": "最新评论加载失败，请稍后重试",
+    "commentAnonymous": "匿名用户",
+    "walineNotConfigured": "Waline 服务地址未配置"
   },
   "pagination": {
     "prev": "上一页",

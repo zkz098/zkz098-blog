@@ -4,6 +4,7 @@ import Breadcrumb from "@/components/post/Breadcrumb.astro";
 import PostHeader from "@/components/post/PostHeader.astro";
 import PostFooter from "@/components/post/PostFooter.astro";
 import PostNav from "@/components/post/PostNav.astro";
+import WalineComments from "@/components/post/WalineComments.svelte";
 import { getCollection, render } from "astro:content";
 import themeConfig from "@/theme.config";
 import type {
@@ -124,9 +125,16 @@ const readTime = Math.ceil(wordCount / 300);
 const siteConfig = themeConfig.sidebar || {};
 const author = siteConfig.author || "Author";
 const siteName = themeConfig.siteName || "Site";
+const commentsConfig = themeConfig.comments || {};
+const walineConfig = commentsConfig.waline || {};
+
+// Current post path (trailing slash required by project routing)
+const postPath = `/posts/${post.id}/`;
 
 // Build permalink
-const permalink = `${Astro.site?.toString()}posts/${post.id}`;
+const permalink = Astro.site
+  ? new URL(postPath, Astro.site).toString()
+  : postPath;
 
 // Build postMeta for Brand component
 const postMeta = {
@@ -204,7 +212,7 @@ const postMeta = {
                     href={`/tags/${tag.toLowerCase().replace(/\s+/g, "-")}/`}
                     rel="tag"
                   >
-                    <i class="ic i-ri-price-tag-3-line" />
+                    <i class="icon i-ri-price-tag-3-line" />
                     {tag}
                   </a>
                 ))}
@@ -230,7 +238,22 @@ const postMeta = {
     <PostNav
       prevPost={prevPost}
       nextPost={nextPost}
-      enableGradientCover={themeConfig.cover?.enableNextGradientCover}
+      nextGradientCover={themeConfig.cover?.nextGradientCover}
     />
+
+    {
+      commentsConfig.enable !== false && (
+        <div id="comments" class="comment">
+          <WalineComments
+            client:visible
+            serverURL={walineConfig.serverURL}
+            lang={walineConfig.lang || themeConfig.locale || "zh-CN"}
+            dark={walineConfig.dark}
+            path={walineConfig.path}
+            pagePath={postPath}
+          />
+        </div>
+      )
+    }
   </Fragment>
 </Layout>

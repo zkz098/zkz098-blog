@@ -3,8 +3,8 @@ import type { ImageMetadata } from 'astro'
 import CoverImage from './CoverImage.astro'
 
 interface Props {
-  enableCover?: boolean
-  enablePreload?: boolean
+  enable?: boolean
+  preload?: boolean
   fixedCover?: ImageMetadata | string
   gradient?: boolean
   covers?: ImageMetadata[]
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const {
-  enableCover = false,
+  enable = false,
   fixedCover,
   gradient = false,
   covers = [],
@@ -27,7 +27,7 @@ const isMultipleImages =
 const singleImage =
   fixedCover || (gradient ? 'https://7ed.net/bing/api' : covers[0])
 ---
-{enableCover && (
+{enable && (
     <div class="spacer"></div>
 
     <div

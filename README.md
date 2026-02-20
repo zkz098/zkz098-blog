@@ -17,7 +17,7 @@ bun run dev
 bun run build
 ```
 
-查看完整文档：[ShokaX Astro 文档](https://docs.astro.kaitaku.xyz/guides/getting-started/)
+查看完整文档：[ShokaX Astro 文档](https://docs.astro.kaitaku.xyz/start/guides/)
 
 本仓库自带`vercel.json`和`netlify.toml`以提供在对应平台上的安全性与缓存优化，您可以直接将本仓库部署到相关平台上
 

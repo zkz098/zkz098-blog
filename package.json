@@ -28,6 +28,7 @@
     "@pagefind/default-ui": "^1.4.0",
     "@unocss/extractor-svelte": "^66.6.0",
     "@vtbag/element-crossing": "^1.1.0",
+    "@waline/client": "^3.12.2",
     "astro": "^5.17.1",
     "astro-auto-import": "^0.5.1",
     "cn-font-split": "^7.4.1",

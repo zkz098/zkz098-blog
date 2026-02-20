@@ -11,27 +11,29 @@ export default defineConfig({
       icon: "i-ri-home-line",
     },
     {
-      dropbox: true,
       text: "文章",
       href: "/posts/",
       icon: "i-ri-quill-pen-fill",
-      dropboxItems: [
-        {
-          href: "/categories/",
-          text: "分类",
-          icon: "i-ri-book-shelf-fill",
-        },
-        {
-          href: "/tags/",
-          text: "标签",
-          icon: "i-ri-price-tag-3-fill",
-        },
-        {
-          href: "/archives/",
-          text: "归档",
-          icon: "i-ri-archive-line",
-        },
-      ],
+      dropbox: {
+        enable: true,
+        items: [
+          {
+            href: "/categories/",
+            text: "分类",
+            icon: "i-ri-book-shelf-fill",
+          },
+          {
+            href: "/tags/",
+            text: "标签",
+            icon: "i-ri-price-tag-3-fill",
+          },
+          {
+            href: "/archives/",
+            text: "归档",
+            icon: "i-ri-archive-line",
+          },
+        ],
+      },
     },
     {
       text: "友链",
@@ -45,16 +47,18 @@ export default defineConfig({
     logo: "✨",
   },
   cover: {
-    enableCover: true,
-    enablePreload: true,
+    enable: true,
+    preload: true,
     // 固定封面模式（可选）：
-    // - enableFixedCover: 是否启用固定封面
-    // - fixedCover: 推荐填 "cover-1" ~ "cover-6"（来自 src/components/Images.astro 预设），
-    //              或者填 public 路径/远程 URL（会使用 <img> 兜底渲染）
-    enableFixedCover: false,
-    // fixedCover: "cover-1",
+    // - enable: 是否启用固定封面
+    // - url: 推荐填 "cover-1" ~ "cover-6"（来自 src/components/Images.astro 预设），
+    //        或者填 public 路径/远程 URL（会使用 <img> 兜底渲染）
+    fixedCover: {
+      enable: false,
+      // url: "cover-1",
+    },
     // gradient: true, // 渐变模式
-    enableNextGradientCover: false, // 文章导航使用渐变背景
+    nextGradientCover: false, // 文章导航使用渐变背景
   },
   sidebar: {
     author: "Your Name",
@@ -93,6 +97,18 @@ export default defineConfig({
   widgets: {
     randomPosts: true,
     recentComments: true,
+    recentCommentsLimit: 6,
+  },
+  comments: {
+    enable: false,
+    waline: {
+      // 替换为你的 Waline 服务端地址，例如: https://comments.example.com
+      serverURL: "",
+      // 推荐与站点语言保持一致
+      lang: "zh-CN",
+      // trailingSlash: "always" 场景下建议保持 pathname 原样
+      // dark: "auto",
+    },
   },
   home: {
     selectedCategories: [{ name: "Tutorial" }, { name: "Frontend" }],

@@ -80,7 +80,12 @@
     "poweredBy": "Powered by",
     "and": "&",
     "poweredSuffix": "Theme",
-    "randomPosts": "Random Posts"
+    "randomPosts": "Random Posts",
+    "recentComments": "Recent Comments",
+    "noRecentComments": "No comments yet. Start a conversation!",
+    "recentCommentsLoadFailed": "Failed to load recent comments. Please try again later.",
+    "commentAnonymous": "Anonymous",
+    "walineNotConfigured": "Waline server URL is not configured"
   },
   "pagination": {
     "prev": "Previous",

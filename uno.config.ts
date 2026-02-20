@@ -8,8 +8,8 @@ const iconSafeList = themeConfig.nav.flatMap((item) => {
   if (item.icon) {
     icons.push(item.icon);
   }
-  if (item.dropboxItems) {
-    item.dropboxItems.forEach((subItem) => {
+  if (item.dropbox?.items) {
+    item.dropbox.items.forEach((subItem) => {
       if (subItem.icon) {
         icons.push(subItem.icon);
       }

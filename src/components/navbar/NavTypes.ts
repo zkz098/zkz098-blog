@@ -23,17 +23,13 @@ export interface NavItemType {
   icon?: string;
 
   /**
-   * 是否为下拉菜单。
-   * - true：此项为下拉菜单，包含子菜单项
-   * - false 或 undefined：普通导航链接
-   * - 启用时需配合 dropboxItems 使用
+   * 下拉菜单配置。
+   * - enable：是否启用下拉菜单
+   * - items：下拉菜单的子菜单项
+   * - 可选，不填或 enable 为 false 时为普通链接
    */
-  dropbox?: boolean;
-
-  /**
-   * 下拉菜单的子菜单项。
-   * - 仅当 dropbox 为 true 时有效
-   * - 每个子项也是一个 NavItemType，但通常不再包含下拉菜单
-   */
-  dropboxItems?: NavItemType[];
+  dropbox?: {
+    enable: boolean;
+    items?: NavItemType[];
+  };
 }

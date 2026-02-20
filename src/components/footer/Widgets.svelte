@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { RecentComments } from "@waline/client";
   import { shuffle } from "es-toolkit";
   import { onMount } from "svelte";
   import { t } from "@/i18n";
@@ -18,46 +19,133 @@
     enableRandomPosts?: boolean;
     enableRecentComments?: boolean;
     recentCommentsLimit?: number;
+    walineServerURL?: string;
   }
 
   const {
     posts = [],
     enableRandomPosts = true,
     enableRecentComments = true,
+    recentCommentsLimit = 6,
+    walineServerURL = "",
   }: Props = $props();
 
+  interface RecentCommentItem {
+    nick: string;
+    time: string;
+    text: string;
+    href: string;
+  }
+
   let randomPosts = $state<Post[]>([]);
-  let recentComments = $state<any[]>([]);
-  let hasWaline = $state(false);
-  let hasTwikoo = $state(false);
+  let recentComments = $state<RecentCommentItem[]>([]);
+  let loadFailed = $state(false);
+
+  const hasWaline = $derived(Boolean(walineServerURL));
+
+  function formatDateTime(input: unknown): string {
+    const date = input instanceof Date ? input : new Date(String(input || ""));
+
+    if (Number.isNaN(date.getTime())) {
+      return "";
+    }
+
+    return date.toLocaleString("zh-CN", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+
+  function toPlainText(input: unknown): string {
+    return String(input || "")
+      .replace(/<[^>]*>/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function normalizePath(path: string): string {
+    if (!path) {
+      return "/";
+    }
+
+    if (/^https?:\/\//.test(path)) {
+      return path;
+    }
+
+    if (path.endsWith("/")) {
+      return path;
+    }
+
+    return `${path}/`;
+  }
+
+  function mapRecentComment(comment: unknown): RecentCommentItem {
+    const value = comment as {
+      nick?: string;
+      insertedAt?: string;
+      time?: string;
+      updatedAt?: string;
+      comment?: string;
+      text?: string;
+      url?: string;
+      path?: string;
+      objectId?: string;
+      id?: string;
+      _id?: string;
+    };
+
+    const nick = String(value.nick || t("footer.commentAnonymous"));
+    const time = formatDateTime(
+      value.insertedAt || value.time || value.updatedAt,
+    );
+    const text = toPlainText(value.comment || value.text || "");
+    const basePath = normalizePath(String(value.url || value.path || "/"));
+    const id = String(value.objectId || value.id || value._id || "");
+
+    return {
+      nick,
+      time,
+      text,
+      href: id ? `${basePath}#waline-comment-${id}` : basePath,
+    };
+  }
 
   onMount(() => {
-    // Check if Waline or Twikoo is available
-    // @ts-ignore
-    hasWaline = typeof window !== "undefined" && window.__WALINE__;
-    // @ts-ignore
-    hasTwikoo = typeof window !== "undefined" && window.__TWIKOO__;
+    let destroyRecentComments: (() => void) | undefined;
 
     // Get random posts
     if (enableRandomPosts && posts.length > 0) {
       randomPosts = shuffle([...posts]).slice(0, 10);
     }
 
-    // Mock: Initialize recent comments
-    if (enableRecentComments && (hasWaline || hasTwikoo)) {
-      // TODO: Fetch recent comments from Waline/Twikoo API
-      // For now, this is mocked out with empty array
-      recentComments = [];
-      // Example of what the fetched data would look like:
-      // recentComments = [
-      //   {
-      //     nick: 'User Name',
-      //     time: '2 hours ago',
-      //     text: 'Great article!',
-      //     href: '/post/slug#comment-id'
-      //   }
-      // ]
+    // Fetch recent comments from Waline
+    if (enableRecentComments && hasWaline) {
+      const loadRecentComments = async () => {
+        try {
+          const result = await RecentComments({
+            serverURL: walineServerURL,
+            count: recentCommentsLimit,
+          });
+          destroyRecentComments = result.destroy;
+          // @ts-expect-error - Waline 的 TS 定义存在问题，此处缺少了对data属性的定义
+          recentComments = (result.comments.data || []).map((comment) =>
+            mapRecentComment(comment),
+          );
+        } catch {
+          loadFailed = true;
+          recentComments = [];
+        }
+      };
+
+      loadRecentComments();
     }
+
+    return () => {
+      destroyRecentComments?.();
+    };
   });
 
   function getPostSlug(post: Post): string {
@@ -74,9 +162,7 @@
   }
 </script>
 
-<aside
-  class="widgets bg-body-bg-shadow my-8 px-4 py-4 flex gap-4 justify-around z-1"
->
+<aside class="widgets bg-body-bg-shadow px-4 flex gap-4 justify-around z-1">
   <!-- Random Posts Widget -->
   {#if enableRandomPosts && randomPosts.length > 0}
     <div class="rpost px-4 py-4 w-1/2">
@@ -106,13 +192,12 @@
   {/if}
 
   <!-- Recent Comments Widget -->
-  {#if enableRecentComments && (hasWaline || hasTwikoo)}
+  {#if enableRecentComments && hasWaline}
     <div class="rpost px-4 py-4 w-1/2">
-      <h2 class="text-base font-semibold m-0 mb-4">Recent Comments</h2>
-      <ul
-        id="new-comment"
-        class="leancloud-recent-comment post-list m-0 p-0 list-none"
-      >
+      <h2 class="text-base font-semibold m-0 mb-4">
+        {t("footer.recentComments")}
+      </h2>
+      <ul id="recent-comment" class="post-list m-0 p-0 list-none">
         {#if recentComments.length > 0}
           {#each recentComments as comment}
             <li
@@ -131,10 +216,13 @@
               </a>
             </li>
           {/each}
+        {:else if loadFailed}
+          <li class="item text-grey-5 py-4 text-center">
+            {t("footer.recentCommentsLoadFailed")}
+          </li>
         {:else}
           <li class="item text-grey-5 py-4 text-center">
-            <!-- TODO: Load recent comments from Waline/Twikoo -->
-            No comments yet. Start a conversation!
+            {t("footer.noRecentComments")}
           </li>
         {/if}
       </ul>

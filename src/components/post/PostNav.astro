@@ -15,10 +15,10 @@ interface NavPost {
 interface Props {
   prevPost?: NavPost;
   nextPost?: NavPost;
-  enableGradientCover?: boolean;
+  nextGradientCover?: boolean;
 }
 
-const { prevPost, nextPost, enableGradientCover = false } = Astro.props;
+const { prevPost, nextPost, nextGradientCover = false } = Astro.props;
 const t = getT((themeConfig.locale as "zh-CN" | "en") || "zh-CN");
 ---
 
@@ -32,7 +32,7 @@ const t = getT((themeConfig.locale as "zh-CN" | "en") || "zh-CN");
           rel="prev"
           title={prevPost.title}
           style={
-            enableGradientCover
+            nextGradientCover
               ? `background-image: linear-gradient(to bottom right, ${generateRandomBrightColor()}, ${generateRandomBrightColor()});`
               : `background-image: url(${prevPost.cover || sample(covers ?? []).src});`
           }
@@ -59,7 +59,7 @@ const t = getT((themeConfig.locale as "zh-CN" | "en") || "zh-CN");
           rel="next"
           title={nextPost.title}
           style={
-            enableGradientCover
+            nextGradientCover
               ? `background-image: linear-gradient(to bottom right, ${generateRandomBrightColor()}, ${generateRandomBrightColor()});`
               : `background-image: url(${nextPost.cover || sample(covers ?? []).src});`
           }

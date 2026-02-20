@@ -32,7 +32,7 @@ interface CoverConfig {
    * - true：显示页面顶部封面区域
    * - false：隐藏封面，页面从导航栏下方直接开始
    */
-  enableCover?: boolean;
+  enable?: boolean;
 
   /**
    * 是否预加载封面图。
@@ -40,22 +40,26 @@ interface CoverConfig {
    * - false：按默认方式加载
    * - 建议大型图片或网络较慢时启用
    */
-  enablePreload?: boolean;
+  preload?: boolean;
 
   /**
-   * 是否启用固定封面。
-   * - true：优先使用 fixedCover
-   * - false：忽略 fixedCover
-   * - undefined：兼容旧配置（当 fixedCover 有值时视为启用）
+   * 固定封面配置。
    */
-  enableFixedCover?: boolean;
+  fixedCover?: {
+    /**
+     * 是否启用固定封面。
+     * - true：优先使用 url 字段
+     * - false：忽略固定封面
+     */
+    enable?: boolean;
 
-  /**
-   * 固定封面配置：
-   * - 推荐填 Images.astro 的预设 key："cover-1" ~ "cover-6"（会走 Astro 静态导入与 <Image />）
-   * - 也可填 public 路径或远程 URL（会使用 <img> 兜底渲染）
-   */
-  fixedCover?: string;
+    /**
+     * 固定封面 URL。
+     * - 推荐填 Images.astro 的预设 key："cover-1" ~ "cover-6"（会走 Astro 静态导入与 <Image />）
+     * - 也可填 public 路径或远程 URL（会使用 <img> 兜底渲染）
+     */
+    url?: string;
+  };
 
   /**
    * 是否使用渐变背景封面。
@@ -70,7 +74,7 @@ interface CoverConfig {
    * - true：文章页底部的上一篇/下一篇导航使用随机渐变色背景
    * - false：使用文章封面图
    */
-  enableNextGradientCover?: boolean;
+  nextGradientCover?: boolean;
 }
 
 interface FooterConfig {
@@ -161,6 +165,55 @@ interface WidgetsConfig {
    * - false：不显示
    */
   recentComments?: boolean;
+
+  /**
+   * 最新评论显示数量。
+   * - 默认建议 5~10 条，避免页脚过长
+   */
+  recentCommentsLimit?: number;
+}
+
+interface WalineClientConfig {
+  /**
+   * Waline 服务端地址。
+   * - 例如: https://comments.example.com
+   */
+  serverURL?: string;
+
+  /**
+   * 评论语言。
+   * - 留空时由 Waline 根据浏览器语言决定
+   */
+  lang?: string;
+
+  /**
+   * 评论路径。
+   * - 默认为当前 pathname
+   * - 可用于多语言/去尾斜杠等场景统一路径
+   */
+  path?: string;
+
+  /**
+   * 暗黑模式配置。
+   * - false: 关闭
+   * - true: 强制开启
+   * - "auto": 跟随系统
+   * - CSS 选择器: 当选择器命中时启用暗黑模式
+   */
+  dark?: boolean | string;
+}
+
+interface CommentsConfig {
+  /**
+   * 是否启用评论模块。
+   * - false 时文章页不挂载评论组件
+   */
+  enable?: boolean;
+
+  /**
+   * Waline 客户端配置。
+   */
+  waline?: WalineClientConfig;
 }
 
 interface HomeConfig {
@@ -303,6 +356,12 @@ export interface ShokaXThemeConfig {
    * - 包含精选分类、分页设置等首页特定配置
    */
   home?: HomeConfig;
+
+  /**
+   * 评论配置。
+   * - 当前用于 Waline 评论系统
+   */
+  comments?: CommentsConfig;
 
   /**
    * 版权配置。

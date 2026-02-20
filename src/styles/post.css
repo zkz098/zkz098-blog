@@ -613,19 +613,6 @@
   display: none;
 }
 
-.md ul li.task-list-item input[type="checkbox"] + label::before {
-  content: "\e900";
-  font-family: "iconfont";
-  color: var(--grey-4);
-  display: inline-block;
-  margin-right: 0.625em;
-}
-
-.md ul li.task-list-item input[type="checkbox"]:checked + label::before {
-  content: "\e901";
-  color: var(--primary-color);
-}
-
 /* ============================================
    Tables
    ============================================ */

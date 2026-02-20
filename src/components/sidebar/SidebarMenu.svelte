@@ -1,46 +1,49 @@
-<script lang='ts'>
-  import type { NavItemType } from '../navbar/NavTypes'
+<script lang="ts">
+  import type { NavItemType } from "../navbar/NavTypes";
 
   interface Props {
-    menu?: NavItemType[]
+    menu?: NavItemType[];
   }
 
-  const { menu }: Props = $props()
+  const { menu }: Props = $props();
 
   const getMenuIcon = (item: any): string => {
-    return item?.icon ?? ''
-  }
+    return item?.icon ?? "";
+  };
 
   const renderNavItems = (items: NavItemType[]) => {
-    return items.map(item => ({
+    return items.map((item) => ({
       data: item,
-      isDropdown: item.dropbox && item.dropboxItems && item.dropboxItems.length > 0,
-    }))
-  }
+      isDropdown:
+        item.dropbox?.enable &&
+        item.dropbox?.items &&
+        item.dropbox.items.length > 0,
+    }));
+  };
 
-  const menuItems = $derived(renderNavItems(menu || []))
+  const menuItems = $derived(renderNavItems(menu || []));
 </script>
 
-<nav class='menu'>
-  <ul class='menu-list list-none'>
+<nav class="menu">
+  <ul class="menu-list list-none">
     {#each menuItems as item (item.data.href)}
       {@const icon = item.data.icon}
       {@const text = item.data.text}
       {@const url = item.data.href}
-      {@const dropboxItems = item.data.dropboxItems || []}
+      {@const dropboxItems = item.data.dropbox?.items || []}
 
       {#if item.isDropdown && dropboxItems.length > 0}
-        <li class='item dropdown'>
-          <a href={url} rel='section'>
+        <li class="item dropdown">
+          <a href={url} rel="section">
             {#if icon}
               <div class={`ic ${icon}`}></div>
             {/if}
             {text}
           </a>
-          <ul class='submenu'>
+          <ul class="submenu">
             {#each dropboxItems as subItem (subItem.href)}
-              <li class='item'>
-                <a href={subItem.href} rel='section'>
+              <li class="item">
+                <a href={subItem.href} rel="section">
                   {#if subItem.icon}
                     <div class={`ic ${getMenuIcon(subItem)}`}></div>
                   {/if}
@@ -51,8 +54,8 @@
           </ul>
         </li>
       {:else}
-        <li class='item'>
-          <a href={url} rel='section'>
+        <li class="item">
+          <a href={url} rel="section">
             {#if icon}
               <div class={`ic ${icon}`}></div>
             {/if}
@@ -135,7 +138,11 @@
   }
 
   .menu .item.active {
-    background: linear-gradient(to right, var(--color-pink), var(--color-orange));
+    background: linear-gradient(
+      to right,
+      var(--color-pink),
+      var(--color-orange)
+    );
     color: var(--grey-0);
     box-shadow: 0 0.25rem 0.625rem var(--color-pink-a3);
   }
