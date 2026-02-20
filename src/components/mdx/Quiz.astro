@@ -1,0 +1,433 @@
+---
+interface Props {
+  type?: "true" | "false" | "single" | "multi" | "fill";
+}
+
+const { type = "single" }: Props = Astro.props;
+---
+
+<div class={`quiz-item ${type}`.trim()} data-quiz-type={type}>
+  <div class="quiz-question">
+    <slot />
+  </div>
+</div>
+
+<style is:global>
+  .md .quiz-group {
+    counter-reset: quiz-counter;
+  }
+
+  .md .quiz-group .quiz-item {
+    margin: 0.625rem 0;
+    position: relative;
+    padding-left: 0.8rem;
+  }
+
+  .md .quiz-group .quiz-item::before {
+    counter-increment: quiz-counter;
+    content: counter(quiz-counter) ".";
+    position: absolute;
+    color: var(--primary-color);
+    text-align: right;
+    width: 2rem;
+    left: -2.2rem;
+    height: auto;
+    background: none !important;
+    border: none !important;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+  }
+
+  .md .quiz-group .quiz-item::after {
+    transition: all 0.3s ease;
+  }
+
+  .md .quiz-group .quiz-item > .quiz-question {
+    margin: 0;
+  }
+
+  .md .quiz-group .quiz-item.fill > .quiz-question {
+    cursor: pointer;
+  }
+
+  .md .quiz-group .quiz-item > .quiz-question > p:first-child {
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .md .quiz-group .quiz-item > .quiz-question > p:first-child::before {
+    content: "[" attr(data-type) "]";
+    font-size: 0.75rem;
+    color: var(--grey-4);
+    margin: auto 0.3125rem;
+  }
+
+  .md .quiz-group .quiz-options {
+    padding-inline-start: 0.625rem;
+    margin-top: 0.5rem;
+    counter-reset: quiz-option-counter;
+  }
+
+  .md .quiz-group .quiz-options > .quiz-option {
+    list-style: none;
+    position: relative;
+    margin: 0.25rem 0;
+    cursor: pointer;
+  }
+
+  .md .quiz-group .quiz-options > .quiz-option::before {
+    counter-increment: quiz-option-counter;
+    content: counter(quiz-option-counter, upper-alpha);
+    color: var(--color-grey);
+    margin-right: 0.625rem;
+    transition: all 0.3s ease;
+  }
+
+  .md .quiz-group .quiz-options > .quiz-option::after {
+    content: none;
+  }
+
+  .md .quiz-group .quiz-options > .quiz-option .quiz-result-icon {
+    position: absolute;
+    left: -1.4rem;
+    top: 0.5rem;
+    font-size: 0.9rem;
+    display: none;
+    scale: 1.5;
+  }
+
+  .md .quiz-group .quiz-options > .quiz-option.selected {
+    color: var(--primary-color);
+  }
+
+  .md .quiz-group .quiz-options > .quiz-option.right::before {
+    color: var(--color-green);
+  }
+
+  .md .quiz-group .quiz-options > .quiz-option.right::after {
+    content: none;
+  }
+
+  .md .quiz-group .quiz-options > .quiz-option.right .quiz-result-icon {
+    color: var(--color-green);
+    display: inline-block;
+    animation: fadeIn 0.5s;
+  }
+
+  .md .quiz-group .quiz-options > .quiz-option.wrong::before {
+    color: var(--color-red);
+  }
+
+  .md .quiz-group .quiz-options > .quiz-option.wrong::after {
+    content: none;
+  }
+
+  .md .quiz-group .quiz-options > .quiz-option.wrong .quiz-result-icon {
+    color: var(--color-red);
+    display: inline-block;
+    animation: fadeIn 0.5s;
+  }
+
+  .md .quiz-group .quiz-item.show.true::before,
+  .md .quiz-group .quiz-item.show.false::before {
+    visibility: hidden;
+  }
+
+  .md .quiz-group .quiz-item .quiz-state-icon {
+    position: absolute;
+    left: -1.2rem;
+    top: 0.6rem;
+    font-size: 1rem;
+    display: none;
+    scale: 1.5;
+  }
+
+  .md .quiz-group .quiz-item.show.true .quiz-state-icon,
+  .md .quiz-group .quiz-item.show.false .quiz-state-icon {
+    display: inline-block;
+    animation: fadeIn 0.5s;
+  }
+
+  .md .quiz-group .quiz-item.show.true .quiz-state-icon {
+    color: var(--color-green);
+  }
+
+  .md .quiz-group .quiz-item.show.false .quiz-state-icon {
+    color: var(--color-red);
+  }
+
+  .md .quiz-group .quiz-gap {
+    display: inline-block;
+    min-width: 2.5rem;
+    text-align: center;
+    padding: 0 0.625rem;
+    text-indent: -624.9375rem;
+    white-space: nowrap;
+  }
+
+  .md .quiz-group .quiz-gap::after {
+    display: block;
+    content: "";
+    background: var(--text-color);
+    width: calc(100% + 1.25rem);
+    height: 0.0625rem;
+    margin-bottom: -0.0625rem;
+    margin-left: -0.625rem;
+  }
+
+  .md .quiz-group .quiz-item.show.fill .quiz-gap {
+    text-indent: 0;
+  }
+
+  .md .quiz-group .quiz-answer {
+    display: none;
+    margin-top: 0.5rem;
+  }
+
+  .md .quiz-group .quiz-item.show .quiz-answer {
+    display: block;
+    animation: slideDown 0.3s ease;
+  }
+
+  .md .quiz-group .quiz-mistake {
+    display: block;
+    border: 0.1875rem dashed var(--grey-4);
+    padding: 0.625rem 1.25rem;
+    background: var(--grey-3);
+    margin: 0.3125rem 0;
+  }
+
+  .md .quiz-group .quiz-mistake::before {
+    display: block;
+    content: "[" attr(data-type) "]";
+    font-size: 0.8125rem;
+    color: var(--grey-4);
+  }
+
+  .md .quiz-group .quiz-check-btn {
+    margin-top: 0.5rem;
+    border: none;
+    border-radius: 0.375rem;
+    background: var(--primary-color);
+    color: var(--grey-0);
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .md .quiz-group .quiz-check-btn:hover {
+    filter: brightness(1.08);
+  }
+
+  .md .quiz-group .quiz-check-btn[hidden] {
+    display: none;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(0.125rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  // @ts-nocheck
+  const DATA_BOUND_KEY = "quizBound";
+
+  /** @param {"true" | "false" | "single" | "multi" | "fill"} quizType */
+  const getQuizTypeLabel = (quizType) => {
+    switch (quizType) {
+      case "true":
+      case "false":
+        return "判断题";
+      case "multi":
+        return "多选题";
+      case "fill":
+        return "填空题";
+      case "single":
+      default:
+        return "单选题";
+    }
+  };
+
+  /** @param {HTMLElement} quizItem */
+  const revealAnswer = (quizItem) => {
+    quizItem.classList.add("show");
+  };
+
+  /** @param {HTMLElement} quizItem */
+  const markSingleOrMulti = (quizItem) => {
+    const options = quizItem.querySelectorAll(
+      ":scope .quiz-options > .quiz-option",
+    );
+    options.forEach((option) => {
+      const isCorrect = option.dataset.correct === "true";
+      let optionIcon = option.querySelector(":scope > .quiz-result-icon");
+      if (!optionIcon) {
+        optionIcon = document.createElement("span");
+        optionIcon.className = "quiz-result-icon";
+        optionIcon.setAttribute("aria-hidden", "true");
+        option.append(optionIcon);
+      }
+      optionIcon.classList.remove("i-ri-check-fill", "i-ri-close-fill");
+      optionIcon.classList.add(
+        isCorrect ? "i-ri-check-fill" : "i-ri-close-fill",
+      );
+      option.classList.remove("right", "wrong");
+      option.classList.add(isCorrect ? "right" : "wrong");
+    });
+    revealAnswer(quizItem);
+  };
+
+  /** @param {HTMLElement} quizItem */
+  const bindQuizItem = (quizItem) => {
+    if (quizItem.dataset[DATA_BOUND_KEY] === "true") {
+      return;
+    }
+
+    const quizType =
+      /** @type {"true" | "false" | "single" | "multi" | "fill"} */ (
+        quizItem.dataset.quizType || "single"
+      );
+    const question = quizItem.querySelector(":scope > .quiz-question");
+    const firstQuestionParagraph = question?.querySelector(
+      ":scope > p:first-child",
+    );
+
+    if (firstQuestionParagraph) {
+      firstQuestionParagraph.dataset.type = getQuizTypeLabel(quizType);
+    }
+
+    if (quizType === "true" || quizType === "false" || quizType === "fill") {
+      if (quizType === "true" || quizType === "false") {
+        let stateIcon = quizItem.querySelector(":scope > .quiz-state-icon");
+        if (!stateIcon) {
+          stateIcon = document.createElement("span");
+          stateIcon.className = `quiz-state-icon ${
+            quizType === "true" ? "i-ri-check-fill" : "i-ri-close-fill"
+          }`;
+          stateIcon.setAttribute("aria-hidden", "true");
+          quizItem.append(stateIcon);
+        }
+      }
+
+      if (quizType === "fill") {
+        quizItem.addEventListener("click", () => {
+          const willShow = !quizItem.classList.contains("show");
+          quizItem.classList.toggle("show", willShow);
+
+          if (willShow) {
+            const gaps = quizItem.querySelectorAll(":scope .quiz-gap");
+            gaps.forEach((gap) => {
+              gap.textContent = gap.dataset.answer || "";
+            });
+          }
+        });
+      }
+
+      if (quizType !== "fill") {
+        firstQuestionParagraph?.addEventListener("click", () => {
+          const willShow = !quizItem.classList.contains("show");
+          quizItem.classList.toggle("show", willShow);
+        });
+      }
+    }
+
+    if (quizType === "single") {
+      const hasAnswer = Boolean(quizItem.querySelector(":scope .quiz-answer"));
+      let actionButton = hasAnswer
+        ? quizItem.querySelector(":scope > .quiz-check-btn")
+        : null;
+      if (hasAnswer && !actionButton) {
+        actionButton = document.createElement("button");
+        actionButton.type = "button";
+        actionButton.className = "quiz-check-btn";
+        actionButton.textContent = "隐藏答案";
+        actionButton.hidden = true;
+        quizItem.append(actionButton);
+      }
+
+      const options = quizItem.querySelectorAll(
+        ":scope .quiz-options > .quiz-option",
+      );
+      options.forEach((option) => {
+        option.addEventListener("click", () => {
+          markSingleOrMulti(quizItem);
+          if (actionButton) {
+            actionButton.hidden = false;
+            actionButton.textContent = "隐藏答案";
+          }
+        });
+      });
+
+      actionButton?.addEventListener("click", () => {
+        const willShow = !quizItem.classList.contains("show");
+        quizItem.classList.toggle("show", willShow);
+        actionButton.textContent = willShow ? "隐藏答案" : "显示答案";
+      });
+    }
+
+    if (quizType === "multi") {
+      const options = quizItem.querySelectorAll(
+        ":scope .quiz-options > .quiz-option",
+      );
+      options.forEach((option) => {
+        option.addEventListener("click", () => {
+          option.classList.toggle("selected");
+        });
+      });
+
+      let actionButton = quizItem.querySelector(":scope > .quiz-check-btn");
+      if (!actionButton) {
+        actionButton = document.createElement("button");
+        actionButton.type = "button";
+        actionButton.className = "quiz-check-btn";
+        actionButton.textContent = "查看答案";
+        quizItem.append(actionButton);
+      }
+
+      actionButton.addEventListener("click", () => {
+        const shouldHide = quizItem.classList.contains("show");
+        if (shouldHide) {
+          quizItem.classList.remove("show");
+          actionButton.textContent = "查看答案";
+          return;
+        }
+        markSingleOrMulti(quizItem);
+        actionButton.textContent = "隐藏答案";
+      });
+    }
+
+    quizItem.dataset[DATA_BOUND_KEY] = "true";
+  };
+
+  const initQuiz = () => {
+    const quizItems = document.querySelectorAll(".md .quiz-item");
+    quizItems.forEach(bindQuizItem);
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initQuiz, { once: true });
+  } else {
+    initQuiz();
+  }
+</script>

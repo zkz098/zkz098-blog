@@ -521,8 +521,7 @@
   padding: 0.1em 0.2em 0.1em 1.4em;
 }
 
-/* Unordered Lists */
-.md ul > li::before,
+.md ul > li:not(.quiz-option)::before,
 .md dl dt::before {
   content: "";
   position: absolute;
@@ -534,7 +533,7 @@
   left: -1em;
 }
 
-.md ul > li:hover::before,
+.md ul > li:not(.quiz-option):hover::before,
 .md dl dt:hover::before {
   background: var(--color-pink);
 }
@@ -576,7 +575,7 @@
 }
 
 /* Nested Lists */
-.md li ul > li::before {
+.md li ul > li:not(.quiz-option)::before {
   background: var(--grey-1);
   border: 1px solid var(--primary-color);
 }
