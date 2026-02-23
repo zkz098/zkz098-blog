@@ -1,23 +1,28 @@
-<script lang='ts'>
-  import { sidebarOpen, toggleSidebar } from '../../stores/sidebarStore'
+<script lang="ts">
+  import { sidebarOpen, toggleSidebar } from "../../stores/sidebarStore";
 
   interface Props {
-    clickCallback?: (state: boolean) => void
+    clickCallback?: (state: boolean) => void;
   }
 
-  const { clickCallback = () => {} }: Props = $props()
+  const { clickCallback = () => {} }: Props = $props();
 
   const handleToggle = () => {
-    toggleSidebar()
-    clickCallback?.($sidebarOpen)
-  }
+    toggleSidebar();
+    clickCallback?.($sidebarOpen);
+  };
 </script>
 
-<button class='border-none bg-transparent flex flex-col cursor-pointer items-center justify-center lg:hidden' onclick={handleToggle} aria-label='Toggle sidebar' type='button'>
-  <div class='line-height-0 p-5 w-5.5 box-unset'>
-    <div class={`line-menu ${$sidebarOpen ? 'line-1' : ''}`}></div>
-    <div class={`line-menu mt-0.75 ${$sidebarOpen ? 'line-2' : ''}`}></div>
-    <div class={`line-menu mt-0.75 ${$sidebarOpen ? 'line-3' : ''}`}></div>
+<button
+  class="left-nav-btn border-none bg-transparent flex flex-col cursor-pointer items-center justify-center lg:hidden"
+  onclick={handleToggle}
+  aria-label="Toggle sidebar"
+  type="button"
+>
+  <div class="line-height-0 p-5 w-5.5 box-unset">
+    <div class={`line-menu ${$sidebarOpen ? "line-1" : ""}`}></div>
+    <div class={`line-menu mt-0.75 ${$sidebarOpen ? "line-2" : ""}`}></div>
+    <div class={`line-menu mt-0.75 ${$sidebarOpen ? "line-3" : ""}`}></div>
   </div>
 </button>
 
@@ -48,5 +53,11 @@
     position: relative;
     left: 0;
     box-shadow: 0 0 0.5rem #00000080;
+  }
+
+  @media (min-width: 1024px) {
+    .left-nav-btn {
+      display: none;
+    }
   }
 </style>
