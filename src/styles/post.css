@@ -521,7 +521,7 @@
   padding: 0.1em 0.2em 0.1em 1.4em;
 }
 
-.md ul > li:not(.quiz-option)::before,
+.md ul > li:not(.quiz-option):not(.tab-nav-item)::before,
 .md dl dt::before {
   content: "";
   position: absolute;
@@ -533,7 +533,7 @@
   left: -1em;
 }
 
-.md ul > li:not(.quiz-option):hover::before,
+.md ul > li:not(.quiz-option):not(.tab-nav-item):hover::before,
 .md dl dt:hover::before {
   background: var(--color-pink);
 }

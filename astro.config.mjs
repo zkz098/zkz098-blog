@@ -81,6 +81,8 @@ export default defineConfig({
         "@/components/mdx/QuizAnswer.astro",
         "@/components/mdx/QuizGap.astro",
         "@/components/mdx/QuizMistake.astro",
+        "@/components/mdx/Tabs.astro",
+        "@/components/mdx/Tab.astro",
       ],
     }),
     mdx(),

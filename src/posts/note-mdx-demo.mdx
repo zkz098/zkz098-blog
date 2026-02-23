@@ -94,6 +94,20 @@ H<Sup>2</Sup>O 与 CO<Sub>2</Sub>
   这个折叠块使用 success 配色并默认展开。
 </Collapse>
 
+下面是 Tabs 组件示例：
+
+<Tabs defaultValue="svelte">
+  <Tab label="Astro" value="astro">
+    Astro 适合做内容站点，默认 SSR 性能很好。
+  </Tab>
+  <Tab label="Svelte" value="svelte">
+    Svelte 适合做轻量交互，当前主题中的导航就使用了 Svelte 组件。
+  </Tab>
+  <Tab label="UnoCSS" value="uno">
+    UnoCSS 提供原子化样式能力，和主题变量配合很灵活。
+  </Tab>
+</Tabs>
+
 下面是 Quiz 组件示例：
 
 <QuizGroup>
@@ -111,10 +125,10 @@ H<Sup>2</Sup>O 与 CO<Sub>2</Sub>
   </QuizOptions>
   <QuizAnswer>
     <ul>
-      <li>✅ 令基类对象的指针指向派生类对象</li>
-      <li>❌ 派生类指针不能指向基类对象</li>
-      <li>✅ 派生类对象可以赋值给基类对象（对象切片）</li>
-      <li>❌ 基类对象不能直接赋值给派生类对象</li>
+      <li>令基类对象的指针指向派生类对象</li>
+      <li>派生类指针不能指向基类对象</li>
+      <li>派生类对象可以赋值给基类对象（对象切片）</li>
+      <li>基类对象不能直接赋值给派生类对象</li>
     </ul>
   </QuizAnswer>
 </Quiz>
