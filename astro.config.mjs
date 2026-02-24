@@ -108,9 +108,6 @@ export default defineConfig({
     plugins: [
       Font.vite({
         scanFiles: ["src/**/*.{svelte,ts,tsx,js,jsx,md,mdx,json,astro}"],
-        css: {
-          fontDisplay: "optional",
-        },
       }),
       esToolkitPlugin(),
     ],

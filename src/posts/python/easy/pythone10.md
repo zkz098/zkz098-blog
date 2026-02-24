@@ -1,0 +1,101 @@
+---
+categories:
+  - python
+  - 基础篇
+date: 2022-02-22 14:22:09
+tags:
+  - python
+title: python-GUI和海龟库
+---
+
+:::info
+尚未完成
+:::
+
+# GUI和绘图
+
+## tkinter
+
+### 建一个窗口
+
+```python
+import tkinter as tk
+window = tk.Tk()
+window.geometry("500x300")
+window.title("my window")
+
+window.mainloop()
+```
+
+`tk.Tk`为tkinter的窗口基类,是所有tkinter窗口的基类
+`geometry`为窗口设定大小的函数,使用`x`做分隔
+`title`为窗口的标题,输入字符串
+`mainloop`为窗口自动更新,**必须要写**
+
+### 加行文字
+
+```python
+import tkinter as tk
+window = tk.Tk()
+window.geometry("500x300")
+window.title("my window")
+l1 = tk.Label(window,text="hello world",width=20,bg="green")
+l1.pack()
+
+window.mainloop()
+```
+
+Label的参数：
+
+- window：父窗口,即为显示的窗口
+- text：显示的文字
+- width：标签宽度
+- bg：背景颜色
+
+`l1.pack()`是放置函数,用于把标签放在窗口上
+
+## turtle
+
+### 画个正方形
+
+```python
+import turtle as t
+carrot = t.Turtle()
+for i in range(4):
+    carrot.forward(100)
+    carrot.rt(90)
+t.exitonclick()
+```
+
+`t.Turtle`是turtle的画笔类
+`forward/fd`为前进x个像素
+`right/rt`右转x度
+`left/lt`左转x度
+`backward/bk`后退x个像素
+`exitonclick`函数保证画完后画布会保留
+
+### 画个圆形
+
+```python
+import turtle as t
+carrot = t.Turtle()
+carrot.circle(100)
+t.exitonclick()
+```
+
+`circle`方法可以画一个半径为r的圆
+
+### 填充颜色
+
+```python
+import turtle as t
+carrot = t.Turtle()
+carrot.fillcolor("green")
+carrot.begin_fill()
+carrot.circle(100)
+carrot.end_fill()
+t.exitonclick()
+```
+
+`fillcolor`为指定填入的颜色
+`begin和end_fill`为开始填色

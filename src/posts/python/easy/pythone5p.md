@@ -1,0 +1,241 @@
+---
+categories:
+  - python
+  - 基础篇
+date: 2022-01-15 20:57:43
+tags:
+  - python
+title: python-常用模块
+---
+
+# random-随机数库
+
+## random方法
+
+```text
+import random
+
+a = random.random()
+```
+
+`random()`方法可以生成一个大于0小于1的浮点随机数!!位数可能很长!!
+通常使用`round()`方法来控制浮点数长度
+:::info
+`round(n,ndigits=x)`为其调用方法,n为数据,ndigits为位数 \
+`round()`方法遵循四舍五入原则!!好用多了!!
+:::
+:::info
+python使用模块前,需要先使用`import`关键字声明
+:::
+
+## randint方法
+
+```python
+import random
+
+a = random.randint(0,10)
+print(a) # 0-10随机数
+```
+
+`randint(s,e)`方法可以生成一个s-e区间内的随机整数
+:::warning
+`randint()`含头含尾,会生成头数和尾数
+:::
+:::info
+由于bool类型是int的子类,所以`randint(0,1)`相当于50%概率为真,可以直接用在条件中,不需要`==`
+:::
+
+## uniform方法
+
+```python
+import random
+
+a = random.uniform(0,10)
+print(a) # 0-10随机浮点数
+```
+
+`uniform()`相当于一个带参数的`random()`方法
+:::info
+`uniform()`的位数更!!离谱!!长,务必使用`round()`进行处理
+:::
+
+## randrange方法
+
+```python
+import random
+
+a = random.randrange(0,10,2)
+print(a) # 0-10的随机偶数
+```
+
+`randrange()`方法生成随机递增序列里的一个数,这个数一定是`起始位+步长的倍数`
+看不懂?让我们等量代换一下：
+
+```python
+import random
+
+l = list(range(0,10,2))
+print(random.choice(l)) # 随机从列表里选择一个数据,后面会讲到
+```
+
+这段代码与上面的结果是一致的,它的流程就是：
+
+1. 生成一个符合输入参数的列表
+2. 从列表里随机选择一个数
+3. 返回这个数
+
+这里还有一个拆分更彻底的版本：
+
+```python
+import random
+
+# 根据输入参数生成列表
+l = []
+for i in range(0, 10, 2):
+    l.append(i)
+
+# 随机选择元素
+index = random.randint(0, len(l) - 1)
+print(l[index]) # 返回(输出)此元素
+```
+
+## shuffle和sample方法
+
+```python
+import random
+l = [1,2,3,4,5]
+random.shuffle(l)
+print(l)
+l = [1,2,3,4,5]
+r = random.sample(l,5)
+print(r)
+```
+
+`shuffle(seq)`和`sample(seq,k=len(seq))`都可以随机打乱列表
+但shuffle是在原列表上做操作,而sample则是返回一个新列表
+`sample(seq,k=n<len(seq)`则可以从列表中随机提取长度为n的片段(不连续)
+
+## choice和choices方法
+
+```python
+import random
+
+l = [1,2,3,4,5]
+r = random.choice(l)
+print(r)
+r1 = random.choices(l,k=3)
+print(r1)
+```
+
+`choice(seq)`方法可以从列表中返回一个随机元素
+`choices(seq,k=n)`方法可以从列表中返回k个随机元素
+
+# string-字符串模块
+
+`string.ascii_letters`从字母a-Z的字符串
+`string.ascii_lowercase`从字母a-z的字符串
+`string.ascii_uppercase`从字母A-Z的字符串
+`string.digits`所有十进制常数
+`string.punctuation`所有在ASCII环境下被C认为标点的字符串
+
+# time-时间模块
+
+:::info
+仅包含及其常用的方法,并不完整
+:::
+
+## struct_time格式
+
+`struct_time`是time模块返回的常见序列,索引见下表：
+
+| 索引 |          属性           |         值          |
+| :--: | :---------------------: | :-----------------: |
+|  0   |       tm_year(年)       |      比如2022       |
+|  1   |       tm_mon(月)        |        1-12         |
+|  2   |       tm_mday(日)       |        1-31         |
+|  3   |       tm_hour(时)       |   0-23(转换请+1)    |
+|  4   |       tm_min(分)        |     0-59(同上)      |
+|  5   |       tm_sec(秒)        |        0-61         |
+|  6   |      tm_wday(周几)      | 0-6(0表周日,需要+1) |
+|  7   | tm_yday(一年中的第几天) |        1-366        |
+|  8   | tm_isdst(是否是夏令时)  |      默认为-1       |
+
+## localtime和gmtime方法
+
+```python
+import time
+
+t = time.localtime() #返回一个struct_time对象
+print(t)
+utc = time.gmtime() #返回一个struct_time对象
+print(utc)
+```
+
+这两个方法都会将输入的时间戳转换为`struct_time对象`,不输入则使用现在的时间戳
+区别：localtime使用你所在的时区,gmtime使用UTC标准时间(+0.00)
+附带一个`mktime`方法,它可以将`struct_time对象`转换回时间戳
+
+## time和time_ns方法
+
+```python
+import time
+
+t = time.time()
+print(t)
+```
+
+`time()`返回现在的时间戳
+`time_ns()`也是返回现在的时间戳,但是是int对象,不可以传入`localtime`作为参数
+
+:::info
+time模块比较复杂,建议查看[官方文档](https://docs.python.org/zh-cn/3/library/time.html)
+:::
+
+# 练习题
+
+1.输入一个时间戳,返回它的年、月、日、时、分、秒(当前时区),
+不输入则使用现在的时间戳,样例输出/入如下： \
+[输入]_没有输入任何东西_ \
+[输出]2022年1月16日16时7分30秒(此时时间)
+
+```python
+import time
+
+u = input("请输入时间戳:")
+if u == "":
+    u = time.time()
+else:
+    u = int(u)
+t = time.localtime(u)
+print(f"{t[0]}年{t[1]}月{t[2]}日{t[3]}时{t[4]}分{t[5]}秒")
+```
+
+2.输入一串数据,判断它转换为int类型是否会报错, \
+可以则输出**可以转换为int类型**并返回这个数
+不可以则输出**不可以转换为int类型**并返回这个字符串可以转换的部分
+样例输入/出：
+第一组数据： \
+[输入]123456 \
+[输出]可以转换为int类型 \
+[输出]123456 \
+第二组数据： \
+[输入]a123b456 \
+[输出]不可以转换为int类型 \
+[输出]123456
+
+```python
+import string
+u = input("输入数据:")
+t = ""
+can_int = True
+for i in u:
+    if i in string.digits:
+        t += i
+    else:
+        can_int = False
+if can_int:
+    print("可以转换为int类型")
+else:
+    print("不可以转换为int类型")
+print(t)
+```

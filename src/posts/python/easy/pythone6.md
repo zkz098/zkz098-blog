@@ -1,0 +1,201 @@
+---
+categories:
+  - python
+  - 基础篇
+date: 2022-01-18 11:54:44
+tags:
+  - python
+title: python-函数与作用域
+---
+
+# 函数
+
+## 定义函数
+
+一个任务:把每个值乘2次方并除以5再加一
+你可以这样做:
+
+```python
+a = 10
+a = a**2/5+1
+print(a)
+```
+
+但假如你要在不同的地方做x次操作呢?
+就可以用到函数了：
+
+```python
+def demo(num):
+    return num ** 2 / 5 + 1
+
+
+a = demo(10)
+print(a)
+```
+
+以下是函数的语法：
+
+```python
+def 函数名(形参):
+    代码
+```
+
+`return`后面是函数的返回值,需要使用变量"接住"
+在遇到`return`关键字之后,函数会自动**退出**
+:::info
+return不是必须的,没有return则会在函数执行完后退出
+:::
+
+## 参数
+
+:::info
+参数分为形参和实参,定义时的叫形参,填入的是实参
+:::
+
+### 标准参数和类型标注
+
+```python
+def demo(num:int|float) -> float:
+    return num+1
+```
+
+`num`是标准参数,不填会报错：`TypeError: demo() missing 1 required positional argument: 'num'`
+表示多个类型,则有多种标注方法:
+
+- 3.9版本以上: `int|float`,`|`符号代表A类型或B类型
+- Union[int, float],需要先导入`typing`模块 \
+  `-> float`表示返回值是`float`类型,方便IDE分析
+  :::info
+  类型标注和返回值标注不是必须的,但建议使用
+  :::
+
+### 缺省形参和特殊参数
+
+```python
+def demo(num: int | float = 10) -> float:
+    return num ** 2 / 5 + 1
+
+
+a = demo()
+print(a)
+```
+
+`num: int | float = 10`中的`= 10`表示缺省
+如果没有填入参数就使用10作为参数输入
+
+```python
+def demo(*args):
+    for i in args:
+        print(i)
+
+demo(1,2,3)
+```
+
+这个函数会将传入的所有元素输出
+`*args`表示不知道会输入多少个元素,把所有参数做成元组处理
+
+```python
+def demo(**kwargs):
+    for k,v in kwargs.items():
+        print(k,v)
+
+
+demo(k1=10,k2=12)
+```
+
+`**kwargs`代表把传入的参数作为字典处理,因此传入必须使用`键=值`这种方法
+:::info
+看不懂`**kwargs.items()`是什么意思就去复习一下字典
+:::
+
+## 函数名
+
+函数名和变量的命名规则很像,但可以使用**小驼峰命名法**：
+
+> 例:numOutput
+> 首字母小写,剩下的单词开头大写
+
+# 作用域
+
+python的作用域分为以下几种： \
+Local局部作用域,简写为L \
+Enclosing闭包作用域,简写为E \
+Global全局作用域,简写为G \
+Built-in内置作用域,简写为B \
+变量和函数的搜寻的顺序：L->E->G->B
+
+```python
+gvar = 0 # 全局作用域
+def demo():
+    evar = 1 # 对于demo2的闭包作用域,对于demo的局部作用域
+    def demo2():
+        lvar = 2 #局部作用域
+```
+
+在作用域外不能调用作用域内的变量与函数
+
+```python
+gvar = 0 # 全局作用域
+def demo():
+    evar = 1 # 对于demo2的闭包作用域,对于demo的局部作用域
+    def demo2():
+        lvar = 2 #局部作用域
+
+demo2()
+# NameError: name 'demo2' is not defined. Did you mean: 'demo'?
+```
+
+:::info
+把demo2套在demo里就叫闭包函数
+:::
+加入作用域内有同名变量或更改变量值,需要使用`global`和`nonlocal`声明变量
+语法：`nonlocal/global 变量`
+:::info
+global是全局变量,nonlocal是闭包变量
+:::
+
+# typing模块
+
+typing模块是python内置的类型表示模块,对于函数类型标注非常有帮助
+
+## 可迭代容器数据
+
+举个例子,这个函数可以遍历可迭代容器数据并输出:
+
+```python
+def printSeq(seq: list):
+    for i in seq:
+        print(i)
+```
+
+最开始使用list进行类型标注,但假如要使用元祖,python就会报错。
+而且如果只是单纯加上元祖,后续出现新的类型还需要改代码
+这个时候就可以用到list的抽象类`typing.Sequence`
+
+```python
+def printSeq(seq: typing.Sequence):
+    for i in seq:
+        print(i)
+```
+
+就可以实现接受所有的可迭代容器数据
+
+## 可能为None的参数
+
+在实际开发中,部分参数需要传入None来实现功能,虽然可以用`|`或`Union`来解决,但有更优雅的方法:
+
+```python
+def numAbs(n: int, mode: typing.Optional[bool]):
+    if mode is None:
+        return 0
+    else:
+        return abs(n)
+```
+
+`typing.Optional`与`Union`是等价的,只是前者默认包含None
+
+typing包含有大量抽象类供类型标注,可以查看[官方文档](https://docs.python.org/zh-cn/3/library/typing.html)
+:::info
+typing中部分内置类(区别为首字母大写)不要使用,请使用标准的内置类 \
+这些冗余的类会在python3.9发行五年后的第一个版本移除
+:::
