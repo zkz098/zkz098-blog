@@ -1,0 +1,217 @@
+---
+categories:
+  - python
+  - 基础篇
+date: 2022-01-13 10:46:48
+tags:
+  - python
+title: python-循环与基础类型
+---
+
+# 循环
+
+## while循环
+
+假如要输出1-10的数字,你可以这么做:
+
+```python
+print(1)
+print(2)
+print(3)
+print(4)
+print(5)
+print(6)
+print(7)
+print(8)
+print(9)
+print(10)
+```
+
+或者使用python中的while循环
+语法如下：
+
+```python
+while 条件: # 条件为真继续循环,为假跳出
+    语句
+```
+
+使用while循环优化后：
+
+```python
+i = 0
+while i < 10:
+    i += 1
+    print(i)
+```
+
+<Note type="info">
+循环中创建的变量在循环外访问,可能导致变量未定义
+</Note>
+
+## 跳出和跳过
+
+还是这样一道题:输出1-10的数字,不输出5
+你可以做多个循环,像这样：
+
+```python
+i = 0
+while i < 4:
+    i += 1
+    print(i)
+i += 1
+while i < 10:
+    i += 1
+    print(i)
+```
+
+但python中提供了循环控制符:`break`和`continue` \
+break可以跳出循环,continue可以跳过循环 \
+<Note type="info">
+`break`至多跳出一层循环,多次需要多个break
+</Note>
+现在用continue来优化一下代码：
+
+```python
+i = 0
+while i < 10:
+    i += 1
+    if i == 5:
+        continue
+    print(i)
+```
+
+## for循环
+
+还是这道题
+
+> 输出1-10的所有数字。
+
+这回使用`for`循环解决
+
+```python
+for i in range(10):
+    print(i+1)
+# 或者
+for i in range(1,11)
+    print(i)
+```
+
+for循环的语法如下：
+`for 变量 in 序列(可迭代的):` \
+`range(头,尾)`方法可以生成一个从头到尾-1的数字序列
+<Note type="info">
+range()方法含头不含尾,需要调整参数
+</Note>
+当然,`break`和`continue`也适用与for循环
+但for循环主要用于以下场景中：
+
+> 遍历一个长度为x的可迭代数据; \
+> 生成一个符合条件的序列;
+
+```python
+a = [5,6,7,8,9]
+for i in a:
+    print(a,end=" ") # 5 6 7 8 9
+```
+
+<Note type="info">
+print的end参数指定结尾输出什么,默认为'\n'(换行符)
+</Note>
+容器类型的数据将会在5篇讲!!又一个坑!!
+<Note type="primary">
+for循环不如while循环灵活,尽量多使用while循环
+</Note>
+<Note type="warning">
+else并非分支结构专用,在循环后使用else代表正常退出循环后执行代码 \
+正常退出循环:不使用`break`或报错退出
+</Note>
+
+# 基本数据类型
+
+## 指针
+
+python解释器使用指针来复用对象,节省内存,如下面所示：
+
+```python
+a = 10;b = 10
+# 假设10的内存地址为0x10f 假设5为0x10d
+print(id(a),id(b)) # 0x10f 0x10f
+# 实际只占用了一个内存地址
+b = 5
+# b的指针会被切换为0x10d,老指针会被自动回收
+print(id(a),id(b)) # 0x10f 0x10d
+```
+
+## int型
+
+python中的int不分长短型,不可迭代(不可被for遍历)
+<Note type="info">
+从float到int是向下取整,1.99`->`1
+</Note>
+
+## float型
+
+python中的float无位数限制,不可迭代
+<Note type="info">
+float有不确定小数后缀,最好不要使用`==`比较,推荐使用`float-float<0.000001`这种方式
+</Note>
+
+## str型
+
+str型为字符串,可迭代,长度不限
+
+### 切片
+
+```python
+s = "python"
+print(s[0]) # 输出"p"
+```
+
+索引如下所示：
+
+> p y t h o n 字符串 \
+> 0 1 2 3 4 5 正向索引 \
+> -6 -5 -4 -3 -2 -1 反向索引
+
+切片的语法格式：`str[开始:结束:步长]`
+举个例子：
+
+```python
+s = "python"
+print(s[::2]) # 输出pto
+print(s[::-1]) # 输出nohtyp
+print(s[1:3]) # 输出yt
+```
+
+<Note type="primary">
+这个方法通常用于计算回文数：`str(n) == str(n)[::-1]`
+</Note>
+
+### 格式化输出
+
+```python
+# %式格式化
+s = 10
+print("这个数是:%d"% s)
+# 这个数是:10
+# format格式化
+print("这个数是:{}".format(s))
+# f-string格式化
+print(f"这个数是:{s}")
+```
+
+<Note type="info">
+%式格式化如果有多个实参,需要用括号括起来
+</Note>
+
+## bool型
+
+bool是int型的子类,不可迭代,只有True和False两种
+<Note type="info">
+0=False 1=True 2及以上同1
+</Note>
+当其他类转换到bool时,遵循以下原则:
+
+- 数字类直接转换
+- 可迭代数据,如果非空(len(数据)>0)即为True,否则为False
+- 字典非空即为True

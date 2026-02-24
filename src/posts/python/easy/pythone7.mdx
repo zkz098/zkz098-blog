@@ -1,0 +1,178 @@
+---
+categories:
+  - python
+  - 基础篇
+date: 2022-01-21 11:56:59
+tags:
+  - python
+title: python-递归、匿名函数和生成器
+---
+
+# 递归
+
+递归是什么?
+举个例子：
+
+```py
+def demo(n:int):
+    count = 1
+    if n ==100:
+        return count
+    else:
+        return count + demo(n+1)
+
+print(demo(2)) # 输出99
+```
+
+!!约等于循环99次+1!!
+在函数中调用函数本身就是递归
+<Note type="warning">
+递归必须要准备一个退出分支,例如本段的`if n==100:`就是退出分支
+</Note>
+如果没有退出分支：
+
+```python
+def demo(n:int):
+    count = 1
+    return count + demo(n+1)
+# RecursionError: maximum recursion depth exceeded
+```
+
+python有最大递归深度,一般为**1000层**,部分解释器由于配置可能会有±10层的区别
+假如这个函数在正常情况的递归深度超过了1000层,可以使用下面的代码调整最大深度
+
+```python
+import sys
+sys.setrecursionlimit(10000) # 层数
+```
+
+然后你就会发现：代码执行不完就会报错`进程已结束,退出代码-1073741571 (0xC00000FD)`
+这是因为栈溢出了,建议减少递归层数或进行[尾递归优化](https://www.jianshu.com/p/d36746ad845d)
+<Note type="info">
+生成器在后面会讲到
+</Note>
+
+# 匿名表达式和函数变量
+
+## 匿名表达式
+
+```python
+a = lambda n: n * 10
+print(a(10))
+```
+
+<Note type="info">
+这种写法PEP并不建议,它会建议使用def来实现效果,但部分情况下这样会徒增行数
+并不会增加可读性
+</Note>
+匿名表达式格式：`lambda 输入:输出`
+建议将lambda用于简易函数,大型函数使用def
+
+## 警卫
+
+在lambda后可以使用`if...else`(警卫)来实现分支结构
+例子：
+
+```python
+f = lambda a: a*10 if a%2 == 0 else a*5
+print(f(10))
+print(f(5))
+```
+
+警卫的格式：`返回值 if 条件 else 返回值(可以再套一个if)`
+可用于`return`等返回值的关键字后
+<Note type="info">
+套的层多了可读性很差
+</Note>
+
+## 函数变量
+
+```python
+def demo():
+    print("hello")
+
+func = demo
+func()
+```
+
+`变量名 = 方法`即为函数变量格式
+<Note type="warning">
+方法后不带括号,不然就是把返回值作为赋值对象
+</Note>
+直接用`变量名()`就可以调用方法
+
+## 推导式
+
+```python
+f = [x for x in range(10)]
+print(f) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+推导式格式：`表达式 for 变量 in 可迭代数据`
+警卫同样适用于表达式,如下：
+
+```python
+f = [x*2 if x%2 == 0 else x for x in range(10)]
+print(f)
+```
+
+# 迭代器和生成器
+
+## 迭代器
+
+```python
+list1 = [1,2,3,4,5]
+iter1 = iter(list1) # 或list1.__iter__()
+print(iter1.__next__()) # 或next(iter1)
+```
+
+对可迭代对象执行`iter()`操作,就可以得到一个迭代器
+对迭代器执行`next()`方法,就会让指针前进一项并返回
+在指针超出范围后,会返回`StopIteration`错误
+![一个示意图](https://s3.bmp.ovh/imgs/2022/01/a44611ae0b34b837.png)
+迭代器非常省内存,比如一个有一千万个整数的列表,使用列表会占用100MB左右,而迭代器只有50B左右
+因为迭代器是**惰性**的,执行前不会访问
+可以使用for循环来快速访问迭代器：
+
+```python
+l = [1,2,3,4,5]
+i = iter(l)
+for j in i:
+    print(j)
+```
+
+## 生成器
+
+### 生成器函数
+
+```python
+def fibonacci(num: int):
+    a, b = 1, 1
+    for i in range(num - 1):
+        a, b = b, a + b
+        yield a
+```
+
+这是一个生成斐波那契数列的函数,尝试直接print它：
+
+```python
+print(fibonacci(10))
+```
+
+返回：`<generator object fibonacci at 0x0000022C97099B60>`
+实际上这个函数已经变成了生成器,可以使用for或next来获取返回值
+生成器的语法：
+
+```python
+def 函数名(参数):
+    语句
+    yield 返回值
+    语句
+```
+
+与return不同,函数遇到yield后不会退出,在返回值后继续执行下面的代码
+所以可以有多个yield,返回值格式如下：
+
+```text
+值1 值2 值3 值1 值2 值3...
+```

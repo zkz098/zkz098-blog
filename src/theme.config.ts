@@ -2,7 +2,7 @@
 import { defineConfig } from "./toolkit/themeConfig";
 
 export default defineConfig({
-  siteName: "zkz098's blog",
+  siteName: "zkz098's blog  - 我的学习笔记",
   locale: "zh-CN", // 网站语言: "zh-CN" | "en"
   nav: [
     {
@@ -40,19 +40,16 @@ export default defineConfig({
       href: "/friends/",
       icon: "i-ri-link",
     },
+    { text: "开往", href: "https://www.travellings.cn/go.html", icon: "i-ri-train-line" }
   ],
   brand: {
     title: "zkz098's blog",
-    subtitle: "A modern blog theme",
+    subtitle: "我的学习笔记",
     logo: "✨",
   },
   cover: {
     enable: true,
     preload: true,
-    // 固定封面模式（可选）：
-    // - enable: 是否启用固定封面
-    // - url: 推荐填 "cover-1" ~ "cover-6"（来自 src/components/Images.astro 预设），
-    //        或者填 public 路径/远程 URL（会使用 <img> 兜底渲染）
     fixedCover: {
       enable: true,
       url: "https://img.cdn.kaitaku.xyz/cover-1.avif",
@@ -62,7 +59,7 @@ export default defineConfig({
   },
   sidebar: {
     author: "zkz098",
-    description: "A brief introduction",
+    description: "一个萌新的学习笔记",
     social: {
       github: {
         url: "https://github.com/zkz098",

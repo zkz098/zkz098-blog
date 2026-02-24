@@ -39,7 +39,7 @@ import process from "process";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://preview.astro.kaitaku.xyz",
+  site: "https://www.kaitaku.xyz/",
   trailingSlash: "always",
   build: {
     format: "directory",
