@@ -33,6 +33,8 @@ import spoiler from "./src/remark-plugins/spoiler.mjs";
 
 import Font from "vite-plugin-font";
 
+import PlayformInline from '@playform/inline'
+
 import process from "process";
 
 // https://astro.build/config
@@ -92,6 +94,9 @@ export default defineConfig({
       ],
     }),
     mdx(),
+    PlayformInline({
+      Logger: 0
+    })
   ],
 
   vite: {
