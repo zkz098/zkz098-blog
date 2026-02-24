@@ -9,17 +9,7 @@
       "statusCode": 301
     },
     {
-      "source": "/2025",
-      "destination": "/posts/2025/",
-      "statusCode": 301
-    },
-    {
       "source": "/2026/",
-      "destination": "/posts/2026/",
-      "statusCode": 301
-    },
-    {
-      "source": "/2026",
       "destination": "/posts/2026/",
       "statusCode": 301
     },
@@ -29,17 +19,7 @@
       "statusCode": 301
     },
     {
-      "source": "/deepseek-and-ddos",
-      "destination": "/posts/deepseek-and-ddos/",
-      "statusCode": 301
-    },
-    {
       "source": "/framepack/",
-      "destination": "/posts/framepack/",
-      "statusCode": 301
-    },
-    {
-      "source": "/framepack",
       "destination": "/posts/framepack/",
       "statusCode": 301
     },
@@ -49,17 +29,7 @@
       "statusCode": 301
     },
     {
-      "source": "/mcipv6",
-      "destination": "/posts/mcipv6/",
-      "statusCode": 301
-    },
-    {
       "source": "/misc/ax3000t-openwrt/",
-      "destination": "/posts/misc/ax3000t-openwrt/",
-      "statusCode": 301
-    },
-    {
-      "source": "/misc/ax3000t-openwrt",
       "destination": "/posts/misc/ax3000t-openwrt/",
       "statusCode": 301
     },
@@ -69,17 +39,7 @@
       "statusCode": 301
     },
     {
-      "source": "/misc/windbg",
-      "destination": "/posts/misc/windbg/",
-      "statusCode": 301
-    },
-    {
       "source": "/python/app/pythona1/",
-      "destination": "/posts/python/app/pythona1/",
-      "statusCode": 301
-    },
-    {
-      "source": "/python/app/pythona1",
       "destination": "/posts/python/app/pythona1/",
       "statusCode": 301
     },
@@ -89,17 +49,7 @@
       "statusCode": 301
     },
     {
-      "source": "/python/app/pythonrsa",
-      "destination": "/posts/python/app/pythonrsa/",
-      "statusCode": 301
-    },
-    {
       "source": "/python/bert-vits2/",
-      "destination": "/posts/python/bert-vits2/",
-      "statusCode": 301
-    },
-    {
-      "source": "/python/bert-vits2",
       "destination": "/posts/python/bert-vits2/",
       "statusCode": 301
     },
@@ -109,17 +59,7 @@
       "statusCode": 301
     },
     {
-      "source": "/python/easy/pythone1",
-      "destination": "/posts/python/easy/pythone1/",
-      "statusCode": 301
-    },
-    {
       "source": "/python/easy/pythone10/",
-      "destination": "/posts/python/easy/pythone10/",
-      "statusCode": 301
-    },
-    {
-      "source": "/python/easy/pythone10",
       "destination": "/posts/python/easy/pythone10/",
       "statusCode": 301
     },
@@ -129,17 +69,7 @@
       "statusCode": 301
     },
     {
-      "source": "/python/easy/pythone2",
-      "destination": "/posts/python/easy/pythone2/",
-      "statusCode": 301
-    },
-    {
       "source": "/python/easy/pythone3/",
-      "destination": "/posts/python/easy/pythone3/",
-      "statusCode": 301
-    },
-    {
-      "source": "/python/easy/pythone3",
       "destination": "/posts/python/easy/pythone3/",
       "statusCode": 301
     },
@@ -149,17 +79,7 @@
       "statusCode": 301
     },
     {
-      "source": "/python/easy/pythone4",
-      "destination": "/posts/python/easy/pythone4/",
-      "statusCode": 301
-    },
-    {
       "source": "/python/easy/pythone5/",
-      "destination": "/posts/python/easy/pythone5/",
-      "statusCode": 301
-    },
-    {
-      "source": "/python/easy/pythone5",
       "destination": "/posts/python/easy/pythone5/",
       "statusCode": 301
     },
@@ -169,17 +89,7 @@
       "statusCode": 301
     },
     {
-      "source": "/python/easy/pythone5p",
-      "destination": "/posts/python/easy/pythone5p/",
-      "statusCode": 301
-    },
-    {
       "source": "/python/easy/pythone6/",
-      "destination": "/posts/python/easy/pythone6/",
-      "statusCode": 301
-    },
-    {
-      "source": "/python/easy/pythone6",
       "destination": "/posts/python/easy/pythone6/",
       "statusCode": 301
     },
@@ -189,17 +99,7 @@
       "statusCode": 301
     },
     {
-      "source": "/python/easy/pythone7",
-      "destination": "/posts/python/easy/pythone7/",
-      "statusCode": 301
-    },
-    {
       "source": "/python/easy/pythone8/",
-      "destination": "/posts/python/easy/pythone8/",
-      "statusCode": 301
-    },
-    {
-      "source": "/python/easy/pythone8",
       "destination": "/posts/python/easy/pythone8/",
       "statusCode": 301
     },
@@ -209,17 +109,7 @@
       "statusCode": 301
     },
     {
-      "source": "/python/easy/pythone9",
-      "destination": "/posts/python/easy/pythone9/",
-      "statusCode": 301
-    },
-    {
       "source": "/python/easy/pythone9p/",
-      "destination": "/posts/python/easy/pythone9p/",
-      "statusCode": 301
-    },
-    {
-      "source": "/python/easy/pythone9p",
       "destination": "/posts/python/easy/pythone9p/",
       "statusCode": 301
     },
@@ -229,17 +119,7 @@
       "statusCode": 301
     },
     {
-      "source": "/python/easy/pythonexe",
-      "destination": "/posts/python/easy/pythonexe/",
-      "statusCode": 301
-    },
-    {
       "source": "/webbuild/hexo/hexoesm/",
-      "destination": "/posts/webbuild/hexo/hexoesm/",
-      "statusCode": 301
-    },
-    {
-      "source": "/webbuild/hexo/hexoesm",
       "destination": "/posts/webbuild/hexo/hexoesm/",
       "statusCode": 301
     },
@@ -249,17 +129,7 @@
       "statusCode": 301
     },
     {
-      "source": "/webbuild/hexo/hexoweb1",
-      "destination": "/posts/webbuild/hexo/hexoweb1/",
-      "statusCode": 301
-    },
-    {
       "source": "/webbuild/hexo/hexoweb2/",
-      "destination": "/posts/webbuild/hexo/hexoweb2/",
-      "statusCode": 301
-    },
-    {
-      "source": "/webbuild/hexo/hexoweb2",
       "destination": "/posts/webbuild/hexo/hexoweb2/",
       "statusCode": 301
     },
@@ -269,17 +139,7 @@
       "statusCode": 301
     },
     {
-      "source": "/webbuild/hexo/indexnow",
-      "destination": "/posts/webbuild/hexo/indexnow/",
-      "statusCode": 301
-    },
-    {
       "source": "/webbuild/nginx-modsec/",
-      "destination": "/posts/webbuild/nginx-modsec/",
-      "statusCode": 301
-    },
-    {
-      "source": "/webbuild/nginx-modsec",
       "destination": "/posts/webbuild/nginx-modsec/",
       "statusCode": 301
     },
@@ -289,17 +149,7 @@
       "statusCode": 301
     },
     {
-      "source": "/webbuild/nginx-quic",
-      "destination": "/posts/webbuild/nginx-quic/",
-      "statusCode": 301
-    },
-    {
       "source": "/webbuild/nginx-quic2/",
-      "destination": "/posts/webbuild/nginx-quic2/",
-      "statusCode": 301
-    },
-    {
-      "source": "/webbuild/nginx-quic2",
       "destination": "/posts/webbuild/nginx-quic2/",
       "statusCode": 301
     },
@@ -309,17 +159,7 @@
       "statusCode": 301
     },
     {
-      "source": "/webbuild/quic",
-      "destination": "/posts/webbuild/quic/",
-      "statusCode": 301
-    },
-    {
       "source": "/webbuild/shokajsdelivr/",
-      "destination": "/posts/webbuild/shokajsdelivr/",
-      "statusCode": 301
-    },
-    {
-      "source": "/webbuild/shokajsdelivr",
       "destination": "/posts/webbuild/shokajsdelivr/",
       "statusCode": 301
     },
@@ -329,17 +169,7 @@
       "statusCode": 301
     },
     {
-      "source": "/webbuild/shokapatch",
-      "destination": "/posts/webbuild/shokapatch/",
-      "statusCode": 301
-    },
-    {
       "source": "/webbuild/shokatwikoo/",
-      "destination": "/posts/webbuild/shokatwikoo/",
-      "statusCode": 301
-    },
-    {
-      "source": "/webbuild/shokatwikoo",
       "destination": "/posts/webbuild/shokatwikoo/",
       "statusCode": 301
     },
@@ -349,27 +179,12 @@
       "statusCode": 301
     },
     {
-      "source": "/webbuild/shokaX",
-      "destination": "/posts/webbuild/shokaX/",
-      "statusCode": 301
-    },
-    {
       "source": "/webbuild/shokaXFAQ/",
       "destination": "/posts/webbuild/shokaXFAQ/",
       "statusCode": 301
     },
     {
-      "source": "/webbuild/shokaXFAQ",
-      "destination": "/posts/webbuild/shokaXFAQ/",
-      "statusCode": 301
-    },
-    {
       "source": "/webbuild/shokaXplugin/",
-      "destination": "/posts/webbuild/shokaXplugin/",
-      "statusCode": 301
-    },
-    {
-      "source": "/webbuild/shokaXplugin",
       "destination": "/posts/webbuild/shokaXplugin/",
       "statusCode": 301
     }
