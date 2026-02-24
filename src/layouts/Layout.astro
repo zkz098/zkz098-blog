@@ -219,6 +219,14 @@ import SearchPage from "@/components/search/SearchPage.svelte";
           if (document.hidden) {
             originalTitle = document.title;
             document.title = config.leaveTitle;
+            const delay =
+              Number.isFinite(config.restoreDelay) && config.restoreDelay >= 0
+                ? config.restoreDelay
+                : 3000;
+
+            restoreTimer = window.setTimeout(() => {
+              document.title = originalTitle;
+            }, delay);
             return;
           }
 

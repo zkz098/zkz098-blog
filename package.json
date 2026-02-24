@@ -25,6 +25,8 @@
     "@hyacine/astro": "^0.0.3",
     "@hyacine/core": "^0.0.3",
     "@hyacine/helper": "^0.0.3",
+    "@hyacine/mouse-firework": "^0.0.3",
+    "@hyacine/site-uptime": "^0.0.3",
     "@pagefind/default-ui": "^1.4.0",
     "@unocss/extractor-svelte": "^66.6.0",
     "@vtbag/element-crossing": "^1.1.0",

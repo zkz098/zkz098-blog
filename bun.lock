@@ -15,6 +15,8 @@
         "@hyacine/astro": "^0.0.3",
         "@hyacine/core": "^0.0.3",
         "@hyacine/helper": "^0.0.3",
+        "@hyacine/mouse-firework": "^0.0.3",
+        "@hyacine/site-uptime": "^0.0.3",
         "@pagefind/default-ui": "^1.4.0",
         "@unocss/extractor-svelte": "^66.6.0",
         "@vtbag/element-crossing": "^1.1.0",
@@ -206,6 +208,10 @@
     "@hyacine/core": ["@hyacine/core@0.0.3", "https://registry.npmmirror.com/@hyacine/core/-/core-0.0.3.tgz", {}, "sha512-uD7ZlatFB+unFFcrsjFlDgoa1SNBAjfH0U4AFuVGpe9NRYN8uVYRBeEBhgE8U0+f0TsVGtJyk4tX9u8vtj7Q5w=="],
 
     "@hyacine/helper": ["@hyacine/helper@0.0.3", "https://registry.npmmirror.com/@hyacine/helper/-/helper-0.0.3.tgz", { "dependencies": { "@hyacine/core": "0.0.3", "es-toolkit": "^1.44.0" } }, "sha512-Ir52bNtxSLD5owzuF5YfEhqCRsJi552xf0N6zwoNHrIbXYcSH/qhVIEQ4iX7NMVfbzfe/dDgHgTs/ZluzSkUDQ=="],
+
+    "@hyacine/mouse-firework": ["@hyacine/mouse-firework@0.0.3", "https://registry.npmmirror.com/@hyacine/mouse-firework/-/mouse-firework-0.0.3.tgz", { "dependencies": { "@hyacine/core": "0.0.3", "@hyacine/helper": "0.0.3", "mouse-firework": "^0.2.0" } }, "sha512-wF3DGyr6b523B8vE/CkFl3fdKV88E+5uk2OB0VK3r1pP9aLyMR7/ktsN2WmEPzjjf71wkLLChzwB0SOai8VSiQ=="],
+
+    "@hyacine/site-uptime": ["@hyacine/site-uptime@0.0.3", "https://registry.npmmirror.com/@hyacine/site-uptime/-/site-uptime-0.0.3.tgz", { "dependencies": { "@hyacine/core": "0.0.3", "@hyacine/helper": "0.0.3" } }, "sha512-cuvTAwhDvoFfFnhCRaVMYTl+N536PFyu/QvhVDglwhHZi5hmSphfVxVhOcZf/c9fb176gCofbp+T4Ed3p2n74w=="],
 
     "@iconify-json/ri": ["@iconify-json/ri@1.2.10", "https://registry.npmmirror.com/@iconify-json/ri/-/ri-1.2.10.tgz", { "dependencies": { "@iconify/types": "*" } }, "sha512-WWMhoncVVM+Xmu9T5fgu2lhYRrKTEWhKk3Com0KiM111EeEsRLiASjpsFKnC/SrB6covhUp95r2mH8tGxhgd5Q=="],
 
