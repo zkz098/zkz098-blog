@@ -321,6 +321,68 @@ interface VisibilityTitleConfig {
   restoreDelay?: number;
 }
 
+interface HycAiRecommendConfig {
+  /**
+   * 是否启用 AI 相近文章推荐。
+   * - false：关闭该功能
+   * - true/未设置：允许在文章页尝试展示
+   */
+  enable?: boolean;
+
+  /**
+   * 最多展示推荐条数。
+   * - 默认 3
+   */
+  limit?: number;
+
+  /**
+   * 最低相似度阈值。
+   * - 取值范围建议 0~1
+   * - 默认 0.4（40%）
+   */
+  minSimilarity?: number;
+}
+
+interface HycAiSummaryConfig {
+  /**
+   * 是否启用 AI 摘要卡片展示。
+   * - false：关闭该功能
+   * - true/未设置：允许在文章页展示（需有可用摘要）
+   */
+  enable?: boolean;
+
+  /**
+   * 摘要卡片标题。
+   * - 默认值："AI 摘要"
+   */
+  title?: string;
+
+  /**
+   * 是否显示摘要模型信息。
+   * - 默认 false
+   */
+  showModel?: boolean;
+}
+
+interface HycConfig {
+  /**
+   * 是否启用 HYC 扩展功能总开关。
+   * - false：禁用全部 HYC 扩展能力
+   * - true：允许各子功能按自身开关生效
+   */
+  enable?: boolean;
+
+  /**
+   * AI 相近文章推荐配置。
+   */
+  aiRecommend?: HycAiRecommendConfig;
+
+  /**
+   * AI 摘要配置。
+   */
+  aiSummary?: HycAiSummaryConfig;
+}
+
 /**
  * 协议类型
  * CC 4.0 系列：BY, BY-SA, BY-ND, BY-NC, BY-NC-SA, BY-NC-ND
@@ -430,6 +492,12 @@ export interface ShokaXThemeConfig {
    * - 聚焦：显示 returnTitle，延迟 restoreDelay 后恢复原始标题
    */
   visibilityTitle?: VisibilityTitleConfig;
+
+  /**
+   * HYC 扩展功能配置。
+   * - enable 为总开关，关闭后所有 HYC 子功能不可用
+   */
+  hyc?: HycConfig;
 }
 
 export function defineConfig(config: ShokaXThemeConfig) {

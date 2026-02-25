@@ -31,5 +31,4 @@ old_project
 .env*.local
 hyacine.code-workspace
 generated/
-
 .hyacine

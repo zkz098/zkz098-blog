@@ -107,6 +107,26 @@ export default defineConfig({
       lang: "zh-CN",
     },
   },
+  hyc: {
+    // HYC 扩展总开关：关闭后其所有子功能不可用
+    enable: false,
+    aiSummary: {
+      // AI 摘要卡片开关（受 hyc.enable 总开关控制）
+      enable: true,
+      // 卡片标题
+      title: "AI 摘要",
+      // 是否显示摘要使用的模型名称
+      showModel: true,
+    },
+    aiRecommend: {
+      // AI 相近文章推荐开关（受 hyc.enable 总开关控制）
+      enable: true,
+      // 默认展示前 3 篇
+      limit: 3,
+      // 最低相似度阈值（0.4 = 40%）
+      minSimilarity: 0.4,
+    },
+  },
   nyxPlayer: {
     enable: false,
     preset: "shokax",

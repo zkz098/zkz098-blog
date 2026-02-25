@@ -4,6 +4,8 @@ import Breadcrumb from "@/components/post/Breadcrumb.astro";
 import PostHeader from "@/components/post/PostHeader.astro";
 import PostFooter from "@/components/post/PostFooter.astro";
 import PostNav from "@/components/post/PostNav.astro";
+import AiSimilarPosts from "@/components/post/AiSimilarPosts.astro";
+import AiSummaryCard from "@/components/post/AiSummaryCard.astro";
 import WalineComments from "@/components/post/WalineComments.svelte";
 import { getCollection, render } from "astro:content";
 import themeConfig from "@/theme.config";
@@ -130,6 +132,98 @@ const siteName = themeConfig.siteName || "Site";
 const commentsConfig = themeConfig.comments || {};
 const walineConfig = commentsConfig.waline || {};
 
+const hycConfig = themeConfig.hyc || {};
+const aiRecommendConfig = hycConfig.aiRecommend || {};
+const aiSummaryConfig = hycConfig.aiSummary || {};
+const hycEnable = hycConfig.enable === true;
+const aiRecommendEnable = aiRecommendConfig.enable !== false;
+const aiSummaryEnable = aiSummaryConfig.enable !== false;
+const aiSummaryTitle = aiSummaryConfig.title || "AI 摘要";
+const aiSummaryShowModel = aiSummaryConfig.showModel === true;
+const aiRecommendLimit = Math.max(
+  1,
+  Math.min(10, aiRecommendConfig.limit ?? 3),
+);
+const aiRecommendMinSimilarityRaw = aiRecommendConfig.minSimilarity ?? 0.4;
+const aiRecommendMinSimilarity = Math.min(
+  1,
+  Math.max(
+    0,
+    aiRecommendMinSimilarityRaw > 1
+      ? aiRecommendMinSimilarityRaw / 100
+      : aiRecommendMinSimilarityRaw,
+  ),
+);
+
+interface AiRecommendPost {
+  slug: string;
+  title: string;
+  score: number;
+}
+
+interface PostAiSummary {
+  content: string | null;
+  model: string | null;
+}
+
+let aiRecommendPosts: AiRecommendPost[] = [];
+let aiSummary: PostAiSummary | null = null;
+
+if (hycEnable && aiSummaryEnable) {
+  try {
+    const { getPostSummary } = await import("@hyacine/cli/api");
+
+    if (typeof getPostSummary !== "function") {
+      throw new Error(
+        "getPostSummary is not available in current @hyacine/cli",
+      );
+    }
+
+    const summaryResult = (await getPostSummary(post.id)) as {
+      summary?: {
+        content?: string | null;
+        model?: string | null;
+      };
+    } | null;
+
+    if (summaryResult?.summary?.content) {
+      aiSummary = {
+        content: summaryResult.summary.content,
+        model: summaryResult.summary.model ?? null,
+      };
+    }
+  } catch {
+    aiSummary = null;
+  }
+}
+
+if (hycEnable && aiRecommendEnable) {
+  try {
+    const { findSimilarPosts } = await import("@hyacine/cli/api");
+    const similarResult = await findSimilarPosts({
+      query: post.id,
+      limit: aiRecommendLimit,
+    });
+
+    aiRecommendPosts = (similarResult.items || [])
+      .filter((item) => item.slug && item.slug !== post.id)
+      .filter(
+        (item) =>
+          typeof item.score === "number" &&
+          item.score >= aiRecommendMinSimilarity,
+      )
+      .sort((a, b) => b.score - a.score)
+      .slice(0, aiRecommendLimit)
+      .map((item) => ({
+        slug: item.slug,
+        title: item.title,
+        score: item.score,
+      }));
+  } catch {
+    aiRecommendPosts = [];
+  }
+}
+
 // Current post path (trailing slash required by project routing)
 const postPath = `/posts/${post.id}/`;
 
@@ -164,7 +258,7 @@ const postMeta = {
 
   <Fragment>
     <div class="article wrap">
-      <Breadcrumb categories={post.data.categories} />
+      <Breadcrumb categories={post.data.categories ?? undefined} />
 
       <article
         itemscope
@@ -203,6 +297,13 @@ const postMeta = {
           wordCount={wordCount}
         />
 
+        <AiSummaryCard
+          summary={aiSummary?.content}
+          model={aiSummary?.model}
+          title={aiSummaryTitle}
+          showModel={aiSummaryShowModel}
+        />
+
         <div class="body md" itemprop="articleBody" data-pagefind-body>
           <Content />
 
@@ -222,6 +323,11 @@ const postMeta = {
             )
           }
         </div>
+
+        <AiSimilarPosts
+          posts={aiRecommendPosts}
+          minSimilarity={aiRecommendMinSimilarity}
+        />
 
         <PostFooter
           date={post.data.date}
